@@ -82,7 +82,7 @@ export async function scrapeEmeryville(daysAhead = 14) {
     const day = d.getDay(); // 0=Sun, 6=Sat
     const isWeekend = day === 0 || day === 6;
 
-    const block = scheduleBlocks.find(b => d >= b.from && d <= b.to);
+    const block = scheduleBlocks.find(b => ds >= dateStr(b.from) && ds <= dateStr(b.to));
     if (!block) continue;
     if (block.closedDates?.includes(ds)) continue;
 
