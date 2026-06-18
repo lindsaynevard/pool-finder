@@ -139,7 +139,8 @@ export default function Schedule({ user }) {
       <div className="schedule-list">
         {mode === 'family' && (
           <div className="coming-soon-banner">
-            Family swim schedules coming soon — check back later!
+            Family swim schedules coming soon — check back later!<br />
+            Any sessions shown below are placeholder data and may not be accurate.
           </div>
         )}
 
