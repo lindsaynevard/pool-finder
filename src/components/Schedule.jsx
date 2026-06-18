@@ -137,6 +137,9 @@ export default function Schedule({ user }) {
           <input
             type="date"
             className="date-input-hidden"
+            autoComplete="off"
+            data-form-type="other"
+            data-lpignore="true"
             value={(() => { const d = new Date(); d.setDate(d.getDate() + dayOffset); return dateStr(d); })()}
             min={dateStr(new Date())}
             max={(() => { const d = new Date(); d.setDate(d.getDate() + 13); return dateStr(d); })()}
