@@ -41,7 +41,8 @@ export async function scrapeGoldenBear() {
     times.forEach((timeStr, i) => {
       if (timeStr.toLowerCase().includes('no ')) return;
       const loc = (locs[i] || '').toLowerCase();
-      const poolId = Object.entries(POOL_MAP).find(([k]) => loc.includes(k))?.[1] || 'golden-bear';
+      const poolId = Object.entries(POOL_MAP).find(([k]) => loc.includes(k))?.[1];
+      if (!poolId) return;
       const parts = timeStr.replace(/–/g, '-').split(/\s*-\s*/);
       if (parts.length < 2) return;
       const start = normalizeTime(parts[0]);
