@@ -131,7 +131,22 @@ export default function Schedule({ user }) {
       {/* Day selector */}
       <div className="day-selector">
         <button className="day-arrow" onClick={() => setDayOffset(Math.max(0, dayOffset-1))} disabled={dayOffset===0}>‹</button>
-        <span className="day-label">{getDateLabel(dayOffset)}</span>
+        <label className="day-label-wrap">
+          <span className="day-label">{getDateLabel(dayOffset)}</span>
+          <input
+            type="date"
+            className="date-input-hidden"
+            value={(() => { const d = new Date(); d.setDate(d.getDate() + dayOffset); return dateStr(d); })()}
+            min={dateStr(new Date())}
+            max={(() => { const d = new Date(); d.setDate(d.getDate() + 13); return dateStr(d); })()}
+            onChange={e => {
+              const picked = new Date(e.target.value + 'T00:00:00');
+              const today = new Date(); today.setHours(0,0,0,0);
+              const diff = Math.round((picked - today) / 86400000);
+              setDayOffset(Math.max(0, Math.min(13, diff)));
+            }}
+          />
+        </label>
         <button className="day-arrow" onClick={() => setDayOffset(Math.min(13, dayOffset+1))}>›</button>
       </div>
 
