@@ -123,6 +123,16 @@ body {
 .freshness-banner.green { background: #e6f4ea; color: #1e7e34; }
 .freshness-banner.amber { background: #fff3cd; color: #856404; }
 
+.coming-soon-banner {
+  margin: 12px 16px;
+  padding: 12px 16px;
+  background: #f0f4ff;
+  color: #3a5bd9;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
 /* Day selector */
 .day-selector {
   display: flex;
