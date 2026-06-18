@@ -133,6 +133,7 @@ export default function Schedule({ user }) {
         <button className="day-arrow" onClick={() => setDayOffset(Math.max(0, dayOffset-1))} disabled={dayOffset===0}>‹</button>
         <label className="day-label-wrap">
           <span className="day-label">{getDateLabel(dayOffset)}</span>
+          <span className="calendar-icon">📅</span>
           <input
             type="date"
             className="date-input-hidden"

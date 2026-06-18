@@ -147,7 +147,8 @@ body {
   align-items: center;
   cursor: pointer;
 }
-.day-label { font-size: 15px; font-weight: 600; color: #111; text-decoration: underline dotted #aaa; }
+.day-label { font-size: 15px; font-weight: 600; color: #111; }
+.calendar-icon { font-size: 16px; margin-left: 6px; }
 .date-input-hidden {
   position: absolute;
   inset: 0;
