@@ -5,7 +5,6 @@ export const POOLS = [
   { id: 'albany-indoor', name: 'Albany · Indoor Pool', city: 'Albany' },
   { id: 'albany-outdoor', name: 'Albany · Outdoor Pool', city: 'Albany' },
   { id: 'golden-bear', name: 'Golden Bear Pool', city: 'Berkeley' },
-  { id: 'golden-bear-strawberry', name: 'Strawberry Canyon Pool', city: 'Berkeley' },
   { id: 'richmond', name: 'Richmond Plunge', city: 'Richmond' },
   { id: 'king', name: 'King Pool', city: 'Berkeley' },
   { id: 'piedmont', name: 'Piedmont Community Pool', city: 'Piedmont' },
