@@ -35,8 +35,8 @@ async function main() {
   const emeryville = await scrapeEmeryville(14);
   console.log(`  ${Object.keys(emeryville).length} schedule entries`);
 
-  console.log('→ Albany (manual)...');
-  const albany = albanySchedule(14);
+  console.log('→ Albany (manual + notice check)...');
+  const albany = await albanySchedule(14);
   console.log(`  ${Object.keys(albany).length} schedule entries`);
 
   const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany };

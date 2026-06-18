@@ -51,7 +51,7 @@ export async function scrapeGoldenBear() {
 
       const key = `${poolId}_${dateStr(date)}`;
       if (!results[key]) {
-        results[key] = { poolId, date: dateStr(date), sessions: [], lastUpdated: new Date().toISOString() };
+        results[key] = { poolId, date: dateStr(date), sessions: [], lastUpdated: new Date().toISOString(), closureNotice: null };
       }
       results[key].sessions.push({ start, end, type: 'lap', notes: null });
     });

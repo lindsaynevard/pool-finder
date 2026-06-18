@@ -1,5 +1,6 @@
 // Scraper for Emeryville ECCL lap swim
 // Schedule uses date ranges rather than a simple weekly pattern
+import * as cheerio from 'cheerio';
 import { dateStr, dayName } from './utils.js';
 
 const URL = 'https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness';
@@ -94,7 +95,32 @@ export async function scrapeEmeryville(daysAhead = 14) {
       date: ds,
       sessions,
       lastUpdated: new Date().toISOString(),
+      closureNotice: null,
     };
+  }
+
+  // Parse "Modified Hours:" notices from the live page and attach to specific dates
+  try {
+    const $ = cheerio.load(text);
+    $('strong').each((_, el) => {
+      if (!$(el).text().includes('Modified Hours')) return;
+      const list = $(el).parent().next('ul');
+      list.find('li').each((_, li) => {
+        const item = $(li).text().trim();
+        const m = item.match(/^(\d+)\/(\d+)\s*[-–—]\s*(.+)/);
+        if (!m) return;
+        const month = parseInt(m[1]) - 1;
+        const day = parseInt(m[2]);
+        const year = new Date().getFullYear();
+        const ds = dateStr(new Date(year, month, day));
+        const notice = m[3].trim();
+        if (results[`emeryville_${ds}`]) {
+          results[`emeryville_${ds}`].closureNotice = notice;
+        }
+      });
+    });
+  } catch (e) {
+    // ignore parse errors — closureNotice stays null
   }
 
   return results;

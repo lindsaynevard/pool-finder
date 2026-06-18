@@ -59,6 +59,7 @@ export default function Schedule({ user }) {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [closureNotices, setClosureNotices] = useState({});
 
   useEffect(() => {
     async function fetchSchedule() {
@@ -72,6 +73,7 @@ export default function Schedule({ user }) {
         const snap = await getDocs(q);
         const allSessions = [];
         let latestUpdate = null;
+        const notices = {};
 
         snap.forEach(doc => {
           const data = doc.data();
@@ -80,6 +82,9 @@ export default function Schedule({ user }) {
               allSessions.push({ ...s, poolId: data.poolId });
             });
           }
+          if (data.closureNotice) {
+            notices[data.poolId] = data.closureNotice;
+          }
           if (data.lastUpdated && (!latestUpdate || data.lastUpdated > latestUpdate)) {
             latestUpdate = data.lastUpdated;
           }
@@ -87,6 +92,7 @@ export default function Schedule({ user }) {
 
         setSessions(allSessions);
         setLastUpdated(latestUpdate);
+        setClosureNotices(notices);
       } catch (err) {
         console.error('Failed to fetch schedule:', err);
       }
@@ -127,6 +133,18 @@ export default function Schedule({ user }) {
 
       {/* Freshness banner */}
       {!loading && <div className="freshness-banner green">{freshnessText}</div>}
+
+      {/* Closure / modification notices */}
+      {!loading && Object.keys(closureNotices).length > 0 && (
+        <div className="closure-notices">
+          {Object.entries(closureNotices).map(([poolId, notice]) => (
+            <div key={poolId} className="closure-notice">
+              <span className="closure-icon">⚠️</span>
+              <span><strong>{getPoolName(poolId)}</strong> — {notice}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Day selector */}
       <div className="day-selector">

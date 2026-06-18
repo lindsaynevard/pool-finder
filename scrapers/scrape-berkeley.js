@@ -79,6 +79,7 @@ export async function scrapeBerkeley(daysAhead = 14) {
         date: dateStr(d),
         sessions: (weekly[day] || []),
         lastUpdated: new Date().toISOString(),
+        closureNotice: null,
       };
     }
   }
