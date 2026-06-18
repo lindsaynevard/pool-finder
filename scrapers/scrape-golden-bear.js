@@ -7,7 +7,6 @@ const URL = 'https://recwell.berkeley.edu/schedules-reservations/lap-swim/';
 
 const POOL_MAP = {
   'golden bear': 'golden-bear',
-  'spieker': 'golden-bear-spieker',
   'strawberry canyon': 'golden-bear-strawberry',
 };
 
