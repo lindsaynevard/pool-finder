@@ -9,12 +9,14 @@ export function normalizeTime(raw) {
 
 // "6:00am-9:00am" or "6:00am – 9:00am" -> { start: "6:00 AM", end: "9:00 AM" }
 export function parseTimeRange(raw) {
-  raw = raw.trim().replace(/–|—/g, '-').replace(/ /g, ' ');
-  const parts = raw.split(/[-–]\s*/);
+  raw = raw.trim().replace(/[–—]/g, '-').replace(/ /g, ' ');
+  const parts = raw.split(/\s*-\s*/);
   if (parts.length < 2) return null;
-  const start = normalizeTime(parts[0]);
+  let start = normalizeTime(parts[0]);
   const end = normalizeTime(parts.slice(1).join('-'));
   if (!start || !end) return null;
+  // Fix website typo: "12:00am-X:XXpm" where noon was meant, not midnight
+  if (start === '12:00 AM' && end.endsWith('PM')) start = '12:00 PM';
   return { start, end };
 }
 
