@@ -209,7 +209,6 @@ export default function Schedule({ user }) {
                         {SESSION_TYPES[s.type] || s.type}
                       </button>
                     )}
-                    {s.notes && <span className="session-note">{s.notes}</span>}
                   </div>
                   {tooltip?.key===`${time}-${i}` && (
                     <div className="tooltip-card">
@@ -222,6 +221,7 @@ export default function Schedule({ user }) {
                 <div className="session-right">
                   <span className="end-time">until {s.end}</span>
                 </div>
+                {s.notes && <div className="session-note">{s.notes}</div>}
               </div>
             ))}
           </div>

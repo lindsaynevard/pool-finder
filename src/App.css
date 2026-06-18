@@ -221,6 +221,7 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: 10px 16px;
   border-top: 1px solid #f5f5f5;
   position: relative;
@@ -239,7 +240,13 @@ body {
   cursor: pointer;
 }
 
-.session-note { font-size: 13px; color: #888; }
+.session-note {
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+  padding: 2px 0 0;
+}
 .session-right { margin-left: 12px; }
 .end-time { font-size: 13px; color: #888; white-space: nowrap; }
 
