@@ -16,5 +16,5 @@ export default function App() {
     return <div className="loading">Loading…</div>;
   }
 
-  return user ? <Schedule user={user} /> : <SignIn />;
+  return <Schedule user={user} />;
 }

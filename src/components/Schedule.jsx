@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { signOut } from 'firebase/auth';
+import { signOut, signInWithPopup } from 'firebase/auth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import { auth, db, provider } from '../firebase';
 import { POOLS, SESSION_TYPES } from '../data/pools';
 
 const FULL_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -115,12 +115,18 @@ export default function Schedule({ user }) {
       {/* Header */}
       <div className="header">
         <h1 className="app-title">PoolFinder</h1>
-        <button className="avatar-btn" onClick={() => signOut(auth)} title="Sign out">
-          {user.photoURL
-            ? <img src={user.photoURL} alt="avatar" className="avatar" />
-            : <div className="avatar-placeholder">{user.displayName?.[0]}</div>
-          }
-        </button>
+        {user ? (
+          <button className="avatar-btn" onClick={() => signOut(auth)} title="Sign out">
+            {user.photoURL
+              ? <img src={user.photoURL} alt="avatar" className="avatar" />
+              : <div className="avatar-placeholder">{user.displayName?.[0]}</div>
+            }
+          </button>
+        ) : (
+          <button className="sign-in-btn" onClick={() => signInWithPopup(auth, provider)}>
+            Sign in
+          </button>
+        )}
       </div>
 
       {/* Mode toggle */}

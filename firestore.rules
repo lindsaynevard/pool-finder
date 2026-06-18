@@ -1,9 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Anyone logged in can read schedule data — no one can write from the browser
+    // Schedule data is public (read-only) — no login required
     match /schedules/{document=**} {
-      allow read: if request.auth != null;
+      allow read: if true;
       allow write: if false;
     }
   }

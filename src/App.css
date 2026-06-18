@@ -79,6 +79,16 @@ body {
 }
 .app-title { font-size: 20px; font-weight: 700; color: #111; }
 .avatar-btn { background: none; border: none; cursor: pointer; padding: 0; }
+.sign-in-btn {
+  background: none;
+  border: 1px solid #dadce0;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a73e8;
+  cursor: pointer;
+}
 .avatar { width: 32px; height: 32px; border-radius: 50%; }
 .avatar-placeholder {
   width: 32px; height: 32px; border-radius: 50%;
