@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Anyone logged in can read schedule data — no one can write from the browser
+    match /schedules/{document=**} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+  }
+}
