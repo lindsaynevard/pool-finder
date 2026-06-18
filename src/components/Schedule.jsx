@@ -157,13 +157,15 @@ export default function Schedule({ user }) {
                 <div className="session-left">
                   <div className="pool-name">{getPoolName(s.poolId)}</div>
                   <div className="session-meta">
-                    <button
-                      className="session-type-btn"
-                      onClick={() => setTooltip(tooltip?.key===`${time}-${i}` ? null : {key:`${time}-${i}`, type:s.type})}
-                    >
-                      {SESSION_TYPES[s.type] || s.type}
-                    </button>
-                    {s.notes && <span className="session-note"> · {s.notes}</span>}
+                    {mode !== 'lap' && (
+                      <button
+                        className="session-type-btn"
+                        onClick={() => setTooltip(tooltip?.key===`${time}-${i}` ? null : {key:`${time}-${i}`, type:s.type})}
+                      >
+                        {SESSION_TYPES[s.type] || s.type}
+                      </button>
+                    )}
+                    {s.notes && <span className="session-note">{s.notes}</span>}
                   </div>
                   {tooltip?.key===`${time}-${i}` && (
                     <div className="tooltip-card">
