@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { signOut, signInWithPopup } from 'firebase/auth';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db, provider } from '../firebase';
 import { POOLS, SESSION_TYPES } from '../data/pools';
 import MyPools from './MyPools';
@@ -63,6 +63,7 @@ export default function Schedule({ user }) {
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [closureNotices, setClosureNotices] = useState({});
+  const [preferences, setPreferences] = useState({ lap_favorites: [], family_favorites: [] });
 
   useEffect(() => {
     async function fetchSchedule() {
@@ -104,10 +105,49 @@ export default function Schedule({ user }) {
     fetchSchedule();
   }, [dayOffset]);
 
+  useEffect(() => {
+    if (!user) {
+      setPreferences({ lap_favorites: [], family_favorites: [] });
+      return;
+    }
+    async function loadPrefs() {
+      const snap = await getDoc(doc(db, 'user_preferences', user.uid));
+      if (snap.exists()) {
+        const data = snap.data();
+        setPreferences({
+          lap_favorites: data.lap_favorites || [],
+          family_favorites: data.family_favorites || [],
+        });
+      }
+    }
+    loadPrefs();
+  }, [user]);
+
+  async function toggleFavorite(poolId, favMode) {
+    const key = `${favMode}_favorites`;
+    const current = preferences[key];
+    const updated = current.includes(poolId)
+      ? current.filter(id => id !== poolId)
+      : [...current, poolId];
+    const newPrefs = { ...preferences, [key]: updated };
+    setPreferences(newPrefs);
+    if (user) {
+      await setDoc(doc(db, 'user_preferences', user.uid), { [key]: updated }, { merge: true });
+    }
+  }
+
+  const currentFavorites = mode === 'lap' ? preferences.lap_favorites : preferences.family_favorites;
+  const favSet = new Set(currentFavorites);
+
   const filtered = sessions.filter(s =>
     mode === 'lap' ? s.type === 'lap' : ['family','rec','community','tot','open'].includes(s.type)
   );
-  const grouped = groupByTime(filtered);
+  const sorted = [...filtered].sort((a, b) => {
+    const aFav = favSet.has(a.poolId) ? 0 : 1;
+    const bFav = favSet.has(b.poolId) ? 0 : 1;
+    return aFav - bFav;
+  });
+  const grouped = groupByTime(sorted);
 
   const freshnessText = lastUpdated
     ? `✓ Last updated ${new Date(lastUpdated).toLocaleDateString('en-US', {month:'short', day:'numeric'})} at ${new Date(lastUpdated).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'})}`
@@ -234,7 +274,9 @@ export default function Schedule({ user }) {
       )}
 
       {/* My Pools tab */}
-      {activeTab === 'my-pools' && <MyPools />}
+      {activeTab === 'my-pools' && (
+        <MyPools user={user} preferences={preferences} onToggleFavorite={toggleFavorite} />
+      )}
 
       {/* Settings tab */}
       {activeTab === 'settings' && <SettingsTab user={user} />}
