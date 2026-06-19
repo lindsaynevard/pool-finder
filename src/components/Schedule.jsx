@@ -3,6 +3,8 @@ import { signOut, signInWithPopup } from 'firebase/auth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db, provider } from '../firebase';
 import { POOLS, SESSION_TYPES } from '../data/pools';
+import MyPools from './MyPools';
+import SettingsTab from './SettingsTab';
 
 const FULL_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -53,6 +55,7 @@ const TOOLTIP_TEXT = {
 };
 
 export default function Schedule({ user }) {
+  const [activeTab, setActiveTab] = useState('schedule');
   const [mode, setMode] = useState('lap');
   const [dayOffset, setDayOffset] = useState(0);
   const [tooltip, setTooltip] = useState(null);
@@ -110,135 +113,150 @@ export default function Schedule({ user }) {
     ? `✓ Last updated ${new Date(lastUpdated).toLocaleDateString('en-US', {month:'short', day:'numeric'})} at ${new Date(lastUpdated).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'})}`
     : '✓ Schedule loaded';
 
+  const TAB_TITLES = { schedule: 'PoolFinder', 'my-pools': 'My Pools', settings: 'Settings' };
+
   return (
     <div className="screen">
       {/* Header */}
       <div className="header">
-        <h1 className="app-title">PoolFinder</h1>
-        {user ? (
-          <button className="avatar-btn" onClick={() => signOut(auth)} title="Sign out">
-            {user.photoURL
-              ? <img src={user.photoURL} alt="avatar" className="avatar" />
-              : <div className="avatar-placeholder">{user.displayName?.[0]}</div>
-            }
-          </button>
-        ) : (
-          <button className="sign-in-btn" onClick={() => signInWithPopup(auth, provider)}>
-            Sign in
-          </button>
+        <h1 className="app-title">{TAB_TITLES[activeTab]}</h1>
+        {activeTab !== 'settings' && (
+          user ? (
+            <button className="avatar-btn" onClick={() => signOut(auth)} title="Sign out">
+              {user.photoURL
+                ? <img src={user.photoURL} alt="avatar" className="avatar" />
+                : <div className="avatar-placeholder">{user.displayName?.[0]}</div>
+              }
+            </button>
+          ) : (
+            <button className="sign-in-btn" onClick={() => signInWithPopup(auth, provider)}>
+              Sign in
+            </button>
+          )
         )}
       </div>
 
-      {/* Mode toggle */}
-      <div className="mode-toggle-wrap">
-        <div className="mode-toggle">
-          <button className={`mode-btn ${mode==='lap'?'active':''}`} onClick={() => setMode('lap')}>Lap</button>
-          <button className={`mode-btn ${mode==='family'?'active':''}`} onClick={() => setMode('family')}>Family</button>
-        </div>
-      </div>
-
-      {/* Freshness banner */}
-      {!loading && <div className="freshness-banner green">{freshnessText}</div>}
-
-      {/* Closure / modification notices */}
-      {!loading && Object.keys(closureNotices).length > 0 && (
-        <div className="closure-notices">
-          {Object.entries(closureNotices).map(([poolId, notice]) => (
-            <div key={poolId} className="closure-notice">
-              <span className="closure-icon">⚠️</span>
-              <span><strong>{getPoolName(poolId)}</strong> — {notice}</span>
+      {/* Schedule tab content */}
+      {activeTab === 'schedule' && (
+        <>
+          {/* Mode toggle */}
+          <div className="mode-toggle-wrap">
+            <div className="mode-toggle">
+              <button className={`mode-btn ${mode==='lap'?'active':''}`} onClick={() => setMode('lap')}>Lap</button>
+              <button className={`mode-btn ${mode==='family'?'active':''}`} onClick={() => setMode('family')}>Family</button>
             </div>
-          ))}
-        </div>
-      )}
-
-      {/* Day selector */}
-      <div className="day-selector">
-        <button className="day-arrow" onClick={() => setDayOffset(Math.max(0, dayOffset-1))} disabled={dayOffset===0}>‹</button>
-        <label className="day-label-wrap">
-          <span className="day-label">{getDateLabel(dayOffset)}</span>
-          <span className="calendar-icon">📅</span>
-          <input
-            type="date"
-            className="date-input-hidden"
-            autoComplete="off"
-            data-form-type="other"
-            data-lpignore="true"
-            value={(() => { const d = new Date(); d.setDate(d.getDate() + dayOffset); return dateStr(d); })()}
-            min={dateStr(new Date())}
-            max={(() => { const d = new Date(); d.setDate(d.getDate() + 13); return dateStr(d); })()}
-            onChange={e => {
-              const picked = new Date(e.target.value + 'T00:00:00');
-              const today = new Date(); today.setHours(0,0,0,0);
-              const diff = Math.round((picked - today) / 86400000);
-              setDayOffset(Math.max(0, Math.min(13, diff)));
-            }}
-          />
-        </label>
-        <button className="day-arrow" onClick={() => setDayOffset(Math.min(13, dayOffset+1))}>›</button>
-      </div>
-
-      {/* Schedule */}
-      <div className="schedule-list">
-        {mode === 'family' && (
-          <div className="coming-soon-banner">
-            Family swim schedules coming soon — check back later!<br />
-            Any sessions shown below are placeholder data and may not be accurate.
           </div>
-        )}
 
-        {loading && <div className="empty-state">Loading schedule…</div>}
+          {/* Freshness banner */}
+          {!loading && <div className="freshness-banner green">{freshnessText}</div>}
 
-        {!loading && grouped.length === 0 && mode !== 'family' && (
-          <div className="empty-state">No {mode} swim sessions found for this day.</div>
-        )}
+          {/* Closure / modification notices */}
+          {!loading && Object.keys(closureNotices).length > 0 && (
+            <div className="closure-notices">
+              {Object.entries(closureNotices).map(([poolId, notice]) => (
+                <div key={poolId} className="closure-notice">
+                  <span className="closure-icon">⚠️</span>
+                  <span><strong>{getPoolName(poolId)}</strong> — {notice}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
-        {!loading && grouped.map(([time, slotSessions]) => (
-          <div key={time} className="time-block">
-            <div className="time-header">{time}</div>
-            {slotSessions.map((s, i) => (
-              <div key={i} className="session-row">
-                <div className="session-left">
-                  <div className="pool-name">{getPoolName(s.poolId)}</div>
-                  <div className="session-meta">
-                    {mode !== 'lap' && (
-                      <button
-                        className="session-type-btn"
-                        onClick={() => setTooltip(tooltip?.key===`${time}-${i}` ? null : {key:`${time}-${i}`, type:s.type})}
-                      >
-                        {SESSION_TYPES[s.type] || s.type}
-                      </button>
-                    )}
-                  </div>
-                  {tooltip?.key===`${time}-${i}` && (
-                    <div className="tooltip-card">
-                      <strong>{SESSION_TYPES[s.type]}</strong>
-                      <p>{TOOLTIP_TEXT[s.type]}</p>
-                      <button className="tooltip-close" onClick={() => setTooltip(null)}>✕</button>
+          {/* Day selector */}
+          <div className="day-selector">
+            <button className="day-arrow" onClick={() => setDayOffset(Math.max(0, dayOffset-1))} disabled={dayOffset===0}>‹</button>
+            <label className="day-label-wrap">
+              <span className="day-label">{getDateLabel(dayOffset)}</span>
+              <span className="calendar-icon">📅</span>
+              <input
+                type="date"
+                className="date-input-hidden"
+                autoComplete="off"
+                data-form-type="other"
+                data-lpignore="true"
+                value={(() => { const d = new Date(); d.setDate(d.getDate() + dayOffset); return dateStr(d); })()}
+                min={dateStr(new Date())}
+                max={(() => { const d = new Date(); d.setDate(d.getDate() + 13); return dateStr(d); })()}
+                onChange={e => {
+                  const picked = new Date(e.target.value + 'T00:00:00');
+                  const today = new Date(); today.setHours(0,0,0,0);
+                  const diff = Math.round((picked - today) / 86400000);
+                  setDayOffset(Math.max(0, Math.min(13, diff)));
+                }}
+              />
+            </label>
+            <button className="day-arrow" onClick={() => setDayOffset(Math.min(13, dayOffset+1))}>›</button>
+          </div>
+
+          {/* Schedule list */}
+          <div className="schedule-list">
+            {mode === 'family' && (
+              <div className="coming-soon-banner">
+                Family swim schedules coming soon — check back later!<br />
+                Any sessions shown below are placeholder data and may not be accurate.
+              </div>
+            )}
+
+            {loading && <div className="empty-state">Loading schedule…</div>}
+
+            {!loading && grouped.length === 0 && mode !== 'family' && (
+              <div className="empty-state">No {mode} swim sessions found for this day.</div>
+            )}
+
+            {!loading && grouped.map(([time, slotSessions]) => (
+              <div key={time} className="time-block">
+                <div className="time-header">{time}</div>
+                {slotSessions.map((s, i) => (
+                  <div key={i} className="session-row">
+                    <div className="session-left">
+                      <div className="pool-name">{getPoolName(s.poolId)}</div>
+                      <div className="session-meta">
+                        {mode !== 'lap' && (
+                          <button
+                            className="session-type-btn"
+                            onClick={() => setTooltip(tooltip?.key===`${time}-${i}` ? null : {key:`${time}-${i}`, type:s.type})}
+                          >
+                            {SESSION_TYPES[s.type] || s.type}
+                          </button>
+                        )}
+                      </div>
+                      {tooltip?.key===`${time}-${i}` && (
+                        <div className="tooltip-card">
+                          <strong>{SESSION_TYPES[s.type]}</strong>
+                          <p>{TOOLTIP_TEXT[s.type]}</p>
+                          <button className="tooltip-close" onClick={() => setTooltip(null)}>✕</button>
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="session-right">
-                  <span className="end-time">until {s.end}</span>
-                </div>
-                {s.notes && <div className="session-note">{s.notes}</div>}
+                    <div className="session-right">
+                      <span className="end-time">until {s.end}</span>
+                    </div>
+                    {s.notes && <div className="session-note">{s.notes}</div>}
+                  </div>
+                ))}
               </div>
             ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
+
+      {/* My Pools tab */}
+      {activeTab === 'my-pools' && <MyPools />}
+
+      {/* Settings tab */}
+      {activeTab === 'settings' && <SettingsTab user={user} />}
 
       {/* Tab bar */}
       <div className="tab-bar">
-        <button className="tab active">
+        <button className={`tab ${activeTab==='schedule'?'active':''}`} onClick={() => setActiveTab('schedule')}>
           <span className="tab-icon">📅</span>
           <span>Schedule</span>
         </button>
-        <button className="tab">
+        <button className={`tab ${activeTab==='my-pools'?'active':''}`} onClick={() => setActiveTab('my-pools')}>
           <span className="tab-icon">🏊</span>
           <span>My Pools</span>
         </button>
-        <button className="tab">
+        <button className={`tab ${activeTab==='settings'?'active':''}`} onClick={() => setActiveTab('settings')}>
           <span className="tab-icon">⚙️</span>
           <span>Settings</span>
         </button>
