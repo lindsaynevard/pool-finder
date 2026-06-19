@@ -310,12 +310,24 @@ body {
 
 .pool-list-name { font-size: 15px; font-weight: 500; color: #111; }
 
+.pool-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .pool-coming-soon {
   font-size: 12px;
   color: #aaa;
   background: #f5f5f5;
   border-radius: 4px;
   padding: 2px 7px;
+}
+
+.pool-map-link {
+  font-size: 18px;
+  text-decoration: none;
+  line-height: 1;
 }
 
 .tab-footer-note {

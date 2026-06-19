@@ -1,6 +1,6 @@
 import { POOLS } from '../data/pools';
 
-const LIVE_POOLS = new Set(['west-campus', 'king', 'golden-bear', 'emeryville', 'albany-indoor', 'albany-outdoor']);
+const LIVE_POOLS = new Set(['west-campus', 'king', 'golden-bear', 'emeryville', 'albany-indoor', 'albany-outdoor', 'roberts', 'east-oakland']);
 
 export default function MyPools() {
   const byCity = POOLS.reduce((acc, pool) => {
@@ -18,9 +18,22 @@ export default function MyPools() {
             {pools.map(pool => (
               <div key={pool.id} className="pool-list-item">
                 <span className="pool-list-name">{pool.name}</span>
-                {!LIVE_POOLS.has(pool.id) && (
-                  <span className="pool-coming-soon">Coming soon</span>
-                )}
+                <div className="pool-list-actions">
+                  {!LIVE_POOLS.has(pool.id) && (
+                    <span className="pool-coming-soon">Coming soon</span>
+                  )}
+                  {pool.mapsUrl && (
+                    <a
+                      href={pool.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="pool-map-link"
+                      aria-label={`Directions to ${pool.name}`}
+                    >
+                      📍
+                    </a>
+                  )}
+                </div>
               </div>
             ))}
           </div>

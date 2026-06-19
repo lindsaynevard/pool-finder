@@ -3,6 +3,8 @@ import { scrapeBerkeley } from './scrape-berkeley.js';
 import { scrapeGoldenBear } from './scrape-golden-bear.js';
 import { scrapeEmeryville } from './scrape-emeryville.js';
 import { albanySchedule } from './albany-manual.js';
+import { scrapeRoberts } from './scrape-roberts.js';
+import { scrapeEastOakland } from './scrape-east-oakland.js';
 
 async function writeToFirestore(data) {
   const batch = db.batch();
@@ -39,7 +41,15 @@ async function main() {
   const albany = await albanySchedule(14);
   console.log(`  ${Object.keys(albany).length} schedule entries`);
 
-  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany };
+  console.log('→ Roberts Pool (East Bay Regional Parks)...');
+  const roberts = await scrapeRoberts(14);
+  console.log(`  ${Object.keys(roberts).length} schedule entries`);
+
+  console.log('→ East Oakland Sports Center...');
+  const eastOakland = await scrapeEastOakland(14);
+  console.log(`  ${Object.keys(eastOakland).length} schedule entries`);
+
+  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const written = await writeToFirestore(all);

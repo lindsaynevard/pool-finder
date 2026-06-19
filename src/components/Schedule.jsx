@@ -190,13 +190,6 @@ export default function Schedule({ user }) {
 
           {/* Schedule list */}
           <div className="schedule-list">
-            {mode === 'family' && (
-              <div className="coming-soon-banner">
-                Family swim schedules coming soon — check back later!<br />
-                Any sessions shown below are placeholder data and may not be accurate.
-              </div>
-            )}
-
             {loading && <div className="empty-state">Loading schedule…</div>}
 
             {!loading && grouped.length === 0 && mode !== 'family' && (
