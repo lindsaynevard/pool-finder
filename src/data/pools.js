@@ -48,6 +48,12 @@ export const POOLS = [
     mapsUrl: 'https://maps.google.com/?q=9161+Edes+Ave+Oakland+CA+94603',
   },
   {
+    id: 'el-cerrito-splash',
+    name: 'El Cerrito Splash Park',
+    city: 'El Cerrito',
+    mapsUrl: 'https://maps.google.com/?q=7007+Moeser+Lane+El+Cerrito+CA+94530',
+  },
+  {
     id: 'richmond',
     name: 'Richmond Plunge',
     city: 'Richmond',

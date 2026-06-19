@@ -1,6 +1,6 @@
 import { POOLS } from '../data/pools';
 
-const LIVE_POOLS = new Set(['west-campus', 'king', 'golden-bear', 'emeryville', 'albany-indoor', 'albany-outdoor', 'roberts', 'east-oakland']);
+const LIVE_POOLS = new Set(['west-campus', 'king', 'golden-bear', 'emeryville', 'albany-indoor', 'albany-outdoor', 'roberts', 'east-oakland', 'el-cerrito-splash']);
 
 export default function MyPools() {
   const byCity = POOLS.reduce((acc, pool) => {

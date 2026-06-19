@@ -5,6 +5,7 @@ import { scrapeEmeryville } from './scrape-emeryville.js';
 import { albanySchedule } from './albany-manual.js';
 import { scrapeRoberts } from './scrape-roberts.js';
 import { scrapeEastOakland } from './scrape-east-oakland.js';
+import { scrapeElCerritoSplash } from './scrape-el-cerrito-splash.js';
 
 async function writeToFirestore(data) {
   const batch = db.batch();
@@ -49,7 +50,11 @@ async function main() {
   const eastOakland = await scrapeEastOakland(14);
   console.log(`  ${Object.keys(eastOakland).length} schedule entries`);
 
-  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland };
+  console.log('→ El Cerrito Splash Park...');
+  const elCerritoSplash = await scrapeElCerritoSplash(14);
+  console.log(`  ${Object.keys(elCerritoSplash).length} schedule entries`);
+
+  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const written = await writeToFirestore(all);
