@@ -8,6 +8,8 @@ on:
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write       # needed to push the updated cache file
     steps:
       - uses: actions/checkout@v4
 
@@ -18,8 +20,27 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
       - name: Write Firebase service account
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > scrapers/serviceAccount.json
 
       - name: Run scrapers
         run: npm run scrape
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Commit updated Albany schedule cache (if changed)
+        run: |
+          git config user.name "Pool Finder Bot"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scrapers/.albany-schedule-cache.json
+          git diff --staged --quiet || git commit -m "Auto-update Albany schedule [skip ci]"
+          git push
