@@ -112,6 +112,11 @@ function buildSchedule(scheduleData, daysAhead) {
   const closedSet = new Set(scheduleData.closedDates || []);
   const weekly = scheduleData.weekly;
 
+  const validUntil = scheduleData.validUntil ? new Date(scheduleData.validUntil + 'T23:59:59') : null;
+  const closureNotice = (validUntil && base > validUntil)
+    ? 'Albany schedule may be outdated. Check albanyaquaticcenter.com for current times.'
+    : null;
+
   for (let i = 0; i < daysAhead; i++) {
     const d = new Date(base);
     d.setDate(base.getDate() + i);
@@ -133,7 +138,7 @@ function buildSchedule(scheduleData, daysAhead) {
         date: ds,
         sessions,
         lastUpdated: new Date().toISOString(),
-        closureNotice: null,
+        closureNotice,
       };
     });
   }
