@@ -3,3 +3,5 @@ dist
 .DS_Store
 *.local
 scrapers/serviceAccount.json
+scrapers/gmail-credentials.json
+scrapers/gmail-token.json

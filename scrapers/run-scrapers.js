@@ -2,7 +2,7 @@ import { db } from './firebase-admin.js';
 import { scrapeBerkeley } from './scrape-berkeley.js';
 import { scrapeGoldenBear } from './scrape-golden-bear.js';
 import { scrapeEmeryville } from './scrape-emeryville.js';
-import { albanySchedule } from './albany-manual.js';
+import { albanySchedule } from './albany-auto.js';
 import { scrapeRoberts } from './scrape-roberts.js';
 import { scrapeEastOakland } from './scrape-east-oakland.js';
 import { scrapeElCerritoSplash } from './scrape-el-cerrito-splash.js';
@@ -38,7 +38,7 @@ async function main() {
   const emeryville = await scrapeEmeryville(14);
   console.log(`  ${Object.keys(emeryville).length} schedule entries`);
 
-  console.log('→ Albany (manual + notice check)...');
+  console.log('→ Albany (auto PDF scraper)...');
   const albany = await albanySchedule(14);
   console.log(`  ${Object.keys(albany).length} schedule entries`);
 
