@@ -16,8 +16,8 @@
 ## Up Next
 
 ### Core features
-- [ ] Wire up per-user preferences in Firestore (pool order, active/inactive pools)
-- [ ] Build onboarding flow: set location → pick pools → set order
+- [x] Wire up per-user preferences in Firestore (favorites + active/inactive per mode — already implemented)
+- [x] Onboarding flow — scrapped; preferences are per-user in Firestore, users set favorites/visibility directly in My Pools
 - [ ] Build My Pools screen (Lap Order / Family Order tabs)
 - [x] Add a way for users to flag issues — "Report a problem" link added to Settings (opens GitHub Issues)
 
@@ -78,3 +78,4 @@
 - Richmond Swim Center (RSC) added to app with scraper (season June 22–Aug 16 2026; built from city PDF)
 - Session sort improved: pools now appear alphabetically within each tier (favorites first, then A–Z) — consistent ordering across page loads
 - Session row React keys changed from array index to stable poolId+start+type composite — avoids stale tooltip bugs if row order changes
+- Added "View website" link to pool detail bottom sheet (below Maps button); shown only when websiteUrl is set on a pool
