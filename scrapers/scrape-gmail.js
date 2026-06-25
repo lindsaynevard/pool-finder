@@ -77,34 +77,32 @@ function extractText(part) {
   return '';
 }
 
-// Return a snippet from the line most likely to be the actual closure notice.
-// Prefers a line with both a closure keyword AND a date pattern (e.g. "7/3: closed").
-// Centers the snippet on the keyword so it always appears in the returned text.
-function extractNotice(body, keyword) {
-  const lower = body.toLowerCase();
-  const kw = keyword.toLowerCase();
-  if (!lower.includes(kw)) return null;
+// Extract a notice for a specific date from a closure line.
+// For lines like "7/3: closed (observed) 7/4: closed (Independence Day)",
+// finds where the date appears and slices to the next date entry so each
+// date gets only its own notice text.
+function noticeForDate(line, d) {
+  const month = d.getMonth() + 1;
+  const day = d.getDate();
 
-  const lines = body.split('\n');
-  // A date-like marker: "7/3", "July 4", "Jun 19", etc.
-  const dateRe = /\d{1,2}\/\d{1,2}|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*\s+\d{1,2}/i;
+  // Find the numeric date in the line (e.g. "7/3")
+  const numRe = new RegExp(`\\b${month}\\/${day}\\b`);
+  const m = numRe.exec(line);
 
-  // Best: line with keyword + date (e.g. "7/3: closed" or "July 4 — closed")
-  const lineWithDate = lines.find(l => l.toLowerCase().includes(kw) && dateRe.test(l));
-  // Fallback: first line that has the keyword at all
-  const firstLine = lines.find(l => l.toLowerCase().includes(kw));
-  const noticeLine = lineWithDate || firstLine;
-
-  if (noticeLine) {
-    const trimmed = noticeLine.trim();
-    const kwIdx = trimmed.toLowerCase().indexOf(kw);
-    // Extract a window centred on the keyword so the keyword is always in the result
-    return trimmed.slice(Math.max(0, kwIdx - 20), kwIdx + 100).trim().slice(0, 120);
+  if (m) {
+    // Slice to the next "M/D" occurrence so we don't bleed into other entries
+    const nextRe = /\b\d{1,2}\/\d{1,2}\b/g;
+    nextRe.lastIndex = m.index + m[0].length;
+    const next = nextRe.exec(line);
+    const end = next ? next.index : Math.min(line.length, m.index + 100);
+    return line.slice(m.index, end).trim().slice(0, 100) || null;
   }
 
-  // Last resort: 120-char window around keyword (no newlines in body)
-  const idx = lower.indexOf(kw);
-  return body.slice(Math.max(0, idx - 20), idx + 100).trim().slice(0, 120);
+  // Fallback: center on the first closure keyword in the line
+  const kw = CLOSURE_KEYWORDS.find(k => line.toLowerCase().includes(k.toLowerCase()));
+  if (!kw) return null;
+  const kwIdx = line.toLowerCase().indexOf(kw.toLowerCase());
+  return line.slice(Math.max(0, kwIdx - 20), kwIdx + 80).trim().slice(0, 100);
 }
 
 // Month name -> 0-based month number
@@ -232,34 +230,25 @@ export async function scrapeGmail() {
     const body = extractText(msg.payload);
     if (!body) continue;
 
-    const lowerBody = body.toLowerCase();
-    const matchedKeyword = CLOSURE_KEYWORDS.find(kw => lowerBody.includes(kw.toLowerCase()));
-    if (!matchedKeyword) continue;
-
-    const notice = extractNotice(body, matchedKeyword);
-    if (!notice) continue;
-
-    // Sanity check: the extracted notice sentence must itself contain a closure keyword.
-    const noticeLower = notice.toLowerCase();
-    const noticeHasKeyword = CLOSURE_KEYWORDS.some(kw => noticeLower.includes(kw.toLowerCase()));
-    if (!noticeHasKeyword) continue;
-
-    // Only look for dates on lines that contain a closure keyword, so dates
-    // mentioned elsewhere in the email (e.g. swim lesson schedules) don't
-    // create spurious closure notices.
+    // Process each closure line separately so each date gets its own notice.
+    // Only look at lines with closure keywords — ignores dates in other sections
+    // (e.g. swim lesson schedules) that would create spurious closure notices.
     const closureLines = body.split('\n')
-      .filter(l => CLOSURE_KEYWORDS.some(kw => l.toLowerCase().includes(kw.toLowerCase())))
-      .join('\n');
-    const dates = extractDates(closureLines);
-    if (dates.length === 0) continue;
+      .filter(l => CLOSURE_KEYWORDS.some(kw => l.toLowerCase().includes(kw.toLowerCase())));
+    if (closureLines.length === 0) continue;
 
-    for (const poolId of poolIds) {
-      for (const d of dates) {
+    for (const line of closureLines) {
+      const lineDates = extractDates(line);
+      for (const d of lineDates) {
+        const notice = noticeForDate(line, d);
+        if (!notice) continue;
+        // Sanity check: notice must contain a closure keyword
+        if (!CLOSURE_KEYWORDS.some(kw => notice.toLowerCase().includes(kw.toLowerCase()))) continue;
+
         const ds = dateStr(d);
-        const key = `${poolId}_${ds}`;
-        // Keep the first (most specific) notice found per key
-        if (!results[key]) {
-          results[key] = { closureNotice: notice };
+        for (const poolId of poolIds) {
+          const key = `${poolId}_${ds}`;
+          if (!results[key]) results[key] = { closureNotice: notice };
         }
       }
     }
