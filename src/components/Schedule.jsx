@@ -63,7 +63,7 @@ export default function Schedule({ user }) {
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [closureNotices, setClosureNotices] = useState({});
-  const [preferences, setPreferences] = useState({ lap_favorites: [], family_favorites: [] });
+  const [preferences, setPreferences] = useState({ lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] });
 
   useEffect(() => {
     async function fetchSchedule() {
@@ -116,7 +116,7 @@ export default function Schedule({ user }) {
 
   useEffect(() => {
     if (!user) {
-      setPreferences({ lap_favorites: [], family_favorites: [] });
+      setPreferences({ lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] });
       return;
     }
     async function loadPrefs() {
@@ -126,11 +126,26 @@ export default function Schedule({ user }) {
         setPreferences({
           lap_favorites: data.lap_favorites || [],
           family_favorites: data.family_favorites || [],
+          lap_hidden: data.lap_hidden || [],
+          family_hidden: data.family_hidden || [],
         });
       }
     }
     loadPrefs();
   }, [user]);
+
+  async function toggleHidden(poolId, hiddenMode) {
+    const key = `${hiddenMode}_hidden`;
+    const current = preferences[key];
+    const updated = current.includes(poolId)
+      ? current.filter(id => id !== poolId)
+      : [...current, poolId];
+    const newPrefs = { ...preferences, [key]: updated };
+    setPreferences(newPrefs);
+    if (user) {
+      await setDoc(doc(db, 'user_preferences', user.uid), { [key]: updated }, { merge: true });
+    }
+  }
 
   async function toggleFavorite(poolId, favMode) {
     const key = `${favMode}_favorites`;
@@ -148,8 +163,10 @@ export default function Schedule({ user }) {
   const currentFavorites = mode === 'lap' ? preferences.lap_favorites : preferences.family_favorites;
   const favSet = new Set(currentFavorites);
 
+  const hiddenSet = new Set(mode === 'lap' ? preferences.lap_hidden : preferences.family_hidden);
   const filtered = sessions.filter(s =>
-    mode === 'lap' ? s.type === 'lap' : ['family','rec','community','tot','open'].includes(s.type)
+    !hiddenSet.has(s.poolId) &&
+    (mode === 'lap' ? s.type === 'lap' : ['family','rec','community','tot','open'].includes(s.type))
   );
   const sorted = [...filtered].sort((a, b) => {
     const aFav = favSet.has(a.poolId) ? 0 : 1;
@@ -199,17 +216,23 @@ export default function Schedule({ user }) {
           {/* Freshness banner */}
           {!loading && <div className="freshness-banner green">{freshnessText}</div>}
 
-          {/* Closure / modification notices */}
-          {!loading && Object.keys(closureNotices).length > 0 && (
-            <div className="closure-notices">
-              {Object.entries(closureNotices).map(([poolId, notice]) => (
-                <div key={poolId} className="closure-notice">
-                  <span className="closure-icon">⚠️</span>
-                  <span><strong>{getPoolName(poolId)}</strong> — {notice}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          {/* Closure / modification notices — filtered to pools relevant to current mode */}
+          {!loading && (() => {
+            const modeNotices = Object.entries(closureNotices).filter(([poolId]) => {
+              const pool = POOLS.find(p => p.id === poolId);
+              return !pool?.swimTypes || pool.swimTypes.includes(mode);
+            });
+            return modeNotices.length > 0 && (
+              <div className="closure-notices">
+                {modeNotices.map(([poolId, notice]) => (
+                  <div key={poolId} className="closure-notice">
+                    <span className="closure-icon">⚠️</span>
+                    <span><strong>{getPoolName(poolId)}</strong> — {notice}</span>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
 
           {/* Day selector */}
           <div className="day-selector">
@@ -284,7 +307,7 @@ export default function Schedule({ user }) {
 
       {/* My Pools tab */}
       {activeTab === 'my-pools' && (
-        <MyPools user={user} preferences={preferences} onToggleFavorite={toggleFavorite} />
+        <MyPools user={user} preferences={preferences} onToggleFavorite={toggleFavorite} onToggleHidden={toggleHidden} />
       )}
 
       {/* Settings tab */}

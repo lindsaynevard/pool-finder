@@ -8,11 +8,12 @@ const LIVE_POOLS = new Set([
   'el-cerrito-splash', 'piedmont',
 ]);
 
-export default function MyPools({ user, preferences, onToggleFavorite }) {
+export default function MyPools({ user, preferences, onToggleFavorite, onToggleHidden }) {
   const [favMode, setFavMode] = useState('lap');
   const [selectedPool, setSelectedPool] = useState(null);
 
   const favorites = new Set(preferences?.[`${favMode}_favorites`] || []);
+  const hidden = new Set(preferences?.[`${favMode}_hidden`] || []);
 
   const byCity = POOLS.filter(p => p.swimTypes?.includes(favMode)).reduce((acc, pool) => {
     if (!acc[pool.city]) acc[pool.city] = [];
@@ -39,22 +40,37 @@ export default function MyPools({ user, preferences, onToggleFavorite }) {
             {pools.map(pool => {
               const isLive = LIVE_POOLS.has(pool.id);
               const isFav = favorites.has(pool.id);
+              const isHidden = hidden.has(pool.id);
               return (
-                <div key={pool.id} className="pool-list-item" onClick={() => setSelectedPool(pool)} style={{ cursor: 'pointer' }}>
+                <div key={pool.id} className={`pool-list-item${isHidden ? ' pool-disabled' : ''}`} onClick={() => setSelectedPool(pool)} style={{ cursor: 'pointer' }}>
                   <span className="pool-list-name">{pool.name}</span>
                   <div className="pool-list-actions">
                     {!isLive && (
                       <span className="pool-coming-soon">Coming soon</span>
                     )}
                     {isLive && (
-                      <button
-                        className={`pool-star-btn ${isFav ? 'active' : ''}`}
-                        onClick={(e) => { e.stopPropagation(); user && onToggleFavorite(pool.id, favMode); }}
-                        aria-label={isFav ? `Unfavorite ${pool.name}` : `Favorite ${pool.name}`}
-                        title={!user ? 'Sign in to save favorites' : undefined}
-                      >
-                        {isFav ? '★' : '☆'}
-                      </button>
+                      <>
+                        <button
+                          className={`pool-star-btn ${isFav ? 'active' : ''}`}
+                          onClick={(e) => { e.stopPropagation(); user && onToggleFavorite(pool.id, favMode); }}
+                          aria-label={isFav ? `Unfavorite ${pool.name}` : `Favorite ${pool.name}`}
+                          title={!user ? 'Sign in to save favorites' : undefined}
+                        >
+                          {isFav ? '★' : '☆'}
+                        </button>
+                        <label
+                          className="pool-toggle"
+                          onClick={e => e.stopPropagation()}
+                          title={isHidden ? 'Hidden from schedule' : 'Showing in schedule'}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={!isHidden}
+                            onChange={() => onToggleHidden(pool.id, favMode)}
+                          />
+                          <span className="pool-toggle-slider" />
+                        </label>
+                      </>
                     )}
                   </div>
                 </div>
