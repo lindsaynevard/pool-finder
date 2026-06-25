@@ -32,7 +32,12 @@ async function writeClosureNotices(notices) {
   let count = 0;
   for (const [key, value] of Object.entries(notices)) {
     const ref = db.collection('schedules').doc(key);
-    batch.set(ref, { closureNotice: value.closureNotice }, { merge: true });
+    // Key is "poolId_YYYY-MM-DD". Include date + poolId so the query
+    // where('date', '==', ds) can find docs created fresh by this function.
+    const underscoreIdx = key.lastIndexOf('_');
+    const poolId = key.slice(0, underscoreIdx);
+    const date = key.slice(underscoreIdx + 1);
+    batch.set(ref, { closureNotice: value.closureNotice, poolId, date }, { merge: true });
     count++;
     if (count % 499 === 0) {
       await batch.commit();
