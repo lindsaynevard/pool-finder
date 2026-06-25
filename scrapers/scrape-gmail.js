@@ -19,7 +19,7 @@ const gmail = google.gmail({ version: 'v1', auth });
 const POOL_SENDERS = [
   { match: 'emeryville',          poolIds: ['emeryville'] },
   { match: 'berkeleyca.gov',      poolIds: ['west-campus', 'king'] },
-  { match: 'albanyaquaticcenter', poolIds: ['albany-indoor', 'albany-outdoor'] },
+  { match: 'ausdk12.org',         poolIds: ['albany-indoor', 'albany-outdoor'] },
   { match: 'piedmont',            poolIds: ['piedmont'] },
   { match: 'elcerrito',           poolIds: ['el-cerrito-splash'] },
 ];
