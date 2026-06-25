@@ -16,14 +16,12 @@
 ## Up Next
 
 ### Core features
-- [ ] Wire up per-user preferences in Firestore (pool order, active/inactive pools) — Settings tab shows placeholder rows for these but they don't save or load anything yet
+- [ ] Wire up per-user preferences in Firestore (pool order, active/inactive pools)
 - [ ] Build onboarding flow: set location → pick pools → set order
 - [ ] Build My Pools screen (Lap Order / Family Order tabs)
-- [ ] Build Settings screen
-- [ ] Add a way for users to flag issues
+- [x] Add a way for users to flag issues — "Report a problem" link added to Settings (opens GitHub Issues)
 
 ### Scrapers to add or fix
-- [ ] Richmond Swim Center (RSC) at 4300 Cutting Blvd — second Richmond pool found in the same PDF as the Plunge; not yet in app
 - [ ] Roberts Pool — scraper exists but no live closure data available from their website
 - [ ] East Oakland Sports Center — scraper exists but closure dates are hardcoded (Oakland city website blocks automated access)
 - [ ] "Diamond Pool (Oakland)" — cannot find this pool in Oakland's official pool list; may need to clarify which pool this refers to
@@ -69,3 +67,11 @@
 ## Feature requests
 
 - [x] **Per-pool on/off toggle in My Pools** — toggle switch next to star in My Pools, separate per mode, saved to Firestore per user
+- DeFremery, Lions, and Richmond moved from 'Coming soon' to live in My Pools (added to LIVE_POOLS set)
+- Added Richmond Swim Center (RSC at 4300 Cutting Blvd) — scraper built from city PDF, wired into app and My Pools
+- Fixed Richmond Plunge closure dates: corrected July 3 → July 4 (Independence Day per city PDF); added Aug 15 Plunge Event
+- Fixed schedule empty state: Family mode now shows "no sessions found" message instead of blank screen
+- Settings: removed stale placeholder rows, added "Report a problem" link (opens GitHub Issues)
+- Richmond Swim Center (RSC) added to app with scraper (season June 22–Aug 16 2026; built from city PDF)
+- Session sort improved: pools now appear alphabetically within each tier (favorites first, then A–Z) — consistent ordering across page loads
+- Session row React keys changed from array index to stable poolId+start+type composite — avoids stale tooltip bugs if row order changes

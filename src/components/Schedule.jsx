@@ -171,7 +171,8 @@ export default function Schedule({ user }) {
   const sorted = [...filtered].sort((a, b) => {
     const aFav = favSet.has(a.poolId) ? 0 : 1;
     const bFav = favSet.has(b.poolId) ? 0 : 1;
-    return aFav - bFav;
+    if (aFav !== bFav) return aFav - bFav;
+    return getPoolName(a.poolId).localeCompare(getPoolName(b.poolId));
   });
   const grouped = groupByTime(sorted);
 
@@ -271,21 +272,23 @@ export default function Schedule({ user }) {
             {!loading && grouped.map(([time, slotSessions]) => (
               <div key={time} className="time-block">
                 <div className="time-header">{time}</div>
-                {slotSessions.map((s, i) => (
-                  <div key={i} className="session-row">
+                {slotSessions.map((s) => {
+                  const rowKey = `${s.poolId}-${s.start}-${s.type}`;
+                  return (
+                  <div key={rowKey} className="session-row">
                     <div className="session-left">
                       <div className="pool-name">{getPoolName(s.poolId)}</div>
                       <div className="session-meta">
                         {mode !== 'lap' && (
                           <button
                             className="session-type-btn"
-                            onClick={() => setTooltip(tooltip?.key===`${time}-${i}` ? null : {key:`${time}-${i}`, type:s.type})}
+                            onClick={() => setTooltip(tooltip?.key===rowKey ? null : {key:rowKey, type:s.type})}
                           >
                             {SESSION_TYPES[s.type] || s.type}
                           </button>
                         )}
                       </div>
-                      {tooltip?.key===`${time}-${i}` && (
+                      {tooltip?.key===rowKey && (
                         <div className="tooltip-card">
                           <strong>{SESSION_TYPES[s.type]}</strong>
                           <p>{TOOLTIP_TEXT[s.type]}</p>
@@ -298,7 +301,8 @@ export default function Schedule({ user }) {
                     </div>
                     {s.notes && <div className="session-note">{s.notes}</div>}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             ))}
           </div>
