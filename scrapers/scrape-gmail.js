@@ -83,8 +83,12 @@ function extractNotice(body, keyword) {
   const idx = lower.indexOf(keyword.toLowerCase());
   if (idx === -1) return null;
 
-  // Take the surrounding sentence: look back to start of sentence, forward to end
-  const sentenceStart = Math.max(0, body.lastIndexOf('.', idx - 1) + 1);
+  // Look back to start of line or sentence (whichever is closer to the keyword).
+  // Using \n as a boundary prevents grabbing text from previous paragraphs when
+  // the email has long sections (e.g. swim lessons) before the closure line.
+  const prevDot = body.lastIndexOf('.', idx - 1);
+  const prevNl  = body.lastIndexOf('\n', idx - 1);
+  const sentenceStart = Math.max(0, Math.max(prevDot, prevNl) + 1);
   const sentenceEndDot  = body.indexOf('.', idx);
   const sentenceEndNl   = body.indexOf('\n', idx);
   let sentenceEnd = -1;
