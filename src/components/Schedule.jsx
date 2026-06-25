@@ -286,8 +286,8 @@ export default function Schedule({ user }) {
                   <div key={rowKey} className={`session-row${favSet.has(s.poolId) ? ' session-row-fav' : ''}`}>
                     <div className="session-left">
                       <div className="pool-name">
-                        {favSet.has(s.poolId) && <span className="session-fav-star">★</span>}
                         {getPoolName(s.poolId)}
+                        {favSet.has(s.poolId) && <span className="session-fav-star">★</span>}
                       </div>
                       <div className="session-meta">
                         {mode !== 'lap' && (
