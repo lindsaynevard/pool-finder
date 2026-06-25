@@ -108,11 +108,15 @@ const MONTH_MAP = {
 };
 
 // Try to extract specific dates mentioned in the email body.
-// Returns an array of Date objects. Falls back to today + next 3 days if none found.
+// Only returns dates within the next 14 days (the schedule window).
+// Returns an empty array if no in-window dates are found — caller should skip.
 function extractDates(body) {
   const found = [];
   const now = new Date();
+  now.setHours(0, 0, 0, 0);
   const year = now.getFullYear();
+  const windowEnd = new Date(now);
+  windowEnd.setDate(now.getDate() + 14);
 
   // "June 25", "July 4th", "June 25, 2026"
   const wordDateRe = /\b(january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|jun|jul|aug|sep|oct|nov|dec)\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s*(\d{4}))?\b/gi;
@@ -145,25 +149,17 @@ function extractDates(body) {
     found.push(tomorrow);
   }
 
+  // Only keep dates within the 14-day schedule window
+  const inWindow = found.filter(d => d >= now && d <= windowEnd);
+
   // Deduplicate by YYYY-MM-DD string
   const seen = new Set();
-  const unique = found.filter(d => {
+  return inWindow.filter(d => {
     const s = dateStr(d);
     if (seen.has(s)) return false;
     seen.add(s);
     return true;
   });
-
-  if (unique.length > 0) return unique;
-
-  // Fallback: today + next 3 days
-  const fallback = [];
-  for (let i = 0; i < 4; i++) {
-    const d = new Date(now);
-    d.setDate(now.getDate() + i);
-    fallback.push(d);
-  }
-  return fallback;
 }
 
 // Match a sender string (From header) to pool IDs
@@ -235,7 +231,16 @@ export async function scrapeGmail() {
     const notice = extractNotice(body, matchedKeyword);
     if (!notice) continue;
 
+    // Sanity check: the extracted notice sentence must itself contain a closure keyword.
+    // This prevents false positives where "closed" appears in one part of the email
+    // (e.g. "registration closed") but the extracted sentence is about something else.
+    const noticeLower = notice.toLowerCase();
+    const noticeHasKeyword = CLOSURE_KEYWORDS.some(kw => noticeLower.includes(kw.toLowerCase()));
+    if (!noticeHasKeyword) continue;
+
     const dates = extractDates(body);
+    // No in-window dates = this email isn't announcing an imminent closure
+    if (dates.length === 0) continue;
 
     for (const poolId of poolIds) {
       for (const d of dates) {

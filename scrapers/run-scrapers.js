@@ -6,6 +6,10 @@ import { albanySchedule } from './albany-auto.js';
 import { scrapeRoberts } from './scrape-roberts.js';
 import { scrapeEastOakland } from './scrape-east-oakland.js';
 import { scrapeElCerritoSplash } from './scrape-el-cerrito-splash.js';
+import { scrapeDefremery } from './scrape-defremery.js';
+import { scrapePiedmont } from './scrape-piedmont.js';
+import { scrapeLions } from './scrape-lions.js';
+import { scrapeRichmond } from './scrape-richmond.js';
 import { scrapeGmail } from './scrape-gmail.js';
 
 async function writeToFirestore(data) {
@@ -78,7 +82,23 @@ async function main() {
   const elCerritoSplash = await scrapeElCerritoSplash(14);
   console.log(`  ${Object.keys(elCerritoSplash).length} schedule entries`);
 
-  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash };
+  console.log('→ deFremery Pool (Oakland)...');
+  const defremery = await scrapeDefremery(14);
+  console.log(`  ${Object.keys(defremery).length} schedule entries`);
+
+  console.log('→ Piedmont Community Pool...');
+  const piedmont = await scrapePiedmont(14);
+  console.log(`  ${Object.keys(piedmont).length} schedule entries`);
+
+  console.log('→ Lions Pool (Oakland)...');
+  const lions = await scrapeLions(14);
+  console.log(`  ${Object.keys(lions).length} schedule entries`);
+
+  console.log('→ Richmond Plunge...');
+  const richmond = await scrapeRichmond(14);
+  console.log(`  ${Object.keys(richmond).length} schedule entries`);
+
+  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...defremery, ...piedmont, ...lions, ...richmond };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const written = await writeToFirestore(all);
