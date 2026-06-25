@@ -11,13 +11,10 @@
     "scrape": "node scrapers/run-scrapers.js"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.106.0",
     "cheerio": "^1.2.0",
     "firebase": "^12.15.0",
     "firebase-admin": "^14.0.0",
     "node-fetch": "^3.3.2",
-    "pdf-parse": "^2.4.5",
-    "playwright": "^1.61.1",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },
