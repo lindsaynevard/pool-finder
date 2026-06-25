@@ -43,6 +43,10 @@ const POOL_SENDERS = [
   { match: 'ausdk12.org',         poolIds: ['albany-indoor', 'albany-outdoor'] },
   { match: 'piedmont',            poolIds: ['piedmont'] },
   { match: 'elcerrito',           poolIds: ['el-cerrito-splash'] },
+  // Richmond: two possible sender domains (CivicPlus may use either).
+  // Once a real email arrives, confirm which domain they actually use.
+  { match: 'ci.richmond.ca.us',   poolIds: ['richmond', 'richmond-swim-center'] },
+  { match: 'richmondca.gov',      poolIds: ['richmond', 'richmond-swim-center'] },
 ];
 
 const CLOSURE_KEYWORDS = [
