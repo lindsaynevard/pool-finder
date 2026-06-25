@@ -18,14 +18,14 @@ export const POOLS = [
     name: 'Albany · Indoor Pool',
     city: 'Albany',
     mapsUrl: 'https://maps.google.com/?q=Albany+Community+Pool+Albany+CA',
-    mailingList: { subscribed: false },
+    mailingList: { subscribed: true },
   },
   {
     id: 'albany-outdoor',
     name: 'Albany · Outdoor Pool',
     city: 'Albany',
     mapsUrl: 'https://maps.google.com/?q=Albany+Community+Pool+Albany+CA',
-    mailingList: { subscribed: false },
+    mailingList: { subscribed: true },
   },
   {
     id: 'golden-bear',
