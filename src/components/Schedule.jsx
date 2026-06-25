@@ -281,11 +281,14 @@ export default function Schedule({ user }) {
               <div key={time} className="time-block">
                 <div className="time-header">{time}</div>
                 {slotSessions.map((s) => {
-                  const rowKey = `${s.poolId}-${s.start}-${s.type}`;
+                  const rowKey = `${s.poolId}-${s.start}-${s.end}-${s.type}`;
                   return (
-                  <div key={rowKey} className="session-row">
+                  <div key={rowKey} className={`session-row${favSet.has(s.poolId) ? ' session-row-fav' : ''}`}>
                     <div className="session-left">
-                      <div className="pool-name">{getPoolName(s.poolId)}</div>
+                      <div className="pool-name">
+                        {favSet.has(s.poolId) && <span className="session-fav-star">★</span>}
+                        {getPoolName(s.poolId)}
+                      </div>
                       <div className="session-meta">
                         {mode !== 'lap' && (
                           <button

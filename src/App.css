@@ -229,7 +229,8 @@ body {
 }
 
 .session-left { flex: 1; }
-.pool-name { font-size: 15px; font-weight: 500; color: #111; margin-bottom: 3px; }
+.pool-name { font-size: 15px; font-weight: 500; color: #111; margin-bottom: 3px; display: flex; align-items: center; gap: 5px; }
+.session-fav-star { color: #f5a623; font-size: 13px; line-height: 1; flex-shrink: 0; }
 .session-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
 
 .session-type-btn {
