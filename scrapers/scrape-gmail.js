@@ -162,18 +162,25 @@ export async function scrapeGmail() {
 
   const results = {};
 
-  // Fetch message IDs from the last 7 days
+  // Fetch message IDs from the last 7 days (retry up to 3x on network errors)
   let messageIds = [];
-  try {
-    const listRes = await gmail.users.messages.list({
-      userId: 'me',
-      q: 'newer_than:7d',
-      maxResults: 100,
-    });
-    messageIds = listRes.data.messages ?? [];
-  } catch (err) {
-    console.warn(`  Gmail list error: ${err.message}`);
-    return {};
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const listRes = await gmail.users.messages.list({
+        userId: 'me',
+        q: 'newer_than:7d',
+        maxResults: 100,
+      });
+      messageIds = listRes.data.messages ?? [];
+      break;
+    } catch (err) {
+      if (attempt === 3) {
+        console.warn(`  Gmail list error after ${attempt} attempts: ${err.message}`);
+        return {};
+      }
+      console.warn(`  Gmail list attempt ${attempt} failed, retrying...`);
+      await new Promise(r => setTimeout(r, 2000 * attempt));
+    }
   }
 
   if (messageIds.length === 0) {
