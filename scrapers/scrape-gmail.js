@@ -77,30 +77,22 @@ function extractText(part) {
   return '';
 }
 
-// Pull the first sentence or line that contains a closure keyword, capped at 120 chars
+// Return the first line (split on \n or sentence boundary) that contains the
+// closure keyword. Falls back to a 120-char window around the keyword if the
+// body has no newlines (e.g. a single-line plain-text dump).
 function extractNotice(body, keyword) {
   const lower = body.toLowerCase();
-  const idx = lower.indexOf(keyword.toLowerCase());
-  if (idx === -1) return null;
+  const kw = keyword.toLowerCase();
+  if (!lower.includes(kw)) return null;
 
-  // Look back to start of line or sentence (whichever is closer to the keyword).
-  // Using \n as a boundary prevents grabbing text from previous paragraphs when
-  // the email has long sections (e.g. swim lessons) before the closure line.
-  const prevDot = body.lastIndexOf('.', idx - 1);
-  const prevNl  = body.lastIndexOf('\n', idx - 1);
-  const sentenceStart = Math.max(0, Math.max(prevDot, prevNl) + 1);
-  const sentenceEndDot  = body.indexOf('.', idx);
-  const sentenceEndNl   = body.indexOf('\n', idx);
-  let sentenceEnd = -1;
-  if (sentenceEndDot !== -1 && sentenceEndNl !== -1) sentenceEnd = Math.min(sentenceEndDot, sentenceEndNl);
-  else if (sentenceEndDot !== -1) sentenceEnd = sentenceEndDot;
-  else if (sentenceEndNl !== -1) sentenceEnd = sentenceEndNl;
+  // Prefer splitting on newlines — each line is a natural unit in plain-text email.
+  const lines = body.split('\n');
+  const noticeLine = lines.find(l => l.toLowerCase().includes(kw));
+  if (noticeLine) return noticeLine.trim().slice(0, 120);
 
-  const raw = sentenceEnd !== -1
-    ? body.slice(sentenceStart, sentenceEnd + 1)
-    : body.slice(sentenceStart, sentenceStart + 120);
-
-  return raw.trim().slice(0, 120);
+  // Fallback: 120-char window centred on the keyword
+  const idx = lower.indexOf(kw);
+  return body.slice(Math.max(0, idx - 20), idx + 100).trim().slice(0, 120);
 }
 
 // Month name -> 0-based month number
