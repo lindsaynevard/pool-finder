@@ -244,7 +244,13 @@ export async function scrapeGmail() {
     const noticeHasKeyword = CLOSURE_KEYWORDS.some(kw => noticeLower.includes(kw.toLowerCase()));
     if (!noticeHasKeyword) continue;
 
-    const dates = extractDates(body);
+    // Only look for dates on lines that contain a closure keyword, so dates
+    // mentioned elsewhere in the email (e.g. swim lesson schedules) don't
+    // create spurious closure notices.
+    const closureLines = body.split('\n')
+      .filter(l => CLOSURE_KEYWORDS.some(kw => l.toLowerCase().includes(kw.toLowerCase())))
+      .join('\n');
+    const dates = extractDates(closureLines);
     if (dates.length === 0) continue;
 
     for (const poolId of poolIds) {
