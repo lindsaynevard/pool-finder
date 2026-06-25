@@ -5,6 +5,7 @@ export const POOLS = [
     city: 'Berkeley',
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=West+Campus+Pool+Berkeley+CA',
+    websiteUrl: 'https://berkeleyca.gov/community-recreation/parks-recreation/facilities/pools-and-aquatic-programs/west-campus-pool',
     mailingList: { subscribed: true },
   },
   {
@@ -13,6 +14,7 @@ export const POOLS = [
     city: 'Emeryville',
     swimTypes: ['lap'],
     mapsUrl: 'https://maps.google.com/?q=Emeryville+Aquatic+Center+ECCL+Emeryville+CA',
+    websiteUrl: 'https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness',
     mailingList: { subscribed: true },
   },
   {
@@ -21,6 +23,7 @@ export const POOLS = [
     city: 'Albany',
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=Albany+Community+Pool+Albany+CA',
+    websiteUrl: 'https://www.albanyaquaticcenter.com/pool-schedule',
     mailingList: { subscribed: true },
   },
   {
@@ -29,6 +32,7 @@ export const POOLS = [
     city: 'Albany',
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=Albany+Community+Pool+Albany+CA',
+    websiteUrl: 'https://www.albanyaquaticcenter.com/pool-schedule',
     mailingList: { subscribed: true },
   },
   {
@@ -37,6 +41,7 @@ export const POOLS = [
     city: 'Berkeley',
     swimTypes: ['lap'],
     mapsUrl: 'https://maps.google.com/?q=Spieker+Aquatics+Complex+UC+Berkeley+CA',
+    websiteUrl: 'https://recwell.berkeley.edu/schedules-reservations/lap-swim/',
     mailingList: null,
   },
   {
@@ -45,6 +50,7 @@ export const POOLS = [
     city: 'Berkeley',
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=King+Pool+Berkeley+CA',
+    websiteUrl: 'https://berkeleyca.gov/community-recreation/parks-recreation/facilities/pools-and-aquatic-programs/king-pool',
     mailingList: { subscribed: true },
   },
   {
@@ -53,6 +59,7 @@ export const POOLS = [
     city: 'Oakland',
     swimTypes: ['family'],
     mapsUrl: 'https://maps.google.com/?q=Roberts+Regional+Recreation+Area+Pool+Oakland+CA',
+    websiteUrl: 'https://www.ebparks.org/recreation/swimming/roberts',
     mailingList: null,
   },
   {
@@ -61,6 +68,7 @@ export const POOLS = [
     city: 'Oakland',
     swimTypes: ['family'],
     mapsUrl: 'https://maps.google.com/?q=9161+Edes+Ave+Oakland+CA+94603',
+    websiteUrl: 'https://www.oaklandca.gov/Community/Parks-Facilities/Pools/Larry-E.-Reid-Sports-Center-Pool',
     mailingList: null,
   },
   {
@@ -69,6 +77,7 @@ export const POOLS = [
     city: 'El Cerrito',
     swimTypes: ['family'],
     mapsUrl: 'https://maps.google.com/?q=7007+Moeser+Lane+El+Cerrito+CA+94530',
+    websiteUrl: 'https://www.elcerrito.gov/1579/Splash-Park',
     mailingList: { subscribed: true },
   },
   {
@@ -77,6 +86,7 @@ export const POOLS = [
     city: 'Richmond',
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=Richmond+Plunge+Richmond+CA',
+    websiteUrl: 'https://www.ci.richmond.ca.us/2140/Richmond-Plunge',
     mailingList: null,
   },
   {
@@ -85,6 +95,7 @@ export const POOLS = [
     city: 'Richmond',
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=4300+Cutting+Blvd+Richmond+CA+94804',
+    websiteUrl: 'https://www.ci.richmond.ca.us/2140/Richmond-Plunge',
     mailingList: null,
   },
   {
@@ -93,6 +104,7 @@ export const POOLS = [
     city: 'Piedmont',
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=Piedmont+Community+Pool+Piedmont+CA',
+    websiteUrl: 'https://www.piedmont.ca.gov/services___departments/recreation/piedmont_community_pool',
     mailingList: { subscribed: true },
   },
   {
@@ -101,6 +113,7 @@ export const POOLS = [
     city: 'Oakland',
     swimTypes: ['lap'],
     mapsUrl: 'https://maps.google.com/?q=DeFremery+Pool+1651+Adeline+St+Oakland+CA',
+    websiteUrl: 'https://www.oaklandca.gov/Community/Recreation-Programs/Aquatics-Swimming/Lap-Swimmers-Information',
     mailingList: null,
   },
   {
@@ -109,6 +122,7 @@ export const POOLS = [
     city: 'Oakland',
     swimTypes: ['lap'],
     mapsUrl: 'https://maps.google.com/?q=Lions+Pool+2100+Embarcadero+Oakland+CA',
+    websiteUrl: 'https://www.oaklandca.gov/Community/Recreation-Programs/Aquatics-Swimming/Lap-Swimmers-Information',
     mailingList: null,
   },
 ];

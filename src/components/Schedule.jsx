@@ -225,12 +225,20 @@ export default function Schedule({ user }) {
             });
             return modeNotices.length > 0 && (
               <div className="closure-notices">
-                {modeNotices.map(([poolId, notice]) => (
-                  <div key={poolId} className="closure-notice">
-                    <span className="closure-icon">⚠️</span>
-                    <span><strong>{getPoolName(poolId)}</strong> — {notice}</span>
-                  </div>
-                ))}
+                {modeNotices.map(([poolId, notice]) => {
+                  const pool = POOLS.find(p => p.id === poolId);
+                  return (
+                    <div key={poolId} className="closure-notice">
+                      <span className="closure-icon">⚠️</span>
+                      <span>
+                        <strong>{getPoolName(poolId)}</strong> — {notice}
+                        {pool?.websiteUrl && (
+                          <a href={pool.websiteUrl} target="_blank" rel="noopener noreferrer" className="closure-notice-link"> View schedule ↗</a>
+                        )}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             );
           })()}

@@ -152,6 +152,7 @@ body {
   line-height: 1.4;
 }
 .closure-icon { flex-shrink: 0; }
+.closure-notice-link { color: #856404; font-weight: 500; text-decoration: underline; white-space: nowrap; }
 
 .coming-soon-banner {
   margin: 12px 16px;
