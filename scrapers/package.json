@@ -5,6 +5,7 @@
   "type": "module",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.106.0",
+    "googleapis": "^146.0.0",
     "pdf-parse": "^2.4.5",
     "playwright": "^1.61.1"
   }
