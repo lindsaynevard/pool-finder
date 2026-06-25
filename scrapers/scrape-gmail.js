@@ -1,7 +1,6 @@
 // Gmail scraper for pool closure notices
 // Reads poolfinderalerts@gmail.com inbox via Gmail API and writes
 // closureNotice strings to matching Firestore schedule documents.
-import { google } from 'googleapis';
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -11,9 +10,31 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const creds = JSON.parse(readFileSync(path.join(__dirname, 'gmail-credentials.json')));
 const { client_id, client_secret } = creds.installed;
 
-const auth = new google.auth.OAuth2(client_id, client_secret, 'http://localhost:3333');
-auth.setCredentials({ refresh_token: process.env.GMAIL_REFRESH_TOKEN });
-const gmail = google.gmail({ version: 'v1', auth });
+// Refresh the access token manually using Node's built-in fetch
+async function getAccessToken() {
+  const res = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      client_id,
+      client_secret,
+      refresh_token: process.env.GMAIL_REFRESH_TOKEN,
+      grant_type: 'refresh_token',
+    }).toString(),
+  });
+  if (!res.ok) throw new Error(`Token refresh failed: ${res.status} ${await res.text()}`);
+  const { access_token } = await res.json();
+  return access_token;
+}
+
+// Call the Gmail REST API directly with the access token
+async function gmailGet(path, accessToken) {
+  const res = await fetch(`https://gmail.googleapis.com/gmail/v1/users/me/${path}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!res.ok) throw new Error(`Gmail API ${path}: ${res.status} ${await res.text()}`);
+  return res.json();
+}
 
 // Map sender domains/addresses to pool IDs
 const POOL_SENDERS = [
@@ -162,25 +183,23 @@ export async function scrapeGmail() {
 
   const results = {};
 
-  // Fetch message IDs from the last 7 days (retry up to 3x on network errors)
+  // Get a fresh access token
+  let accessToken;
+  try {
+    accessToken = await getAccessToken();
+  } catch (err) {
+    console.warn(`  Gmail auth error: ${err.message}`);
+    return {};
+  }
+
+  // Fetch message IDs from the last 7 days
   let messageIds = [];
-  for (let attempt = 1; attempt <= 3; attempt++) {
-    try {
-      const listRes = await gmail.users.messages.list({
-        userId: 'me',
-        q: 'newer_than:7d',
-        maxResults: 100,
-      });
-      messageIds = listRes.data.messages ?? [];
-      break;
-    } catch (err) {
-      if (attempt === 3) {
-        console.warn(`  Gmail list error after ${attempt} attempts: ${err.message}`);
-        return {};
-      }
-      console.warn(`  Gmail list attempt ${attempt} failed, retrying...`);
-      await new Promise(r => setTimeout(r, 2000 * attempt));
-    }
+  try {
+    const listRes = await gmailGet('messages?q=newer_than%3A7d&maxResults=100', accessToken);
+    messageIds = listRes.messages ?? [];
+  } catch (err) {
+    console.warn(`  Gmail list error: ${err.message}`);
+    return {};
   }
 
   if (messageIds.length === 0) {
@@ -191,12 +210,7 @@ export async function scrapeGmail() {
   for (const { id } of messageIds) {
     let msg;
     try {
-      const msgRes = await gmail.users.messages.get({
-        userId: 'me',
-        id,
-        format: 'full',
-      });
-      msg = msgRes.data;
+      msg = await gmailGet(`messages/${id}?format=full`, accessToken);
     } catch (err) {
       console.warn(`  Could not fetch message ${id}: ${err.message}`);
       continue;
