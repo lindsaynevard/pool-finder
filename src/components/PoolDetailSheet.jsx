@@ -23,6 +23,11 @@ export default function PoolDetailSheet({ pool, onClose }) {
             View on Maps ↗
           </a>
         )}
+        {pool.websiteUrl && (
+          <a href={pool.websiteUrl} target="_blank" rel="noopener noreferrer" className="pool-sheet-website-btn">
+            View website ↗
+          </a>
+        )}
       </div>
     </>
   );
