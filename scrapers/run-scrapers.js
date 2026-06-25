@@ -25,13 +25,14 @@ async function writeToFirestore(data) {
 }
 
 // Merge closureNotice fields onto existing documents without replacing the whole doc.
-// Uses batch.update() so only the closureNotice field is touched.
+// Uses set+merge so the closureNotice field is touched without overwriting sessions.
+// merge:true also handles dates that don't yet have a schedule document.
 async function writeClosureNotices(notices) {
   const batch = db.batch();
   let count = 0;
   for (const [key, value] of Object.entries(notices)) {
     const ref = db.collection('schedules').doc(key);
-    batch.update(ref, { closureNotice: value.closureNotice });
+    batch.set(ref, { closureNotice: value.closureNotice }, { merge: true });
     count++;
     if (count % 499 === 0) {
       await batch.commit();
