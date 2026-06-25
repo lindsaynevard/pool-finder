@@ -27,6 +27,7 @@
 - [ ] "Diamond Pool (Oakland)" — cannot find this pool in Oakland's official pool list; may need to clarify which pool this refers to
 
 ### Gmail closure notice coverage
+- [x] Albany July 3 + July 4 closure notices confirmed in Firestore (amber banners showing)
 - [ ] Verify Piedmont + El Cerrito emails surface correctly once those pools send closure notices
 
 ---
