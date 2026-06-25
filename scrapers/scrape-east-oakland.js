@@ -28,7 +28,17 @@ export async function scrapeEastOakland(daysAhead = 14) {
 
     const dow = d.getDay();
     if (dow === 0) continue; // closed Sunday
-    if (CLOSED_DATES.has(ds)) continue;
+
+    if (CLOSED_DATES.has(ds)) {
+      results[`east-oakland_${ds}`] = {
+        poolId: 'east-oakland',
+        date: ds,
+        sessions: [],
+        closureNotice: 'Closed — see oaklandca.gov for details',
+        lastUpdated: new Date().toISOString(),
+      };
+      continue;
+    }
 
     results[`east-oakland_${ds}`] = {
       poolId: 'east-oakland',

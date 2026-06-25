@@ -31,23 +31,43 @@ function parseDateStr(str) {
   return new Date(year, month, day);
 }
 
+function parseClosedDatesFromPage(html) {
+  const $ = cheerio.load(html);
+  const pageText = $('body').text();
+  const year = new Date().getFullYear();
+  const dates = new Set();
+
+  // Extract text windows around closure mentions
+  const closureRe = /(?:closed|closure)[^.]{0,300}/gi;
+  let match;
+  const windows = [];
+  while ((match = closureRe.exec(pageText)) !== null) {
+    windows.push(match[0]);
+  }
+  const closedText = windows.join(' ');
+
+  // "M/D" format (e.g. "7/3", "7/4")
+  const mdRe = /(\d{1,2})\/(\d{1,2})/g;
+  let m;
+  while ((m = mdRe.exec(closedText)) !== null) {
+    dates.add(dateStr(new Date(year, parseInt(m[1]) - 1, parseInt(m[2]))));
+  }
+
+  // "Month Day" format
+  const MONTHS = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12};
+  const monthDayRe = /(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})/gi;
+  while ((m = monthDayRe.exec(closedText)) !== null) {
+    dates.add(dateStr(new Date(year, MONTHS[m[1].toLowerCase()] - 1, parseInt(m[2]))));
+  }
+
+  return [...dates];
+}
+
 export async function scrapeEmeryville(daysAhead = 14) {
   const res = await fetch(URL);
   const text = await res.text();
 
-  // Parse schedule blocks from the page text
-  // Each block: "Month Day - Month Day, Year\n\nDay: time\nDay: time\n"
-  const results = {};
-
-  // Extract relevant text between schedule headers
-  const blocks = [];
-  const blockRe = /(\w+ \d+[\w\s,]*\d{4})[^]*?(?=\n\n\w+ \d+|Fees|$)/gi;
-
-  // Simpler: parse known structure from the page content
-  // The page has "Spring Schedule", "June 6 - June 21", "Summer Schedule" blocks
-  // We'll hardcode the current schedule periods based on what we scraped
-
-  // Current schedule as of June 2026 (from scraped content):
+  // Current schedule periods — times sourced from the website
   const scheduleBlocks = [
     {
       from: new Date(2026, 5, 6),  // June 6
@@ -59,7 +79,7 @@ export async function scrapeEmeryville(daysAhead = 14) {
       weekendSessions: [
         { start: '1:30 PM', end: '7:30 PM', type: 'lap' },
       ],
-      closedDates: ['2026-06-13','2026-06-19'],
+      closedDates: [],
     },
     {
       from: new Date(2026, 5, 22), // June 22
@@ -71,9 +91,18 @@ export async function scrapeEmeryville(daysAhead = 14) {
       weekendSessions: [
         { start: '4:30 PM', end: '8:00 PM', type: 'lap' },
       ],
-      closedDates: ['2026-07-03','2026-07-04'],
+      closedDates: [],
     },
   ];
+
+  // Populate closed dates from live website
+  const liveClosed = parseClosedDatesFromPage(text);
+  if (liveClosed.length > 0) {
+    console.log(`  Emeryville closed dates from website: ${liveClosed.join(', ')}`);
+    scheduleBlocks.forEach(b => { b.closedDates = liveClosed; });
+  }
+
+  const results = {};
 
   const base = new Date();
   for (let i = 0; i < daysAhead; i++) {
@@ -85,7 +114,16 @@ export async function scrapeEmeryville(daysAhead = 14) {
 
     const block = scheduleBlocks.find(b => ds >= dateStr(b.from) && ds <= dateStr(b.to));
     if (!block) continue;
-    if (block.closedDates?.includes(ds)) continue;
+    if (block.closedDates?.includes(ds)) {
+      results[`emeryville_${ds}`] = {
+        poolId: 'emeryville',
+        date: ds,
+        sessions: [],
+        lastUpdated: new Date().toISOString(),
+        closureNotice: 'Closed — see emeryville.org for details',
+      };
+      continue;
+    }
 
     const sessions = (isWeekend ? block.weekendSessions : block.weekdaySessions)
       .map(s => ({ ...s, notes: s.notes || null }));

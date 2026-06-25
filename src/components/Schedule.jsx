@@ -94,7 +94,16 @@ export default function Schedule({ user }) {
           }
         });
 
-        setSessions(allSessions);
+        // Deduplicate in case the stored data has overlapping sessions
+        const seen = new Set();
+        const deduped = allSessions.filter(s => {
+          const key = `${s.poolId}|${s.start}|${s.end}|${s.type}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+
+        setSessions(deduped);
         setLastUpdated(latestUpdate);
         setClosureNotices(notices);
       } catch (err) {
