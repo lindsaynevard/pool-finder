@@ -226,34 +226,25 @@ export async function scrapeGmail() {
     const from = fromHeader?.value ?? '';
 
     const poolIds = matchSender(from);
-    if (!poolIds) { console.log(`  [debug] no sender match: ${from.slice(0, 60)}`); continue; }
-
-    console.log(`  [debug] matched sender: ${from.slice(0, 60)} → ${poolIds}`);
+    if (!poolIds) continue;
 
     // Decode message body
     const body = extractText(msg.payload);
-    if (!body) { console.log(`  [debug] empty body (HTML-only email?)`); continue; }
-
-    console.log(`  [debug] body length: ${body.length}, first 120: ${body.slice(0, 120).replace(/\n/g, '\\n')}`);
+    if (!body) continue;
 
     const lowerBody = body.toLowerCase();
     const matchedKeyword = CLOSURE_KEYWORDS.find(kw => lowerBody.includes(kw.toLowerCase()));
-    if (!matchedKeyword) { console.log(`  [debug] no closure keyword found`); continue; }
-
-    console.log(`  [debug] matched keyword: "${matchedKeyword}"`);
+    if (!matchedKeyword) continue;
 
     const notice = extractNotice(body, matchedKeyword);
-    if (!notice) { console.log(`  [debug] extractNotice returned null`); continue; }
-
-    console.log(`  [debug] notice: "${notice}"`);
+    if (!notice) continue;
 
     // Sanity check: the extracted notice sentence must itself contain a closure keyword.
     const noticeLower = notice.toLowerCase();
     const noticeHasKeyword = CLOSURE_KEYWORDS.some(kw => noticeLower.includes(kw.toLowerCase()));
-    if (!noticeHasKeyword) { console.log(`  [debug] notice failed sanity check (no keyword in notice)`); continue; }
+    if (!noticeHasKeyword) continue;
 
     const dates = extractDates(body);
-    console.log(`  [debug] in-window dates: ${dates.map(d => d.toISOString().slice(0,10)).join(', ') || 'none'}`);
     if (dates.length === 0) continue;
 
     for (const poolId of poolIds) {
