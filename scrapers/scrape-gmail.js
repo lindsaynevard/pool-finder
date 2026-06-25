@@ -94,6 +94,12 @@ function noticeForDate(line, d) {
   const m = numRe.exec(line);
 
   if (m) {
+    // Require a closure keyword within 20 chars of the date.
+    // This distinguishes "7/3: closed" from "6/27@7pm Upcoming closures/..."
+    // where "closures" is a generic phrase, not a description of that date.
+    const nearby = line.slice(m.index, m.index + 20).toLowerCase();
+    if (!CLOSURE_KEYWORDS.some(kw => nearby.includes(kw.toLowerCase()))) return null;
+
     // Slice to the next "M/D" occurrence so we don't bleed into other entries
     const nextRe = /\b\d{1,2}\/\d{1,2}\b/g;
     nextRe.lastIndex = m.index + m[0].length;
