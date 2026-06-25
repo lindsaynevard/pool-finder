@@ -10,6 +10,7 @@ import { scrapeDefremery } from './scrape-defremery.js';
 import { scrapePiedmont } from './scrape-piedmont.js';
 import { scrapeLions } from './scrape-lions.js';
 import { scrapeRichmond } from './scrape-richmond.js';
+import { scrapeRichmondSwimCenter } from './scrape-richmond-swim-center.js';
 import { scrapeGmail } from './scrape-gmail.js';
 
 async function writeToFirestore(data) {
@@ -98,7 +99,11 @@ async function main() {
   const richmond = await scrapeRichmond(14);
   console.log(`  ${Object.keys(richmond).length} schedule entries`);
 
-  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...defremery, ...piedmont, ...lions, ...richmond };
+  console.log('→ Richmond Swim Center (RSC)...');
+  const richmondSwimCenter = await scrapeRichmondSwimCenter(14);
+  console.log(`  ${Object.keys(richmondSwimCenter).length} schedule entries`);
+
+  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const written = await writeToFirestore(all);

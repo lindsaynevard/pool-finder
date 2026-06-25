@@ -27,7 +27,8 @@ const SEASON_END   = '2026-08-16';
 
 const CLOSED_DATES = new Set([
   '2026-06-19', // Juneteenth (before summer start, but included for safety)
-  '2026-07-03', // Independence Day observed
+  '2026-07-04', // Independence Day (per city PDF)
+  '2026-08-15', // Plunge Event (per city PDF)
 ]);
 
 const SESSIONS_BY_DOW = {

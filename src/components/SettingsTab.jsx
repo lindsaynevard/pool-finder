@@ -44,9 +44,15 @@ export default function SettingsTab({ user }) {
       )}
 
       <div className="settings-section">
-        <div className="settings-section-title">Preferences</div>
-        <div className="settings-placeholder-row">Pool order</div>
-        <div className="settings-placeholder-row">Active pools</div>
+        <div className="settings-section-title">Help</div>
+        <a
+          className="settings-report-link"
+          href="https://github.com/lindsaynevard/pool-finder/issues/new"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Report a problem
+        </a>
       </div>
     </div>
   );

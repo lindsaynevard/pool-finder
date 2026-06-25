@@ -478,6 +478,16 @@ body {
   border-bottom: 1px solid #f5f5f5;
 }
 
+.settings-report-link {
+  display: block;
+  padding: 14px 0;
+  font-size: 15px;
+  color: #1a73e8;
+  text-decoration: none;
+  border-bottom: 1px solid #f5f5f5;
+}
+.settings-report-link:hover { text-decoration: underline; }
+
 /* Tab bar */
 .tab-bar {
   position: fixed;

@@ -264,8 +264,8 @@ export default function Schedule({ user }) {
           <div className="schedule-list">
             {loading && <div className="empty-state">Loading schedule…</div>}
 
-            {!loading && grouped.length === 0 && mode !== 'family' && (
-              <div className="empty-state">No {mode} swim sessions found for this day.</div>
+            {!loading && grouped.length === 0 && (
+              <div className="empty-state">No {mode === 'lap' ? 'lap' : 'family'} swim sessions found for this day.</div>
             )}
 
             {!loading && grouped.map(([time, slotSessions]) => (

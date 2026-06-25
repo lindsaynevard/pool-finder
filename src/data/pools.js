@@ -80,6 +80,14 @@ export const POOLS = [
     mailingList: null,
   },
   {
+    id: 'richmond-swim-center',
+    name: 'Richmond Swim Center',
+    city: 'Richmond',
+    swimTypes: ['lap', 'family'],
+    mapsUrl: 'https://maps.google.com/?q=4300+Cutting+Blvd+Richmond+CA+94804',
+    mailingList: null,
+  },
+  {
     id: 'piedmont',
     name: 'Piedmont Community Pool',
     city: 'Piedmont',
