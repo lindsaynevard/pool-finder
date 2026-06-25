@@ -60,7 +60,7 @@ export const POOLS = [
     name: 'El Cerrito Splash Park',
     city: 'El Cerrito',
     mapsUrl: 'https://maps.google.com/?q=7007+Moeser+Lane+El+Cerrito+CA+94530',
-    mailingList: { subscribed: false },
+    mailingList: { subscribed: true },
   },
   {
     id: 'richmond',
@@ -74,7 +74,7 @@ export const POOLS = [
     name: 'Piedmont Community Pool',
     city: 'Piedmont',
     mapsUrl: 'https://maps.google.com/?q=Piedmont+Community+Pool+Piedmont+CA',
-    mailingList: { subscribed: false },
+    mailingList: { subscribed: true },
   },
 ];
 
