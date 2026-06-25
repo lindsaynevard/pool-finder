@@ -87,7 +87,7 @@ export const POOLS = [
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=Richmond+Plunge+Richmond+CA',
     websiteUrl: 'https://www.ci.richmond.ca.us/2140/Richmond-Plunge',
-    mailingList: null,
+    mailingList: { subscribed: true },
   },
   {
     id: 'richmond-swim-center',
@@ -96,7 +96,7 @@ export const POOLS = [
     swimTypes: ['lap', 'family'],
     mapsUrl: 'https://maps.google.com/?q=4300+Cutting+Blvd+Richmond+CA+94804',
     websiteUrl: 'https://www.ci.richmond.ca.us/2140/Richmond-Plunge',
-    mailingList: null,
+    mailingList: { subscribed: true },
   },
   {
     id: 'piedmont',

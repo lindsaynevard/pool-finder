@@ -24,11 +24,13 @@
 ### Scrapers to add or fix
 - [ ] Roberts Pool — scraper exists but no live closure data available from their website
 - [ ] East Oakland Sports Center — scraper exists but closure dates are hardcoded (Oakland city website blocks automated access)
-- [ ] "Diamond Pool (Oakland)" — cannot find this pool in Oakland's official pool list; may need to clarify which pool this refers to
+- [x] "Diamond Pool (Oakland)" — this is Lions Pool (2100 Embarcadero); scraper and entry already added
 
 ### Gmail closure notice coverage
 - [x] Albany July 3 + July 4 closure notices confirmed in Firestore (amber banners showing)
 - [ ] Verify Piedmont + El Cerrito emails surface correctly once those pools send closure notices
+- [x] Complete Richmond city notification sign-up — subscribed to City of Richmond "Recreation" News Flash (CivicPlus account: poolfinderalerts@gmail.com). Covers both the Plunge and Swim Center.
+- Note: Golden Bear (RecWell), DeFremery, Lions, East Oakland, Roberts have no pool email lists to subscribe to
 
 ---
 
