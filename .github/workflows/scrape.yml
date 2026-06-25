@@ -36,6 +36,9 @@ jobs:
       - name: Write Firebase service account
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > scrapers/serviceAccount.json
 
+      - name: Write Gmail credentials
+        run: echo '${{ secrets.GMAIL_CREDENTIALS_JSON }}' > scrapers/gmail-credentials.json
+
       - name: Run scrapers
         run: npm run scrape
         env:
