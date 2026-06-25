@@ -5,7 +5,7 @@ import PoolDetailSheet from './PoolDetailSheet';
 const LIVE_POOLS = new Set([
   'west-campus', 'king', 'golden-bear', 'emeryville',
   'albany-indoor', 'albany-outdoor', 'roberts', 'east-oakland',
-  'el-cerrito-splash',
+  'el-cerrito-splash', 'piedmont',
 ]);
 
 export default function MyPools({ user, preferences, onToggleFavorite }) {
@@ -14,7 +14,7 @@ export default function MyPools({ user, preferences, onToggleFavorite }) {
 
   const favorites = new Set(preferences?.[`${favMode}_favorites`] || []);
 
-  const byCity = POOLS.reduce((acc, pool) => {
+  const byCity = POOLS.filter(p => p.swimTypes?.includes(favMode)).reduce((acc, pool) => {
     if (!acc[pool.city]) acc[pool.city] = [];
     acc[pool.city].push(pool);
     return acc;
