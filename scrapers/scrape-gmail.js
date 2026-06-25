@@ -77,20 +77,32 @@ function extractText(part) {
   return '';
 }
 
-// Return the first line (split on \n or sentence boundary) that contains the
-// closure keyword. Falls back to a 120-char window around the keyword if the
-// body has no newlines (e.g. a single-line plain-text dump).
+// Return a snippet from the line most likely to be the actual closure notice.
+// Prefers a line with both a closure keyword AND a date pattern (e.g. "7/3: closed").
+// Centers the snippet on the keyword so it always appears in the returned text.
 function extractNotice(body, keyword) {
   const lower = body.toLowerCase();
   const kw = keyword.toLowerCase();
   if (!lower.includes(kw)) return null;
 
-  // Prefer splitting on newlines — each line is a natural unit in plain-text email.
   const lines = body.split('\n');
-  const noticeLine = lines.find(l => l.toLowerCase().includes(kw));
-  if (noticeLine) return noticeLine.trim().slice(0, 120);
+  // A date-like marker: "7/3", "July 4", "Jun 19", etc.
+  const dateRe = /\d{1,2}\/\d{1,2}|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\w*\s+\d{1,2}/i;
 
-  // Fallback: 120-char window centred on the keyword
+  // Best: line with keyword + date (e.g. "7/3: closed" or "July 4 — closed")
+  const lineWithDate = lines.find(l => l.toLowerCase().includes(kw) && dateRe.test(l));
+  // Fallback: first line that has the keyword at all
+  const firstLine = lines.find(l => l.toLowerCase().includes(kw));
+  const noticeLine = lineWithDate || firstLine;
+
+  if (noticeLine) {
+    const trimmed = noticeLine.trim();
+    const kwIdx = trimmed.toLowerCase().indexOf(kw);
+    // Extract a window centred on the keyword so the keyword is always in the result
+    return trimmed.slice(Math.max(0, kwIdx - 20), kwIdx + 100).trim().slice(0, 120);
+  }
+
+  // Last resort: 120-char window around keyword (no newlines in body)
   const idx = lower.indexOf(kw);
   return body.slice(Math.max(0, idx - 20), idx + 100).trim().slice(0, 120);
 }
