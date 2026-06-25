@@ -468,3 +468,31 @@ body {
 }
 .tab.active { color: #1a73e8; }
 .tab-icon { font-size: 20px; }
+
+/* Pool Detail Bottom Sheet */
+.pool-sheet-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 200;
+}
+.pool-sheet {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white;
+  border-radius: 16px 16px 0 0;
+  padding: 12px 24px 40px;
+  z-index: 201;
+}
+.pool-sheet-handle {
+  display: block;
+  width: 48px; height: 4px;
+  background: #d1d1d1;
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+.pool-sheet-name { font-size: 18px; font-weight: 700; color: #111; }
+.pool-sheet-city { font-size: 13px; color: #888; margin-top: 2px; margin-bottom: 14px; }
+.pool-sheet-divider { height: 1px; background: #e5e5e5; margin-bottom: 12px; }
+.pool-sheet-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
+.pool-sheet-label { font-size: 14px; color: #888; }
+.pool-sheet-badge { background: #e6f4ea; color: #1e7e34; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 13px; white-space: nowrap; }
+.pool-sheet-no-alerts { font-size: 13px; color: #bbb; }

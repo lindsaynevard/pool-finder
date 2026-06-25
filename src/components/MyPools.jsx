@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { POOLS } from '../data/pools';
+import PoolDetailSheet from './PoolDetailSheet';
 
 const LIVE_POOLS = new Set([
   'west-campus', 'king', 'golden-bear', 'emeryville',
@@ -9,6 +10,7 @@ const LIVE_POOLS = new Set([
 
 export default function MyPools({ user, preferences, onToggleFavorite }) {
   const [favMode, setFavMode] = useState('lap');
+  const [selectedPool, setSelectedPool] = useState(null);
 
   const favorites = new Set(preferences?.[`${favMode}_favorites`] || []);
 
@@ -38,7 +40,7 @@ export default function MyPools({ user, preferences, onToggleFavorite }) {
               const isLive = LIVE_POOLS.has(pool.id);
               const isFav = favorites.has(pool.id);
               return (
-                <div key={pool.id} className="pool-list-item">
+                <div key={pool.id} className="pool-list-item" onClick={() => setSelectedPool(pool)} style={{ cursor: 'pointer' }}>
                   <span className="pool-list-name">{pool.name}</span>
                   <div className="pool-list-actions">
                     {!isLive && (
@@ -47,23 +49,12 @@ export default function MyPools({ user, preferences, onToggleFavorite }) {
                     {isLive && (
                       <button
                         className={`pool-star-btn ${isFav ? 'active' : ''}`}
-                        onClick={() => user && onToggleFavorite(pool.id, favMode)}
+                        onClick={(e) => { e.stopPropagation(); user && onToggleFavorite(pool.id, favMode); }}
                         aria-label={isFav ? `Unfavorite ${pool.name}` : `Favorite ${pool.name}`}
                         title={!user ? 'Sign in to save favorites' : undefined}
                       >
                         {isFav ? '★' : '☆'}
                       </button>
-                    )}
-                    {pool.mapsUrl && (
-                      <a
-                        href={pool.mapsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="pool-map-link"
-                        aria-label={`Directions to ${pool.name}`}
-                      >
-                        📍
-                      </a>
                     )}
                   </div>
                 </div>
@@ -78,6 +69,8 @@ export default function MyPools({ user, preferences, onToggleFavorite }) {
           ? 'Starred pools appear first in the schedule.'
           : 'Sign in to save your favorites.'}
       </div>
+
+      <PoolDetailSheet pool={selectedPool} onClose={() => setSelectedPool(null)} />
     </div>
   );
 }
