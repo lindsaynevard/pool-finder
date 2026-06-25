@@ -6,6 +6,7 @@ import { albanySchedule } from './albany-auto.js';
 import { scrapeRoberts } from './scrape-roberts.js';
 import { scrapeEastOakland } from './scrape-east-oakland.js';
 import { scrapeElCerritoSplash } from './scrape-el-cerrito-splash.js';
+import { scrapeGmail } from './scrape-gmail.js';
 
 async function writeToFirestore(data) {
   const batch = db.batch();
@@ -15,6 +16,23 @@ async function writeToFirestore(data) {
     batch.set(ref, value);
     count++;
     // Firestore batches max out at 500
+    if (count % 499 === 0) {
+      await batch.commit();
+    }
+  }
+  await batch.commit();
+  return count;
+}
+
+// Merge closureNotice fields onto existing documents without replacing the whole doc.
+// Uses batch.update() so only the closureNotice field is touched.
+async function writeClosureNotices(notices) {
+  const batch = db.batch();
+  let count = 0;
+  for (const [key, value] of Object.entries(notices)) {
+    const ref = db.collection('schedules').doc(key);
+    batch.update(ref, { closureNotice: value.closureNotice });
+    count++;
     if (count % 499 === 0) {
       await batch.commit();
     }
@@ -58,7 +76,18 @@ async function main() {
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const written = await writeToFirestore(all);
-  console.log(`\n✓ Done. ${written} documents written to Firestore.`);
+  console.log(`✓ ${written} documents written.`);
+
+  console.log('\n→ Gmail (closure notices)...');
+  const gmailNotices = await scrapeGmail();
+  const noticeCount = Object.keys(gmailNotices).length;
+  console.log(`  ${noticeCount} closure notice(s) found`);
+  if (noticeCount > 0) {
+    await writeClosureNotices(gmailNotices);
+    console.log(`  ✓ Closure notices merged into Firestore.`);
+  }
+
+  console.log(`\n✓ Done.`);
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
