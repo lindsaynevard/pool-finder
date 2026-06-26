@@ -120,7 +120,12 @@ export async function scrapeEmeryville(daysAhead = 14) {
     }
 
     const sessions = (isWeekend ? block.weekendSessions : block.weekdaySessions)
-      .map(s => ({ ...s, notes: s.notes || null }));
+      .map(s => {
+        const notes = s.notes === '3 lanes only Mon-Thu'
+          ? (day >= 1 && day <= 4 ? s.notes : null)
+          : (s.notes || null);
+        return { ...s, notes };
+      });
 
     results[`emeryville_${ds}`] = {
       poolId: 'emeryville',
