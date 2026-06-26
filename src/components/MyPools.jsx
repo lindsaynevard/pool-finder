@@ -5,7 +5,7 @@ import PoolDetailSheet from './PoolDetailSheet';
 const LIVE_POOLS = new Set([
   'west-campus', 'king', 'golden-bear', 'emeryville',
   'albany-indoor', 'albany-outdoor', 'roberts', 'east-oakland',
-  'el-cerrito-splash', 'piedmont', 'defremery', 'lions', 'richmond',
+  'el-cerrito-splash', 'piedmont-lap', 'piedmont-activity', 'defremery', 'lions', 'richmond',
   'richmond-swim-center',
 ]);
 

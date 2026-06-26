@@ -3,15 +3,15 @@
 // Summer 2026: June 8 – July 19, 2026
 // Source: https://www.piedmont.ca.gov/services___departments/recreation/piedmont_community_pool
 //
-// Competition pool (12 lanes): lap swim during open hours
-// Activity pool: open/family swim evenings + weekend mornings (starting June 20)
+// Competition pool (12 lanes): lap swim → piedmont-lap
+// Activity pool: open/family swim evenings + weekend mornings → piedmont-activity
 // Schedule notes:
 //   Mon–Thu: competition open 6am–1pm, 2pm–7pm (lesson break 1–2pm)
 //   Fri:     competition open 6am–1pm, 2pm–8pm
 //   Sat:     7am–8pm
 //   Sun:     7am–6pm
 // Activity pool open swim (family): Mon–Thu 4pm–7pm, Fri 4pm–8pm, Sat 7am–12:30pm, Sun 7am–6pm
-// (lessons use activity pool Mon–Thu until 4pm, Sat–Sun until 12:30pm)
+// (lessons use activity pool Mon–Thu until 4pm, Sat–Sun until 12:30pm; activity pool opens June 20)
 
 import { dateStr } from './utils.js';
 
@@ -31,44 +31,54 @@ export async function scrapePiedmont(daysAhead = 14) {
     if (ds < SEASON_START || ds > SEASON_END) continue;
 
     const dow = d.getDay(); // 0=Sun, 1=Mon, ..., 6=Sat
-    const sessions = [];
+    const lapSessions = [];
+    const activitySessions = [];
 
     if (dow >= 1 && dow <= 4) {
       // Monday–Thursday
-      sessions.push({ start: '6:00 AM',  end: '1:00 PM', type: 'lap',  notes: 'Competition pool' });
-      sessions.push({ start: '2:00 PM',  end: '7:00 PM', type: 'lap',  notes: 'Competition pool' });
-      // Activity pool open swim starts June 20
+      lapSessions.push({ start: '6:00 AM',  end: '1:00 PM', type: 'lap',  notes: null });
+      lapSessions.push({ start: '2:00 PM',  end: '7:00 PM', type: 'lap',  notes: null });
       if (ds >= '2026-06-20') {
-        sessions.push({ start: '4:00 PM', end: '7:00 PM', type: 'open', notes: 'Activity pool' });
+        activitySessions.push({ start: '4:00 PM', end: '7:00 PM', type: 'open', notes: null });
       }
     } else if (dow === 5) {
       // Friday
-      sessions.push({ start: '6:00 AM',  end: '1:00 PM', type: 'lap',  notes: 'Competition pool' });
-      sessions.push({ start: '2:00 PM',  end: '8:00 PM', type: 'lap',  notes: 'Competition pool' });
+      lapSessions.push({ start: '6:00 AM',  end: '1:00 PM', type: 'lap',  notes: null });
+      lapSessions.push({ start: '2:00 PM',  end: '8:00 PM', type: 'lap',  notes: null });
       if (ds >= '2026-06-20') {
-        sessions.push({ start: '4:00 PM', end: '8:00 PM', type: 'open', notes: 'Activity pool' });
+        activitySessions.push({ start: '4:00 PM', end: '8:00 PM', type: 'open', notes: null });
       }
     } else if (dow === 6) {
       // Saturday
-      sessions.push({ start: '7:00 AM',  end: '8:00 PM', type: 'lap',  notes: 'Competition pool' });
+      lapSessions.push({ start: '7:00 AM',  end: '8:00 PM', type: 'lap',  notes: null });
       if (ds >= '2026-06-20') {
-        sessions.push({ start: '7:00 AM', end: '12:30 PM', type: 'open', notes: 'Activity pool' });
+        activitySessions.push({ start: '7:00 AM', end: '12:30 PM', type: 'open', notes: null });
       }
     } else {
       // Sunday
-      sessions.push({ start: '7:00 AM',  end: '6:00 PM', type: 'lap',  notes: 'Competition pool' });
+      lapSessions.push({ start: '7:00 AM',  end: '6:00 PM', type: 'lap',  notes: null });
       if (ds >= '2026-06-20') {
-        sessions.push({ start: '7:00 AM', end: '6:00 PM', type: 'open', notes: 'Activity pool' });
+        activitySessions.push({ start: '7:00 AM', end: '6:00 PM', type: 'open', notes: null });
       }
     }
 
-    results[`piedmont_${ds}`] = {
-      poolId: 'piedmont',
+    results[`piedmont-lap_${ds}`] = {
+      poolId: 'piedmont-lap',
       date: ds,
-      sessions,
+      sessions: lapSessions,
       closureNotice: null,
       lastUpdated: new Date().toISOString(),
     };
+
+    if (activitySessions.length > 0) {
+      results[`piedmont-activity_${ds}`] = {
+        poolId: 'piedmont-activity',
+        date: ds,
+        sessions: activitySessions,
+        closureNotice: null,
+        lastUpdated: new Date().toISOString(),
+      };
+    }
   }
 
   return results;
