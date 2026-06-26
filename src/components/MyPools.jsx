@@ -44,7 +44,10 @@ export default function MyPools({ user, preferences, onToggleFavorite, onToggleH
               const isHidden = hidden.has(pool.id);
               return (
                 <div key={pool.id} className={`pool-list-item${isHidden ? ' pool-disabled' : ''}`} onClick={() => setSelectedPool(pool)} style={{ cursor: 'pointer' }}>
-                  <span className="pool-list-name">{pool.name}</span>
+                  <span className="pool-list-name-wrap">
+                    <span className="pool-list-name">{pool.name}</span>
+                    <span className="pool-list-chevron">›</span>
+                  </span>
                   <div className="pool-list-actions">
                     {!isLive && (
                       <span className="pool-coming-soon">Coming soon</span>

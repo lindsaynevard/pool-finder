@@ -63,7 +63,27 @@ export default function Schedule({ user }) {
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [closureNotices, setClosureNotices] = useState({});
-  const [preferences, setPreferences] = useState({ lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] });
+  const PREFS_EMPTY = { lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] };
+
+  function loadLocalPrefs() {
+    try {
+      const raw = localStorage.getItem('pool_preferences');
+      if (!raw) return PREFS_EMPTY;
+      const p = JSON.parse(raw);
+      return {
+        lap_favorites: p.lap_favorites || [],
+        family_favorites: p.family_favorites || [],
+        lap_hidden: p.lap_hidden || [],
+        family_hidden: p.family_hidden || [],
+      };
+    } catch { return PREFS_EMPTY; }
+  }
+
+  function saveLocalPrefs(prefs) {
+    try { localStorage.setItem('pool_preferences', JSON.stringify(prefs)); } catch {}
+  }
+
+  const [preferences, setPreferences] = useState(() => loadLocalPrefs());
 
   useEffect(() => {
     async function fetchSchedule() {
@@ -115,20 +135,19 @@ export default function Schedule({ user }) {
   }, [dayOffset]);
 
   useEffect(() => {
-    if (!user) {
-      setPreferences({ lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] });
-      return;
-    }
+    if (!user) return; // signed out: keep whatever is in localStorage (already loaded as initial state)
     async function loadPrefs() {
       const snap = await getDoc(doc(db, 'user_preferences', user.uid));
       if (snap.exists()) {
         const data = snap.data();
-        setPreferences({
+        const prefs = {
           lap_favorites: data.lap_favorites || [],
           family_favorites: data.family_favorites || [],
           lap_hidden: data.lap_hidden || [],
           family_hidden: data.family_hidden || [],
-        });
+        };
+        setPreferences(prefs);
+        saveLocalPrefs(prefs);
       }
     }
     loadPrefs();
@@ -136,12 +155,12 @@ export default function Schedule({ user }) {
 
   async function toggleHidden(poolId, hiddenMode) {
     const key = `${hiddenMode}_hidden`;
-    const current = preferences[key];
-    const updated = current.includes(poolId)
-      ? current.filter(id => id !== poolId)
-      : [...current, poolId];
+    const updated = preferences[key].includes(poolId)
+      ? preferences[key].filter(id => id !== poolId)
+      : [...preferences[key], poolId];
     const newPrefs = { ...preferences, [key]: updated };
     setPreferences(newPrefs);
+    saveLocalPrefs(newPrefs);
     if (user) {
       await setDoc(doc(db, 'user_preferences', user.uid), { [key]: updated }, { merge: true });
     }
@@ -149,12 +168,12 @@ export default function Schedule({ user }) {
 
   async function toggleFavorite(poolId, favMode) {
     const key = `${favMode}_favorites`;
-    const current = preferences[key];
-    const updated = current.includes(poolId)
-      ? current.filter(id => id !== poolId)
-      : [...current, poolId];
+    const updated = preferences[key].includes(poolId)
+      ? preferences[key].filter(id => id !== poolId)
+      : [...preferences[key], poolId];
     const newPrefs = { ...preferences, [key]: updated };
     setPreferences(newPrefs);
+    saveLocalPrefs(newPrefs);
     if (user) {
       await setDoc(doc(db, 'user_preferences', user.uid), { [key]: updated }, { merge: true });
     }

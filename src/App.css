@@ -336,7 +336,9 @@ body {
   border-bottom: 1px solid #f5f5f5;
 }
 
+.pool-list-name-wrap { display: flex; align-items: center; gap: 4px; min-width: 0; }
 .pool-list-name { font-size: 15px; font-weight: 500; color: #111; }
+.pool-list-chevron { font-size: 18px; color: #ccc; line-height: 1; }
 
 .pool-list-actions {
   display: flex;
@@ -345,6 +347,7 @@ body {
 }
 
 .pool-disabled .pool-list-name { color: #bbb; }
+.pool-disabled .pool-list-chevron { color: #e0e0e0; }
 
 .pool-toggle {
   display: inline-block;
@@ -542,7 +545,8 @@ body {
   margin: 0 auto 20px;
 }
 .pool-sheet-name { font-size: 18px; font-weight: 700; color: #111; }
-.pool-sheet-city { font-size: 13px; color: #888; margin-top: 2px; margin-bottom: 14px; }
+.pool-sheet-city { font-size: 13px; color: #888; margin-top: 2px; margin-bottom: 10px; }
+.pool-sheet-description { font-size: 13px; color: #555; line-height: 1.5; margin-bottom: 14px; }
 .pool-sheet-divider { height: 1px; background: #e5e5e5; margin-bottom: 12px; }
 .pool-sheet-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
 .pool-sheet-label { font-size: 14px; color: #888; }

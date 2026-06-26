@@ -8,6 +8,9 @@ export default function PoolDetailSheet({ pool, onClose }) {
         <span className="pool-sheet-handle" />
         <div className="pool-sheet-name">{pool.name}</div>
         <div className="pool-sheet-city">{pool.city}, CA</div>
+        {pool.description && (
+          <div className="pool-sheet-description">{pool.description}</div>
+        )}
         <div className="pool-sheet-divider" />
         <div className="pool-sheet-row">
           <span className="pool-sheet-label">Email alerts</span>
