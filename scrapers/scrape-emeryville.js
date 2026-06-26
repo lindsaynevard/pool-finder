@@ -33,32 +33,24 @@ function parseDateStr(str) {
 
 function parseClosedDatesFromPage(html) {
   const $ = cheerio.load(html);
-  const pageText = $('body').text();
   const year = new Date().getFullYear();
   const dates = new Set();
 
-  // Extract text windows around closure mentions
-  const closureRe = /(?:closed|closure)[^.]{0,300}/gi;
-  let match;
-  const windows = [];
-  while ((match = closureRe.exec(pageText)) !== null) {
-    windows.push(match[0]);
-  }
-  const closedText = windows.join(' ');
-
-  // "M/D" format (e.g. "7/3", "7/4")
-  const mdRe = /(\d{1,2})\/(\d{1,2})/g;
-  let m;
-  while ((m = mdRe.exec(closedText)) !== null) {
-    dates.add(dateStr(new Date(year, parseInt(m[1]) - 1, parseInt(m[2]))));
-  }
-
-  // "Month Day" format
-  const MONTHS = {january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12};
-  const monthDayRe = /(january|february|march|april|may|june|july|august|september|october|november|december)\s+(\d{1,2})/gi;
-  while ((m = monthDayRe.exec(closedText)) !== null) {
-    dates.add(dateStr(new Date(year, MONTHS[m[1].toLowerCase()] - 1, parseInt(m[2]))));
-  }
+  // DOM approach: find all "Closure Dates:" headers and extract M/D dates from the following <ul>
+  // The <ul> may be a sibling of the parent <p>, or of the grandparent <div> (page-dependent)
+  $('strong').each((_, el) => {
+    if (!$(el).text().includes('Closure Dates')) return;
+    let list = $(el).parent().next('ul');
+    if (!list.length) list = $(el).parent().parent().next('ul');
+    list.find('li').each((_, li) => {
+      const item = $(li).text();
+      const mdRe = /(\d{1,2})\/(\d{1,2})/g;
+      let m;
+      while ((m = mdRe.exec(item)) !== null) {
+        dates.add(dateStr(new Date(year, parseInt(m[1]) - 1, parseInt(m[2]))));
+      }
+    });
+  });
 
   return [...dates];
 }
@@ -95,11 +87,13 @@ export async function scrapeEmeryville(daysAhead = 14) {
     },
   ];
 
-  // Populate closed dates from live website
+  // Merge live closure dates from website into each block (additive — preserves hardcoded dates)
   const liveClosed = parseClosedDatesFromPage(text);
   if (liveClosed.length > 0) {
     console.log(`  Emeryville closed dates from website: ${liveClosed.join(', ')}`);
-    scheduleBlocks.forEach(b => { b.closedDates = liveClosed; });
+    scheduleBlocks.forEach(b => {
+      b.closedDates = [...new Set([...(b.closedDates || []), ...liveClosed])];
+    });
   }
 
   const results = {};
