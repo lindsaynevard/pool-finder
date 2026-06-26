@@ -20,8 +20,6 @@ const TYPE_MAP = {
   'lap swim': 'lap',
   'family swim': 'family',
   'community swim': 'community',
-  'independent exercise': 'lap', // dive tank — counts as lap
-  'senior exercise': 'lap',
   'berkeley aquatic masters': 'lap',
 };
 
