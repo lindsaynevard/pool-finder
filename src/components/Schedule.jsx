@@ -16,9 +16,10 @@ function dateStr(d) {
 function getDateLabel(offset) {
   const d = new Date();
   d.setDate(d.getDate() + offset);
-  if (offset === 0) return 'Today';
-  if (offset === 1) return 'Tomorrow';
-  return `${FULL_DAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}`;
+  const dateStr = `${MONTHS[d.getMonth()]} ${d.getDate()}`;
+  if (offset === 0) return `Today, ${dateStr}`;
+  if (offset === 1) return `Tomorrow, ${dateStr}`;
+  return `${FULL_DAYS[d.getDay()]}, ${dateStr}`;
 }
 
 function timeToMinutes(t) {
@@ -267,7 +268,7 @@ export default function Schedule({ user }) {
             <button className="day-arrow" onClick={() => setDayOffset(Math.max(0, dayOffset-1))} disabled={dayOffset===0}>‹</button>
             <label className="day-label-wrap">
               <span className="day-label">{getDateLabel(dayOffset)}</span>
-              <span className="calendar-icon">📅</span>
+              <span className="date-chevron">▾</span>
               <input
                 type="date"
                 className="date-input-hidden"

@@ -177,9 +177,13 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
+  background: #eef3ff;
+  border-radius: 20px;
+  padding: 6px 14px;
+  gap: 2px;
 }
-.day-label { font-size: 15px; font-weight: 600; color: #111; }
-.calendar-icon { font-size: 16px; margin-left: 6px; }
+.day-label { font-size: 15px; font-weight: 600; color: #1a73e8; }
+.date-chevron { font-size: 13px; color: #1a73e8; margin-left: 4px; line-height: 1; }
 .date-input-hidden {
   position: absolute;
   inset: 0;
