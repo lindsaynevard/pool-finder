@@ -85,18 +85,23 @@ function extractText(part) {
 // For lines like "7/3: closed (observed) 7/4: closed (Independence Day)",
 // finds where the date appears and slices to the next date entry so each
 // date gets only its own notice text.
+//
+// Only generates a notice if the date appears IN the line (numeric or word form)
+// AND is close to a closure keyword. This prevents false positives where a
+// send date (e.g. "June 29, 2026") appears on the same line as unrelated closure
+// text and produces a wrong notice for today's date.
+const MONTH_NAMES = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+
 function noticeForDate(line, d) {
   const month = d.getMonth() + 1;
   const day = d.getDate();
 
-  // Find the numeric date in the line (e.g. "7/3")
+  // Try numeric date match (e.g. "7/3")
   const numRe = new RegExp(`\\b${month}\\/${day}\\b`);
   const m = numRe.exec(line);
 
   if (m) {
     // Require a closure keyword within 20 chars of the date.
-    // This distinguishes "7/3: closed" from "6/27@7pm Upcoming closures/..."
-    // where "closures" is a generic phrase, not a description of that date.
     const nearby = line.slice(m.index, m.index + 20).toLowerCase();
     if (!CLOSURE_KEYWORDS.some(kw => nearby.includes(kw.toLowerCase()))) return null;
 
@@ -108,11 +113,19 @@ function noticeForDate(line, d) {
     return line.slice(m.index, end).trim().slice(0, 100) || null;
   }
 
-  // Fallback: center on the first closure keyword in the line
-  const kw = CLOSURE_KEYWORDS.find(k => line.toLowerCase().includes(k.toLowerCase()));
-  if (!kw) return null;
-  const kwIdx = line.toLowerCase().indexOf(kw.toLowerCase());
-  return line.slice(Math.max(0, kwIdx - 20), kwIdx + 80).trim().slice(0, 100);
+  // Try word-based date match (e.g. "July 4th", "July 4")
+  const wordRe = new RegExp(`\\b${MONTH_NAMES[d.getMonth()]}\\s+${day}(?:st|nd|rd|th)?\\b`, 'i');
+  const wm = wordRe.exec(line);
+
+  if (wm) {
+    // Require a closure keyword within 30 chars of the word date
+    const nearby = line.slice(wm.index, wm.index + 30).toLowerCase();
+    if (!CLOSURE_KEYWORDS.some(kw => nearby.includes(kw.toLowerCase()))) return null;
+    return line.slice(wm.index, Math.min(line.length, wm.index + 100)).trim().slice(0, 100) || null;
+  }
+
+  // Date not found in this line — skip rather than guessing
+  return null;
 }
 
 // Month name -> 0-based month number
