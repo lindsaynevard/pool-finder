@@ -185,9 +185,23 @@ export default function Schedule({ user }) {
   const favSet = new Set(currentFavorites);
 
   const hiddenSet = new Set(mode === 'lap' ? preferences.lap_hidden : preferences.family_hidden);
+  // Build a masters lookup for adding notes to overlapping lap sessions
+  const mastersByPool = {};
+  sessions.filter(s => s.type === 'masters').forEach(s => {
+    if (!mastersByPool[s.poolId]) mastersByPool[s.poolId] = [];
+    mastersByPool[s.poolId].push(s);
+  });
+  function hasOverlappingMasters(s) {
+    return (mastersByPool[s.poolId] || []).some(m => {
+      const lapStart = timeToMinutes(s.start), lapEnd = timeToMinutes(s.end);
+      const mStart = timeToMinutes(m.start), mEnd = timeToMinutes(m.end);
+      return lapStart < mEnd && mStart < lapEnd;
+    });
+  }
+
   const filtered = sessions.filter(s =>
     !hiddenSet.has(s.poolId) &&
-    (mode === 'lap' ? ['lap','masters'].includes(s.type) : ['family','rec','community','tot','open'].includes(s.type))
+    (mode === 'lap' ? s.type === 'lap' : ['family','rec','community','tot','open'].includes(s.type))
   );
   const sorted = [...filtered].sort((a, b) => {
     const aFav = favSet.has(a.poolId) ? 0 : 1;
@@ -311,9 +325,9 @@ export default function Schedule({ user }) {
                         {favSet.has(s.poolId) && <span className="session-fav-star">★</span>}
                       </div>
                       <div className="session-meta">
-                        {(mode !== 'lap' || s.type === 'masters') && (
+                        {mode !== 'lap' && (
                           <button
-                            className={`session-type-btn${s.type === 'masters' ? ' session-type-masters' : ''}`}
+                            className="session-type-btn"
                             onClick={() => setTooltip(tooltip?.key===rowKey ? null : {key:rowKey, type:s.type})}
                           >
                             {SESSION_TYPES[s.type] || s.type}
@@ -331,7 +345,11 @@ export default function Schedule({ user }) {
                     <div className="session-right">
                       <span className="end-time">until {s.end}</span>
                     </div>
-                    {s.notes && <div className="session-note">{s.notes}</div>}
+                    {(() => {
+                      const mastersNote = mode === 'lap' && hasOverlappingMasters(s) ? 'Shared with Masters swim' : null;
+                      const note = [s.notes, mastersNote].filter(Boolean).join(' · ');
+                      return note ? <div className="session-note">{note}</div> : null;
+                    })()}
                   </div>
                   );
                 })}
