@@ -32,6 +32,37 @@ async function writeToFirestore(data) {
 // Merge closureNotice fields onto existing documents without replacing the whole doc.
 // Uses set+merge so the closureNotice field is touched without overwriting sessions.
 // merge:true also handles dates that don't yet have a schedule document.
+// After each scraper runs, write a metadata doc so the app can detect
+// schedule gaps (scheduledThrough < viewed date) and staleness (lastRun > 25h ago).
+async function writePoolMeta(scraperResults, scraperFile) {
+  if (Object.keys(scraperResults).length === 0) return;
+
+  const now = new Date().toISOString();
+  const poolMap = {};
+
+  for (const [key, value] of Object.entries(scraperResults)) {
+    const underscoreIdx = key.lastIndexOf('_');
+    const poolId = key.slice(0, underscoreIdx);
+    const date = key.slice(underscoreIdx + 1);
+    if (!poolMap[poolId]) poolMap[poolId] = { dates: [], sessionCount: 0 };
+    poolMap[poolId].dates.push(date);
+    poolMap[poolId].sessionCount += (value.sessions?.length || 0);
+  }
+
+  const batch = db.batch();
+  for (const [poolId, { dates, sessionCount }] of Object.entries(poolMap)) {
+    const ref = db.collection('pool_meta').doc(poolId);
+    batch.set(ref, {
+      poolId,
+      scheduledThrough: [...dates].sort().at(-1),
+      sessionCount,
+      scraperFile,
+      lastRun: now,
+    });
+  }
+  await batch.commit();
+}
+
 async function writeClosureNotices(notices) {
   const batch = db.batch();
   let count = 0;
@@ -108,6 +139,21 @@ async function main() {
 
   const written = await writeToFirestore(all);
   console.log(`✓ ${written} documents written.`);
+
+  console.log('\n→ Writing pool metadata...');
+  await writePoolMeta(berkeley,          'scrape-berkeley.js');
+  await writePoolMeta(goldenBear,        'scrape-golden-bear.js');
+  await writePoolMeta(emeryville,        'scrape-emeryville.js');
+  await writePoolMeta(albany,            'albany-auto.js');
+  await writePoolMeta(roberts,           'scrape-roberts.js');
+  await writePoolMeta(eastOakland,       'scrape-east-oakland.js');
+  await writePoolMeta(elCerritoSplash,   'scrape-el-cerrito-splash.js');
+  await writePoolMeta(defremery,         'scrape-defremery.js');
+  await writePoolMeta(piedmont,          'scrape-piedmont.js');
+  await writePoolMeta(lions,             'scrape-lions.js');
+  await writePoolMeta(richmond,          'scrape-richmond.js');
+  await writePoolMeta(richmondSwimCenter,'scrape-richmond-swim-center.js');
+  console.log('  ✓ Pool metadata written.');
 
   console.log('\n→ Gmail (closure notices)...');
   const gmailNotices = await scrapeGmail();

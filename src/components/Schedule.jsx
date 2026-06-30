@@ -46,6 +46,11 @@ function getPoolName(poolId) {
   return POOLS.find(p => p.id === poolId)?.name || poolId;
 }
 
+function formatDateStr(ds) {
+  const [, m, d] = ds.split('-').map(Number);
+  return `${MONTHS[m - 1]} ${d}`;
+}
+
 const TOOLTIP_TEXT = {
   lap: 'Designated lane swimming. Lanes may be shared with other swimmers.',
   family: 'Open recreational swimming for all ages. Pool is not divided into lanes.',
@@ -65,6 +70,7 @@ export default function Schedule({ user }) {
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [closureNotices, setClosureNotices] = useState({});
+  const [poolMeta, setPoolMeta] = useState({});
   const PREFS_EMPTY = { lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] };
 
   function loadLocalPrefs() {
@@ -137,6 +143,20 @@ export default function Schedule({ user }) {
   }, [dayOffset]);
 
   useEffect(() => {
+    async function fetchPoolMeta() {
+      try {
+        const snap = await getDocs(collection(db, 'pool_meta'));
+        const meta = {};
+        snap.forEach(d => { meta[d.id] = d.data(); });
+        setPoolMeta(meta);
+      } catch (err) {
+        console.error('Failed to fetch pool meta:', err);
+      }
+    }
+    fetchPoolMeta();
+  }, []);
+
+  useEffect(() => {
     if (!user) return; // signed out: keep whatever is in localStorage (already loaded as initial state)
     async function loadPrefs() {
       const snap = await getDoc(doc(db, 'user_preferences', user.uid));
@@ -185,6 +205,27 @@ export default function Schedule({ user }) {
   const favSet = new Set(currentFavorites);
 
   const hiddenSet = new Set(mode === 'lap' ? preferences.lap_hidden : preferences.family_hidden);
+
+  const viewDateStr = (() => { const d = new Date(); d.setDate(d.getDate() + dayOffset); return dateStr(d); })();
+  const nowMs = Date.now();
+  const healthWarnings = Object.entries(poolMeta).flatMap(([poolId, meta]) => {
+    const pool = POOLS.find(p => p.id === poolId);
+    if (!pool?.swimTypes?.includes(mode)) return [];
+    if (hiddenSet.has(poolId)) return [];
+
+    if (meta.scheduledThrough && meta.scheduledThrough < viewDateStr) {
+      return [{ poolId, type: 'gap', message: `No schedule available past ${formatDateStr(meta.scheduledThrough)}` }];
+    }
+    if (meta.lastRun) {
+      const hoursAgo = (nowMs - new Date(meta.lastRun).getTime()) / 3600000;
+      if (hoursAgo > 25) {
+        const daysAgo = Math.floor(hoursAgo / 24);
+        return [{ poolId, type: 'stale', message: `Data may be outdated · last updated ${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago · check ${meta.scraperFile}` }];
+      }
+    }
+    return [];
+  });
+
   // Build a masters lookup for adding notes to overlapping lap sessions
   const mastersByPool = {};
   sessions.filter(s => s.type === 'masters').forEach(s => {
@@ -277,6 +318,18 @@ export default function Schedule({ user }) {
               </div>
             );
           })()}
+
+          {/* Health warnings — schedule gaps and stale data, per pool */}
+          {!loading && healthWarnings.length > 0 && (
+            <div className="health-warnings">
+              {healthWarnings.map(({ poolId, type, message }) => (
+                <div key={poolId} className={`health-warning health-warning-${type}`}>
+                  <span className="health-warning-icon">{type === 'stale' ? '🔴' : '⚠️'}</span>
+                  <span><strong>{getPoolName(poolId)}</strong> — {message}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Day selector */}
           <div className="day-selector">
