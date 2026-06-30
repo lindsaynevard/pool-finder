@@ -4,12 +4,10 @@
 
 ### Core features
 - [ ] Build My Pools screen (Lap Order / Family Order tabs)
-- [ ] **Scraper health alerts** — add a way to get notified when something breaks, e.g. a scraper fetches 0 sessions for a pool that should have sessions (which could mean a URL changed, page restructured, PDF moved, etc.). Could be: GitHub Actions job alerts to poolfinderalerts@gmail.com on scraper error, or a Firestore-based "last successful run" field checked in-app.
-
 ### Scrapers to add or fix
 - [ ] Roberts Pool — scraper exists but no live closure data available from their website. EBRPD has a general "Park Explorer" monthly e-newsletter (not pool-specific) at https://www.ebparks.org/form/newsletter-sign-up — could surface seasonal closure news but won't give real-time alerts.
-- [ ] East Oakland Sports Center — scraper exists but closure dates are hardcoded (Oakland city website blocks automated access)
-- [ ] El Cerrito Splash Park — split into two entries: lap/open pool and splash pad have separate session times and separate ticket purchases; should appear as distinct pools so people know what they're buying into
+- [ ] East Oakland Sports Center — trying Playwright to bypass 403 block (committed Jun 30). Check tomorrow's CI logs to see if page loaded and times parsed. If Playwright still blocked: add a note in the pool detail sheet saying "Hours may vary — verify at oaklandca.gov before visiting."
+- [ ] El Cerrito Swim Center — schedule rotates weekly (PDF on their website); currently hardcoded from Jun 29–Jul 5 PDF. Consider building a dynamic PDF scraper if times drift noticeably.
 
 ### Gmail closure notice coverage
 - [ ] Verify Piedmont + El Cerrito emails surface correctly once those pools send closure notices
@@ -66,4 +64,6 @@
 - Fixed Richmond Plunge closure dates: corrected July 3 → July 4 (Independence Day per city PDF); added Aug 15 Plunge Event
 - Fixed schedule empty state: Family mode now shows "no sessions found" message instead of blank screen
 - Session sort improved: pools now appear alphabetically within each tier (favorites first, then A–Z)
+- El Cerrito split into two entries: El Cerrito Swim Center (lap, Fitness Swim ages 14+) and El Cerrito Splash Park (spray features, family); schedule from Jun 29–Jul 5 PDF, Jul 4 closure hardcoded
 - Holiday closures on schedule — Berkeley reads live from PDF, Emeryville and El Cerrito read live from website, East Oakland writes closure notice, Albany and Golden Bear already correct, Roberts has no live data
+- **Scraper health alerts** — per-pool warnings in schedule view: gray "No schedule available past [date]" for gaps, red "Data may be outdated · check [scraper]" for staleness. Powered by pool_meta Firestore collection written after each daily scraper run.
