@@ -42,7 +42,7 @@ const POOL_SENDERS = [
   { match: 'berkeleyca.gov',      poolIds: ['west-campus', 'king'] },
   { match: 'ausdk12.org',         poolIds: ['albany-indoor', 'albany-outdoor'] },
   { match: 'piedmont',            poolIds: ['piedmont-lap', 'piedmont-activity'] },
-  { match: 'elcerrito',           poolIds: ['el-cerrito-splash'] },
+  { match: 'elcerrito',           poolIds: ['el-cerrito-splash', 'el-cerrito-pool'] },
   // Richmond: two possible sender domains (CivicPlus may use either).
   // Once a real email arrives, confirm which domain they actually use.
   { match: 'ci.richmond.ca.us',   poolIds: ['richmond', 'richmond-swim-center'] },

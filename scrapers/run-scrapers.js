@@ -6,6 +6,7 @@ import { albanySchedule } from './albany-auto.js';
 import { scrapeRoberts } from './scrape-roberts.js';
 import { scrapeEastOakland } from './scrape-east-oakland.js';
 import { scrapeElCerritoSplash } from './scrape-el-cerrito-splash.js';
+import { scrapeElCerritoPool } from './scrape-el-cerrito-pool.js';
 import { scrapeDefremery } from './scrape-defremery.js';
 import { scrapePiedmont } from './scrape-piedmont.js';
 import { scrapeLions } from './scrape-lions.js';
@@ -114,6 +115,10 @@ async function main() {
   const elCerritoSplash = await scrapeElCerritoSplash(14);
   console.log(`  ${Object.keys(elCerritoSplash).length} schedule entries`);
 
+  console.log('→ El Cerrito Swim Center (Fitness Swim)...');
+  const elCerritoPool = await scrapeElCerritoPool(14);
+  console.log(`  ${Object.keys(elCerritoPool).length} schedule entries`);
+
   console.log('→ deFremery Pool (Oakland)...');
   const defremery = await scrapeDefremery(14);
   console.log(`  ${Object.keys(defremery).length} schedule entries`);
@@ -134,7 +139,7 @@ async function main() {
   const richmondSwimCenter = await scrapeRichmondSwimCenter(14);
   console.log(`  ${Object.keys(richmondSwimCenter).length} schedule entries`);
 
-  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter };
+  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const written = await writeToFirestore(all);
@@ -148,6 +153,7 @@ async function main() {
   await writePoolMeta(roberts,           'scrape-roberts.js');
   await writePoolMeta(eastOakland,       'scrape-east-oakland.js');
   await writePoolMeta(elCerritoSplash,   'scrape-el-cerrito-splash.js');
+  await writePoolMeta(elCerritoPool,     'scrape-el-cerrito-pool.js');
   await writePoolMeta(defremery,         'scrape-defremery.js');
   await writePoolMeta(piedmont,          'scrape-piedmont.js');
   await writePoolMeta(lions,             'scrape-lions.js');
