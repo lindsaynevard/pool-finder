@@ -293,28 +293,51 @@ export default function Schedule({ user }) {
           {/* Freshness banner */}
           {!loading && <div className="freshness-banner green">{freshnessText}</div>}
 
-          {/* Closure / modification notices — filtered to pools relevant to current mode */}
+          {/* Closure / modification notices — grouped by normalized message so multiple
+              pools with the same closure (e.g. "Closed" on a holiday) collapse into one banner */}
           {!loading && (() => {
             const modeNotices = Object.entries(closureNotices).filter(([poolId]) => {
               const pool = POOLS.find(p => p.id === poolId);
-              return !pool?.swimTypes || pool.swimTypes.includes(mode);
+              return pool?.swimTypes?.includes(mode);
             });
-            return modeNotices.length > 0 && (
+            if (modeNotices.length === 0) return null;
+
+            // Strip "— see [url] for details" so website-scraped closures group together
+            const normalize = n => n.replace(/\s*[—–-]\s*see\s+\S+\s+for details\.?\s*$/i, '').trim();
+
+            const groupMap = {};
+            for (const [poolId, notice] of modeNotices) {
+              const key = normalize(notice);
+              if (!groupMap[key]) groupMap[key] = { label: key, entries: [] };
+              groupMap[key].entries.push(poolId);
+            }
+            const groups = Object.values(groupMap);
+
+            const joinNames = ids => {
+              const names = ids.map(getPoolName);
+              if (names.length === 1) return names[0];
+              if (names.length === 2) return `${names[0]} & ${names[1]}`;
+              return `${names.slice(0, -1).join(', ')} & ${names.at(-1)}`;
+            };
+
+            return (
               <div className="closure-notices">
-                {modeNotices.map(([poolId, notice]) => {
-                  const pool = POOLS.find(p => p.id === poolId);
-                  return (
-                    <div key={poolId} className="closure-notice">
-                      <span className="closure-icon">⚠️</span>
-                      <span>
-                        <strong>{getPoolName(poolId)}</strong> — {notice}
-                        {pool?.websiteUrl && (
-                          <a href={pool.websiteUrl} target="_blank" rel="noopener noreferrer" className="closure-notice-link"> View schedule ↗</a>
-                        )}
-                      </span>
-                    </div>
-                  );
-                })}
+                {groups.map((group, i) => (
+                  <div key={i} className="closure-notice">
+                    <span className="closure-icon">⚠️</span>
+                    <span>
+                      <strong>{joinNames(group.entries)}</strong> — {group.label}
+                      {group.entries.map(poolId => {
+                        const pool = POOLS.find(p => p.id === poolId);
+                        return pool?.websiteUrl ? (
+                          <a key={poolId} href={pool.websiteUrl} target="_blank" rel="noopener noreferrer" className="closure-notice-link">
+                            {group.entries.length > 1 ? ` ${getPoolName(poolId)} ↗` : ' View schedule ↗'}
+                          </a>
+                        ) : null;
+                      })}
+                    </span>
+                  </div>
+                ))}
               </div>
             );
           })()}
