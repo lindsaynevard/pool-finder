@@ -152,7 +152,9 @@ body {
   line-height: 1.4;
 }
 .closure-icon { flex-shrink: 0; }
-.closure-notice-link { color: #856404; font-weight: 500; text-decoration: underline; white-space: nowrap; }
+.closure-notice-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.closure-notice-links { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.closure-notice-link { color: #856404; font-weight: 500; text-decoration: underline; }
 
 .health-warnings {
   margin: 8px 16px 0;

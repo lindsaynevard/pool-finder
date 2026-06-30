@@ -322,22 +322,28 @@ export default function Schedule({ user }) {
 
             return (
               <div className="closure-notices">
-                {groups.map((group, i) => (
-                  <div key={i} className="closure-notice">
-                    <span className="closure-icon">⚠️</span>
-                    <span>
-                      <strong>{joinNames(group.entries)}</strong> — {group.label}
-                      {group.entries.map(poolId => {
-                        const pool = POOLS.find(p => p.id === poolId);
-                        return pool?.websiteUrl ? (
-                          <a key={poolId} href={pool.websiteUrl} target="_blank" rel="noopener noreferrer" className="closure-notice-link">
-                            {group.entries.length > 1 ? ` ${getPoolName(poolId)} ↗` : ' View schedule ↗'}
-                          </a>
-                        ) : null;
-                      })}
-                    </span>
-                  </div>
-                ))}
+                {groups.map((group, i) => {
+                  const links = group.entries
+                    .map(poolId => ({ poolId, pool: POOLS.find(p => p.id === poolId) }))
+                    .filter(({ pool }) => pool?.websiteUrl);
+                  return (
+                    <div key={i} className="closure-notice">
+                      <span className="closure-icon">⚠️</span>
+                      <span className="closure-notice-body">
+                        <span><strong>{joinNames(group.entries)}</strong> — {group.label}</span>
+                        {links.length > 0 && (
+                          <span className="closure-notice-links">
+                            {links.map(({ poolId, pool }) => (
+                              <a key={poolId} href={pool.websiteUrl} target="_blank" rel="noopener noreferrer" className="closure-notice-link">
+                                {links.length === 1 ? 'View schedule ↗' : `${getPoolName(poolId)} ↗`}
+                              </a>
+                            ))}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             );
           })()}
