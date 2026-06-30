@@ -14,10 +14,22 @@ import { scrapeRichmond } from './scrape-richmond.js';
 import { scrapeRichmondSwimCenter } from './scrape-richmond-swim-center.js';
 import { scrapeGmail } from './scrape-gmail.js';
 
-async function writeToFirestore(data) {
+// Fetch doc IDs that have been manually edited and should not be overwritten by scrapers.
+async function getManualOverrides() {
+  const snap = await db.collection('schedules').where('manualOverride', '==', true).get();
+  const overrides = new Set();
+  snap.forEach(d => overrides.add(d.id));
+  return overrides;
+}
+
+async function writeToFirestore(data, overrides = new Set()) {
   const batch = db.batch();
   let count = 0;
   for (const [key, value] of Object.entries(data)) {
+    if (overrides.has(key)) {
+      console.log(`  Skipping ${key} (manualOverride)`);
+      continue;
+    }
     const ref = db.collection('schedules').doc(key);
     batch.set(ref, value);
     count++;
@@ -142,7 +154,9 @@ async function main() {
   const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
-  const written = await writeToFirestore(all);
+  const overrides = await getManualOverrides();
+  if (overrides.size > 0) console.log(`  Protecting ${overrides.size} manually overridden doc(s).`);
+  const written = await writeToFirestore(all, overrides);
   console.log(`✓ ${written} documents written.`);
 
   console.log('\n→ Writing pool metadata...');

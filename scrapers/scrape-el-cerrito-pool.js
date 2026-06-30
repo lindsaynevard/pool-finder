@@ -13,38 +13,47 @@ const CLOSED_DATES = new Set(['2026-07-04']);
 
 // Fitness Swim schedule — week of June 29–July 5, 2026
 // Shared space = minimum 2 lap lanes available (others may be using the pool)
+// rECswim = family swim in the activity pool, concurrent with shared Fitness Swim
+// Source: https://www.elcerrito.gov/1507/Family-Lane
 const WEEKLY = {
   monday: [
-    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap', notes: 'Ages 14+' },
-    { start: '11:00 AM', end: '11:55 AM',  type: 'lap', notes: 'Ages 14+' },
-    { start: '12:30 PM', end: '3:00 PM',   type: 'lap', notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap',    notes: 'Ages 14+' },
+    { start: '11:00 AM', end: '11:55 AM',  type: 'lap',    notes: 'Ages 14+' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'lap',    notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'family', notes: 'Activity pool · rECswim' },
   ],
   tuesday: [
-    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap', notes: 'Ages 14+' },
-    { start: '10:00 AM', end: '12:15 PM',  type: 'lap', notes: 'Ages 14+' },
-    { start: '12:30 PM', end: '3:00 PM',   type: 'lap', notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap',    notes: 'Ages 14+' },
+    { start: '10:00 AM', end: '12:15 PM',  type: 'lap',    notes: 'Ages 14+' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'lap',    notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'family', notes: 'Activity pool · rECswim' },
   ],
   wednesday: [
-    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap', notes: 'Ages 14+' },
-    { start: '11:00 AM', end: '11:55 AM',  type: 'lap', notes: 'Ages 14+' },
-    { start: '12:30 PM', end: '3:00 PM',   type: 'lap', notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap',    notes: 'Ages 14+' },
+    { start: '11:00 AM', end: '11:55 AM',  type: 'lap',    notes: 'Ages 14+' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'lap',    notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'family', notes: 'Activity pool · rECswim' },
   ],
   thursday: [
-    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap', notes: 'Ages 14+' },
-    { start: '10:00 AM', end: '12:15 PM',  type: 'lap', notes: 'Ages 14+' },
-    { start: '12:30 PM', end: '3:00 PM',   type: 'lap', notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap',    notes: 'Ages 14+' },
+    { start: '10:00 AM', end: '12:15 PM',  type: 'lap',    notes: 'Ages 14+' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'lap',    notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'family', notes: 'Activity pool · rECswim' },
   ],
   friday: [
-    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap', notes: 'Ages 14+' },
-    { start: '9:30 AM',  end: '10:25 AM',  type: 'lap', notes: 'Ages 14+' },
-    { start: '12:30 PM', end: '3:00 PM',   type: 'lap', notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '6:00 AM',  end: '8:00 AM',   type: 'lap',    notes: 'Ages 14+' },
+    { start: '9:30 AM',  end: '10:25 AM',  type: 'lap',    notes: 'Ages 14+' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'lap',    notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '12:30 PM', end: '3:00 PM',   type: 'family', notes: 'Activity pool · rECswim' },
   ],
   saturday: [
-    { start: '7:00 AM',  end: '9:00 AM',   type: 'lap', notes: 'Ages 14+' },
-    { start: '1:00 PM',  end: '4:00 PM',   type: 'lap', notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '7:00 AM',  end: '9:00 AM',   type: 'lap',    notes: 'Ages 14+' },
+    { start: '1:00 PM',  end: '4:00 PM',   type: 'lap',    notes: 'Ages 14+ · Min. 2 lanes, shared pool' },
+    { start: '1:00 PM',  end: '4:00 PM',   type: 'family', notes: 'Activity pool · rECswim' },
   ],
   sunday: [
-    { start: '1:00 PM',  end: '4:00 PM',   type: 'lap', notes: 'Ages 14+' },
+    { start: '1:00 PM',  end: '4:00 PM',   type: 'lap',    notes: 'Ages 14+' },
+    { start: '1:00 PM',  end: '4:00 PM',   type: 'family', notes: 'Activity pool · rECswim' },
   ],
 };
 

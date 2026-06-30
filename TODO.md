@@ -7,7 +7,7 @@
 ### Scrapers to add or fix
 - [ ] Roberts Pool — scraper exists but no live closure data available from their website. EBRPD has a general "Park Explorer" monthly e-newsletter (not pool-specific) at https://www.ebparks.org/form/newsletter-sign-up — could surface seasonal closure news but won't give real-time alerts.
 - [ ] East Oakland Sports Center — trying Playwright to bypass 403 block (committed Jun 30). Check tomorrow's CI logs to see if page loaded and times parsed. If Playwright still blocked: add a note in the pool detail sheet saying "Hours may vary — verify at oaklandca.gov before visiting."
-- [ ] El Cerrito Swim Center — schedule rotates weekly (PDF on their website); currently hardcoded from Jun 29–Jul 5 PDF. Consider building a dynamic PDF scraper if times drift noticeably.
+- [ ] El Cerrito Swim Center — schedule rotates weekly (PDF on their website); currently hardcoded from Jun 29–Jul 5 PDF. Consider building a dynamic PDF scraper if times drift noticeably. rECswim (family swim) added to the Swim Center entry — confirmed times from elcerrito.gov/familyswim: M–F 12:30–3pm, Sat–Sun 1–4pm.
 
 ### Gmail closure notice coverage
 - [ ] Verify Piedmont + El Cerrito emails surface correctly once those pools send closure notices
