@@ -53,6 +53,7 @@ const TOOLTIP_TEXT = {
   rec: 'Open recreational swimming for all ages.',
   tot: 'Shallow-water session designed for young children and parents.',
   open: 'General recreational swimming open to the public.',
+  masters: 'Coached swim program for adult competitive swimmers. Masters shares pool space during lap hours, which may mean fewer available lanes.',
 };
 
 export default function Schedule({ user }) {
@@ -186,7 +187,7 @@ export default function Schedule({ user }) {
   const hiddenSet = new Set(mode === 'lap' ? preferences.lap_hidden : preferences.family_hidden);
   const filtered = sessions.filter(s =>
     !hiddenSet.has(s.poolId) &&
-    (mode === 'lap' ? s.type === 'lap' : ['family','rec','community','tot','open'].includes(s.type))
+    (mode === 'lap' ? ['lap','masters'].includes(s.type) : ['family','rec','community','tot','open'].includes(s.type))
   );
   const sorted = [...filtered].sort((a, b) => {
     const aFav = favSet.has(a.poolId) ? 0 : 1;
@@ -310,9 +311,9 @@ export default function Schedule({ user }) {
                         {favSet.has(s.poolId) && <span className="session-fav-star">★</span>}
                       </div>
                       <div className="session-meta">
-                        {mode !== 'lap' && (
+                        {(mode !== 'lap' || s.type === 'masters') && (
                           <button
-                            className="session-type-btn"
+                            className={`session-type-btn${s.type === 'masters' ? ' session-type-masters' : ''}`}
                             onClick={() => setTooltip(tooltip?.key===rowKey ? null : {key:rowKey, type:s.type})}
                           >
                             {SESSION_TYPES[s.type] || s.type}

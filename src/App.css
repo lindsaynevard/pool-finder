@@ -245,6 +245,9 @@ body {
   color: #1a73e8;
   cursor: pointer;
 }
+.session-type-masters {
+  color: #888;
+}
 
 .session-note {
   width: 100%;

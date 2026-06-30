@@ -20,7 +20,7 @@ const TYPE_MAP = {
   'lap swim': 'lap',
   'family swim': 'family',
   'community swim': 'community',
-  'berkeley aquatic masters': 'lap',
+  'berkeley aquatic masters': 'masters',
 };
 
 function parseTable($, table) {

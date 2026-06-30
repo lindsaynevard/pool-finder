@@ -158,4 +158,5 @@ export const SESSION_TYPES = {
   'community': 'Community Swim',
   'tot': 'Tot Swim',
   'open': 'Open Swim',
+  'masters': 'Masters Swim',
 };
