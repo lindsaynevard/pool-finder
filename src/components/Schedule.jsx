@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { signOut, signInWithPopup } from 'firebase/auth';
 import { collection, query, where, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db, provider } from '../firebase';
@@ -92,6 +92,7 @@ export default function Schedule({ user }) {
   }
 
   const [preferences, setPreferences] = useState(() => loadLocalPrefs());
+  const dateInputRef = useRef(null);
 
   useEffect(() => {
     async function fetchSchedule() {
@@ -363,10 +364,11 @@ export default function Schedule({ user }) {
           {/* Day selector */}
           <div className="day-selector">
             <button className="day-arrow" onClick={() => setDayOffset(Math.max(0, dayOffset-1))} disabled={dayOffset===0}>‹</button>
-            <label className="day-label-wrap">
+            <label className="day-label-wrap" onClick={() => { try { dateInputRef.current?.showPicker(); } catch {} }}>
               <span className="day-label">{getDateLabel(dayOffset)}</span>
               <span className="date-chevron">▾</span>
               <input
+                ref={dateInputRef}
                 type="date"
                 className="date-input-hidden"
                 autoComplete="off"
