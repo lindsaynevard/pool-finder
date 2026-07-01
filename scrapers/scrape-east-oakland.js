@@ -19,30 +19,35 @@ const CLOSED_DATES = new Set([
 ]);
 
 // Try to parse session times from Oakland page text.
-// Returns [{ start, end }] or null if nothing recognizable found.
+// Returns [{ start, end }] or [] if nothing recognizable found.
 function parseSessionsFromText(text) {
   const sessions = [];
-  // Look for patterns like "1:00 PM – 4:00 PM", "1:00PM-4:00PM", "1-4pm", etc.
   const timeRangeRe = /(\d{1,2}(?::\d{2})?\s*(?:AM|PM))\s*[–\-—to]+\s*(\d{1,2}(?::\d{2})?\s*(?:AM|PM))/gi;
-  const contextRe = /(?:recreational|public|rec|swim|open swim|lap)/i;
+  // Require "recreational" or "public recreational" near the time — avoids picking up lesson times.
+  const contextRe = /(?:public\s+rec(?:reational)?|recreational\s+swim)/i;
+
+  const normalize = t => {
+    t = t.trim().toUpperCase();
+    if (!t.includes(':')) {
+      const [h, ampm] = t.split(/\s+/);
+      t = `${h}:00 ${ampm}`;
+    }
+    return t.replace(/([0-9])(AM|PM)/, '$1 $2');
+  };
 
   let m;
   while ((m = timeRangeRe.exec(text)) !== null) {
-    // Only include if within ~200 chars of a swim-related keyword
-    const nearby = text.slice(Math.max(0, m.index - 100), m.index + 200);
+    const nearby = text.slice(Math.max(0, m.index - 150), m.index + 300);
     if (!contextRe.test(nearby)) continue;
 
-    const normalize = t => {
-      t = t.trim().toUpperCase();
-      if (!t.includes(':')) {
-        const [h, ampm] = t.split(/\s+/);
-        t = `${h}:00 ${ampm}`;
-      }
-      // Ensure space before AM/PM
-      return t.replace(/([0-9])(AM|PM)/, '$1 $2');
-    };
+    const start = normalize(m[1]);
+    const end = normalize(m[2]);
 
-    sessions.push({ start: normalize(m[1]), end: normalize(m[2]) });
+    // Skip sessions under 60 minutes — those are lessons, not public rec swim.
+    const toMin = s => { const [h, min] = s.replace(/(AM|PM)/, '').trim().split(':').map(Number); return (s.includes('PM') && h !== 12 ? h + 12 : s.includes('AM') && h === 12 ? 0 : h) * 60 + (min || 0); };
+    if (toMin(end) - toMin(start) < 60) continue;
+
+    sessions.push({ start, end });
   }
 
   // Deduplicate by start time
