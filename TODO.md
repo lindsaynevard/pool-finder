@@ -3,18 +3,20 @@
 ## Up Next
 
 ### Core features
-- [ ] Build My Pools screen (Lap Order / Family Order tabs)
+- [ ] Build My Pools screen (Lap Order / Family Order tabs) — no hard deadline, tackle when you have a few hours
 
 ### Verify / QA
-- [ ] LN to check El Cerrito Splash Park hours — verify they appear in Family mode as a separate entry from the Swim Center. Splash park = spray pad, different tickets, different hours (9–12 and 3:30–7 on weekdays). Today's scraper run (Jul 1) should add rECswim sessions to the Swim Center too — check both.
-- [ ] LN to Check that El Cerrito Swim Center shows up correctly in both Lap and Family modes — lap sessions in Lap, rECswim sessions in Family (12:30–3pm M–F, 1–4pm Sat–Sun)
+- [ ] **Jul 1** — LN: Check El Cerrito in the app. Swim Center should show in Lap mode (Fitness Swim, ages 14+) and in Family mode (rECswim, 12:30–3pm M–F, 1–4pm Sat–Sun). Splash Park should show separately in Family mode (spray pad only, 9–12 and 3:30–7 weekdays).
+- [ ] **Jul 2** — LN: Confirm El Cerrito Swim Center shows as closed (amber banner) on July 4. Hardcoded July 4 into scraper (deployed Jul 1) — tomorrow's run should write it correctly. If still wrong, run fix script manually.
+- [ ] **Jul 1** — LN: Confirm Piedmont July 4 closure notice was picked up (amber banner should appear on July 4 for Piedmont Competition Pool and/or Activity Pool).
+- [ ] **Jul 7** — LN: Check GitHub Actions logs to confirm the El Cerrito dynamic PDF scraper picked up the new weekly PDF (Jul 6–12). If it parsed correctly, the schedule will have updated automatically without any manual work.
+
 ### Scrapers to add or fix
-- [ ] Roberts Pool — scraper exists but no live closure data available from their website. EBRPD has a general "Park Explorer" monthly e-newsletter (not pool-specific) at https://www.ebparks.org/form/newsletter-sign-up — could surface seasonal closure news but won't give real-time alerts.
-- [ ] East Oakland Sports Center — trying Playwright to bypass 403 block (committed Jun 30). Check tomorrow's CI logs to see if page loaded and times parsed. If Playwright still blocked: add a note in the pool detail sheet saying "Hours may vary — verify at oaklandca.gov before visiting."
-- [ ] El Cerrito Swim Center — schedule rotates weekly (PDF on their website); currently hardcoded from Jun 29–Jul 5 PDF. Consider building a dynamic PDF scraper if times drift noticeably. rECswim (family swim) added to the Swim Center entry — confirmed times from elcerrito.gov/familyswim: M–F 12:30–3pm, Sat–Sun 1–4pm.
+- [ ] **Jul 2** — East Oakland Sports Center: Playwright is working (Jul 1 logs confirmed). But parser was picking up lesson times — tightened to require "recreational swim" context + 60 min min duration (deployed Jul 1). Check Jul 2 logs to confirm only 1:00 PM–4:00 PM is parsed, or falls back cleanly to hardcoded.
+- [ ] **Jul 15** — Roberts Pool: No live closure data from EBRPD. Revisit whether to subscribe to their Park Explorer newsletter (https://www.ebparks.org/form/newsletter-sign-up) as a passive fallback — not pool-specific but may catch seasonal closures.
 
 ### Gmail closure notice coverage
-- [ ] Verify Piedmont + El Cerrito emails surface correctly once those pools send closure notices
+- [ ] **Jul 15** — LN: Check whether any closure emails have arrived from Piedmont or El Cerrito, and that they're surfacing as amber banners in the app.
 - Note: Golden Bear (RecWell), DeFremery, Lions, East Oakland, Roberts have no pool email lists to subscribe to
 
 ---
@@ -69,5 +71,7 @@
 - Fixed schedule empty state: Family mode now shows "no sessions found" message instead of blank screen
 - Session sort improved: pools now appear alphabetically within each tier (favorites first, then A–Z)
 - El Cerrito split into two entries: El Cerrito Swim Center (lap, Fitness Swim ages 14+) and El Cerrito Splash Park (spray features, family); schedule from Jun 29–Jul 5 PDF, Jul 4 closure hardcoded
+- El Cerrito Swim Center: rECswim (family swim, activity pool) added — confirmed times M–F 12:30–3pm, Sat–Sun 1–4pm; Swim Center now appears in both Lap and Family modes
+- El Cerrito Swim Center: dynamic PDF scraper built (like Albany) — fetches current weekly PDF, parses with Claude AI, caches result; seeded with Jun 29–Jul 5 data
 - Holiday closures on schedule — Berkeley reads live from PDF, Emeryville and El Cerrito read live from website, East Oakland writes closure notice, Albany and Golden Bear already correct, Roberts has no live data
 - **Scraper health alerts** — per-pool warnings in schedule view: gray "No schedule available past [date]" for gaps, red "Data may be outdated · check [scraper]" for staleness. Powered by pool_meta Firestore collection written after each daily scraper run.
