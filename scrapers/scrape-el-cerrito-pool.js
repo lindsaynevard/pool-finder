@@ -33,48 +33,30 @@ async function getPdfBytes() {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
 
-  let pdfBytes = null;
-
-  // Intercept PDF responses — works if DocumentCenter loads the file in an embed/iframe
-  page.on('response', async resp => {
-    const ct = resp.headers()['content-type'] || '';
-    if (ct.includes('pdf') && !pdfBytes) {
-      try { pdfBytes = Buffer.from(await resp.body()); } catch {}
-    }
-  });
-
-  // Load the schedule page and find a swim schedule PDF link
+  // Load the schedule page to find the current PDF link
   await page.goto(SCHEDULE_PAGE, { waitUntil: 'domcontentloaded', timeout: 30000 });
   await page.waitForTimeout(4000);
 
-  if (!pdfBytes) {
-    // Find DocumentCenter links that look like swim schedule PDFs
-    const links = await page.$$eval('a', els =>
-      els
-        .filter(el => el.href.includes('DocumentCenter') || el.href.endsWith('.pdf'))
-        .map(el => ({ href: el.href, text: el.innerText.trim() }))
-    );
-
-    const scheduleLink = links.find(l =>
-      /swim.center.schedule/i.test(l.href) ||
-      /swim.schedule/i.test(l.href) ||
-      /schedule.*swim/i.test(l.text)
-    ) || links[0];
-
-    if (!scheduleLink) {
-      await browser.close();
-      throw new Error('No schedule PDF link found on El Cerrito Swim Center page');
-    }
-
-    // Navigate to the DocumentCenter viewer — the PDF will load in an embed
-    await page.goto(scheduleLink.href, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    await page.waitForTimeout(6000);
-  }
+  const links = await page.$$eval('a', els =>
+    els
+      .filter(el => el.href.includes('DocumentCenter') || el.href.endsWith('.pdf'))
+      .map(el => ({ href: el.href, text: el.innerText.trim() }))
+  );
 
   await browser.close();
 
-  if (!pdfBytes) throw new Error('Could not capture El Cerrito schedule PDF from browser');
-  return pdfBytes;
+  const scheduleLink = links.find(l =>
+    /swim.center.schedule/i.test(l.href) ||
+    /swim.schedule/i.test(l.href) ||
+    /schedule.*swim/i.test(l.text)
+  ) || links[0];
+
+  if (!scheduleLink) throw new Error('No schedule PDF link found on El Cerrito Swim Center page');
+
+  // DocumentCenter URLs trigger a file download — fetch directly via HTTP instead of Playwright
+  const resp = await fetch(scheduleLink.href);
+  if (!resp.ok) throw new Error(`HTTP ${resp.status} fetching El Cerrito PDF`);
+  return Buffer.from(await resp.arrayBuffer());
 }
 
 async function extractText(pdfBytes) {
@@ -220,7 +202,11 @@ export async function scrapeElCerritoPool(daysAhead = 14) {
 
   console.log('  El Cerrito PDF has changed! Parsing with Claude AI...');
   if (!process.env.ANTHROPIC_API_KEY) {
-    throw new Error('ANTHROPIC_API_KEY is required to parse updated El Cerrito schedule');
+    if (cache) {
+      console.warn('  ANTHROPIC_API_KEY not set — using cached schedule (may be outdated)');
+      return buildSchedule(cache, daysAhead);
+    }
+    throw new Error('ANTHROPIC_API_KEY is required to parse updated El Cerrito schedule (no cache available)');
   }
 
   const scheduleData = await parseWithClaude(pdfText);

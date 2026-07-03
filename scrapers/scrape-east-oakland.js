@@ -121,23 +121,6 @@ function buildDayResults(daysAhead, sessions, closedDates) {
 
 export async function scrapeEastOakland(daysAhead = 14) {
   const HARDCODED_SESSIONS = [{ start: '1:00 PM', end: '4:00 PM' }];
-
-  const pageText = await fetchPageText();
-  if (pageText) {
-    console.log('  Oakland page loaded via Playwright');
-    // Log a snippet so we can verify the content in CI logs
-    const snippet = pageText.replace(/\s+/g, ' ').slice(0, 500);
-    console.log(`  Page text snippet: ${snippet}`);
-
-    const parsed = parseSessionsFromText(pageText);
-    if (parsed.length > 0) {
-      console.log(`  Parsed ${parsed.length} session(s): ${parsed.map(s => `${s.start}–${s.end}`).join(', ')}`);
-      return buildDayResults(daysAhead, parsed, CLOSED_DATES);
-    } else {
-      console.warn('  Could not parse session times from page — using hardcoded fallback');
-    }
-  }
-
-  console.log(`  Using hardcoded schedule: ${HARDCODED_SESSIONS.map(s => `${s.start}–${s.end}`).join(', ')}`);
+  console.log('  Using hardcoded schedule: Mon–Sat 1:00 PM – 4:00 PM');
   return buildDayResults(daysAhead, HARDCODED_SESSIONS, CLOSED_DATES);
 }
