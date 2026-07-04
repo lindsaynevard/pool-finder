@@ -7,8 +7,15 @@ import path from 'path';
 import { dateStr } from './utils.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const creds = JSON.parse(readFileSync(path.join(__dirname, 'gmail-credentials.json')));
-const { client_id, client_secret } = creds.installed;
+
+let client_id, client_secret;
+try {
+  const creds = JSON.parse(readFileSync(path.join(__dirname, 'gmail-credentials.json')));
+  client_id = creds.installed?.client_id;
+  client_secret = creds.installed?.client_secret;
+} catch {
+  // credentials file missing or invalid — scrapeGmail() will skip gracefully
+}
 
 // Refresh the access token manually using Node's built-in fetch
 async function getAccessToken() {
@@ -203,6 +210,10 @@ function matchSender(from) {
 export async function scrapeGmail() {
   if (!process.env.GMAIL_REFRESH_TOKEN) {
     console.warn('  GMAIL_REFRESH_TOKEN not set — skipping Gmail scraper.');
+    return {};
+  }
+  if (!client_id || !client_secret) {
+    console.warn('  Gmail credentials missing or invalid — skipping Gmail scraper.');
     return {};
   }
 

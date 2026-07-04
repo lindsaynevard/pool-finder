@@ -96,60 +96,34 @@ async function writeClosureNotices(notices) {
   return count;
 }
 
+async function run(label, fn) {
+  console.log(`→ ${label}...`);
+  try {
+    const result = await fn();
+    console.log(`  ${Object.keys(result).length} schedule entries`);
+    return result;
+  } catch (err) {
+    console.error(`  ✗ ${label} failed: ${err.message}`);
+    return {};
+  }
+}
+
 async function main() {
   console.log('Running scrapers...\n');
 
-  console.log('→ West Campus + King Pool (Berkeley)...');
-  const berkeley = await scrapeBerkeley(14);
-  console.log(`  ${Object.keys(berkeley).length} schedule entries`);
-
-  console.log('→ Golden Bear / Spieker (UC Berkeley)...');
-  const goldenBear = await scrapeGoldenBear();
-  console.log(`  ${Object.keys(goldenBear).length} schedule entries`);
-
-  console.log('→ Emeryville ECCL...');
-  const emeryville = await scrapeEmeryville(14);
-  console.log(`  ${Object.keys(emeryville).length} schedule entries`);
-
-  console.log('→ Albany (auto PDF scraper)...');
-  const albany = await albanySchedule(14);
-  console.log(`  ${Object.keys(albany).length} schedule entries`);
-
-  console.log('→ Roberts Pool (East Bay Regional Parks)...');
-  const roberts = await scrapeRoberts(14);
-  console.log(`  ${Object.keys(roberts).length} schedule entries`);
-
-  console.log('→ East Oakland Sports Center...');
-  const eastOakland = await scrapeEastOakland(14);
-  console.log(`  ${Object.keys(eastOakland).length} schedule entries`);
-
-  console.log('→ El Cerrito Splash Park...');
-  const elCerritoSplash = await scrapeElCerritoSplash(14);
-  console.log(`  ${Object.keys(elCerritoSplash).length} schedule entries`);
-
-  console.log('→ El Cerrito Swim Center (Fitness Swim)...');
-  const elCerritoPool = await scrapeElCerritoPool(14);
-  console.log(`  ${Object.keys(elCerritoPool).length} schedule entries`);
-
-  console.log('→ deFremery Pool (Oakland)...');
-  const defremery = await scrapeDefremery(14);
-  console.log(`  ${Object.keys(defremery).length} schedule entries`);
-
-  console.log('→ Piedmont Community Pool...');
-  const piedmont = await scrapePiedmont(14);
-  console.log(`  ${Object.keys(piedmont).length} schedule entries`);
-
-  console.log('→ Lions Pool (Oakland)...');
-  const lions = await scrapeLions(14);
-  console.log(`  ${Object.keys(lions).length} schedule entries`);
-
-  console.log('→ Richmond Plunge...');
-  const richmond = await scrapeRichmond(14);
-  console.log(`  ${Object.keys(richmond).length} schedule entries`);
-
-  console.log('→ Richmond Swim Center (RSC)...');
-  const richmondSwimCenter = await scrapeRichmondSwimCenter(14);
-  console.log(`  ${Object.keys(richmondSwimCenter).length} schedule entries`);
+  const berkeley         = await run('West Campus + King Pool (Berkeley)', () => scrapeBerkeley(14));
+  const goldenBear       = await run('Golden Bear / Spieker (UC Berkeley)', () => scrapeGoldenBear());
+  const emeryville       = await run('Emeryville ECCL', () => scrapeEmeryville(14));
+  const albany           = await run('Albany (auto PDF scraper)', () => albanySchedule(14));
+  const roberts          = await run('Roberts Pool (East Bay Regional Parks)', () => scrapeRoberts(14));
+  const eastOakland      = await run('East Oakland Sports Center', () => scrapeEastOakland(14));
+  const elCerritoSplash  = await run('El Cerrito Splash Park', () => scrapeElCerritoSplash(14));
+  const elCerritoPool    = await run('El Cerrito Swim Center (Fitness Swim)', () => scrapeElCerritoPool(14));
+  const defremery        = await run('deFremery Pool (Oakland)', () => scrapeDefremery(14));
+  const piedmont         = await run('Piedmont Community Pool', () => scrapePiedmont(14));
+  const lions            = await run('Lions Pool (Oakland)', () => scrapeLions(14));
+  const richmond         = await run('Richmond Plunge', () => scrapeRichmond(14));
+  const richmondSwimCenter = await run('Richmond Swim Center (RSC)', () => scrapeRichmondSwimCenter(14));
 
   const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);

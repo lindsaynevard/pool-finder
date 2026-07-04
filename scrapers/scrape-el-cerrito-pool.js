@@ -209,7 +209,14 @@ export async function scrapeElCerritoPool(daysAhead = 14) {
     throw new Error('ANTHROPIC_API_KEY is required to parse updated El Cerrito schedule (no cache available)');
   }
 
-  const scheduleData = await parseWithClaude(pdfText);
+  let scheduleData;
+  try {
+    scheduleData = await parseWithClaude(pdfText);
+  } catch (err) {
+    console.warn(`  Claude AI parsing failed: ${err.message}. Using cached schedule.`);
+    if (cache) return buildSchedule(cache, daysAhead);
+    throw err;
+  }
   scheduleData.pdfHash = pdfHash;
 
   writeFileSync(CACHE_FILE, JSON.stringify(scheduleData, null, 2));
