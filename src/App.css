@@ -582,6 +582,7 @@ body {
 .pool-sheet-divider { height: 1px; background: #e5e5e5; margin-bottom: 12px; }
 .pool-sheet-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
 .pool-sheet-label { font-size: 14px; color: #888; }
+.pool-sheet-value { font-size: 14px; color: #111; font-weight: 500; }
 .pool-sheet-badge { background: #e6f4ea; color: #1e7e34; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 13px; white-space: nowrap; }
 .pool-sheet-no-alerts { font-size: 13px; color: #bbb; }
 .pool-sheet-maps-btn {

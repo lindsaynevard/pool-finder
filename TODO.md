@@ -12,7 +12,6 @@
 - [ ] **Jul 7** — LN: Check GitHub Actions logs to confirm the El Cerrito dynamic PDF scraper picked up the new weekly PDF (Jul 6–12). If it parsed correctly, the schedule will have updated automatically without any manual work.
 
 ### Scrapers to add or fix
-- [ ] **Jul 2** — East Oakland Sports Center: Playwright is working (Jul 1 logs confirmed). But parser was picking up lesson times — tightened to require "recreational swim" context + 60 min min duration (deployed Jul 1). Check Jul 2 logs to confirm only 1:00 PM–4:00 PM is parsed, or falls back cleanly to hardcoded.
 - [ ] **Jul 15** — Roberts Pool: No live closure data from EBRPD. Revisit whether to subscribe to their Park Explorer newsletter (https://www.ebparks.org/form/newsletter-sign-up) as a passive fallback — not pool-specific but may catch seasonal closures.
 
 ### Gmail closure notice coverage
@@ -75,3 +74,4 @@
 - El Cerrito Swim Center: dynamic PDF scraper built (like Albany) — fetches current weekly PDF, parses with Claude AI, caches result; seeded with Jun 29–Jul 5 data
 - Holiday closures on schedule — Berkeley reads live from PDF, Emeryville and El Cerrito read live from website, East Oakland writes closure notice, Albany and Golden Bear already correct, Roberts has no live data
 - **Scraper health alerts** — per-pool warnings in schedule view: gray "No schedule available past [date]" for gaps, red "Data may be outdated · check [scraper]" for staleness. Powered by pool_meta Firestore collection written after each daily scraper run.
+- Subscribed poolfinderalerts@gmail.com to Piedmont pool email list (Constant Contact) — future closure emails will be picked up automatically by Gmail scraper

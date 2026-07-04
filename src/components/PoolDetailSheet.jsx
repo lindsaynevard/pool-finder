@@ -12,6 +12,16 @@ export default function PoolDetailSheet({ pool, onClose }) {
           <div className="pool-sheet-description">{pool.description}</div>
         )}
         <div className="pool-sheet-divider" />
+        {pool.admissionPrice && (
+          <div className="pool-sheet-row">
+            <span className="pool-sheet-label">Admission</span>
+            <span className="pool-sheet-value">{pool.admissionPrice}</span>
+          </div>
+        )}
+        <div className="pool-sheet-row">
+          <span className="pool-sheet-label">Water temp</span>
+          <span className="pool-sheet-value">{pool.waterTemp ?? 'Unknown'}</span>
+        </div>
         <div className="pool-sheet-row">
           <span className="pool-sheet-label">Email alerts</span>
           {pool.mailingList?.subscribed
