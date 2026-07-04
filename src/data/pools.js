@@ -77,10 +77,10 @@ export const POOLS = [
     city: 'Oakland',
     description: 'Outdoor pool in Roberts Regional Recreation Area in the Oakland hills. Seasonal family swim.',
     swimTypes: ['family'],
-    waterTemp: null,
+    waterTemp: '82°F',
     mapsUrl: 'https://maps.google.com/?q=Roberts+Regional+Recreation+Area+Pool+Oakland+CA',
     websiteUrl: 'https://www.ebparks.org/recreation/swimming/roberts',
-    admissionPrice: null,
+    admissionPrice: '$5 adult · $3 youth (2–17) · Free under 2',
     mailingList: null,
   },
   {
@@ -92,7 +92,7 @@ export const POOLS = [
     waterTemp: null,
     mapsUrl: 'https://maps.google.com/?q=9161+Edes+Ave+Oakland+CA+94603',
     websiteUrl: 'https://www.oaklandca.gov/Community/Parks-Facilities/Pools/Larry-E.-Reid-Sports-Center-Pool',
-    admissionPrice: null,
+    admissionPrice: '$8 adult · $3 youth',
     mailingList: null,
   },
   {
@@ -104,7 +104,7 @@ export const POOLS = [
     waterTemp: null,
     mapsUrl: 'https://maps.google.com/?q=7007+Moeser+Lane+El+Cerrito+CA+94530',
     websiteUrl: 'https://www.elcerrito.gov/150/Swim-Center',
-    admissionPrice: null,
+    admissionPrice: '$8 adult · $5 youth (2–17)',
     mailingList: { subscribed: true },
   },
   {
@@ -116,7 +116,7 @@ export const POOLS = [
     waterTemp: null,
     mapsUrl: 'https://maps.google.com/?q=7007+Moeser+Lane+El+Cerrito+CA+94530',
     websiteUrl: 'https://www.elcerrito.gov/1579/Splash-Park',
-    admissionPrice: null,
+    admissionPrice: '$5 · Free under 2',
     mailingList: { subscribed: true },
   },
   {
@@ -128,7 +128,7 @@ export const POOLS = [
     waterTemp: null,
     mapsUrl: 'https://maps.google.com/?q=Richmond+Plunge+Richmond+CA',
     websiteUrl: 'https://www.ci.richmond.ca.us/2140/Richmond-Plunge',
-    admissionPrice: null,
+    admissionPrice: '$7 adult (res) · $8.75 (non-res) · $4 child (res)',
     mailingList: { subscribed: true },
   },
   {
@@ -176,7 +176,7 @@ export const POOLS = [
     waterTemp: null,
     mapsUrl: 'https://maps.google.com/?q=DeFremery+Pool+1651+Adeline+St+Oakland+CA',
     websiteUrl: 'https://www.oaklandca.gov/Community/Recreation-Programs/Aquatics-Swimming/Lap-Swimmers-Information',
-    admissionPrice: null,
+    admissionPrice: '$6 adult · $4 senior',
     mailingList: null,
   },
   {
@@ -188,7 +188,7 @@ export const POOLS = [
     waterTemp: null,
     mapsUrl: 'https://maps.google.com/?q=Lions+Pool+2100+Embarcadero+Oakland+CA',
     websiteUrl: 'https://www.oaklandca.gov/Community/Recreation-Programs/Aquatics-Swimming/Lap-Swimmers-Information',
-    admissionPrice: null,
+    admissionPrice: '$6 adult · $4 senior',
     mailingList: null,
   },
 ];
