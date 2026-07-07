@@ -5,7 +5,7 @@ export const POOLS = [
     city: 'Berkeley',
     description: 'Outdoor city pool in West Berkeley. Open year-round for lap and family swim with locker rooms and parking.',
     swimTypes: ['lap', 'family'],
-    waterTemp: null,
+    waterTemp: '82°F',
     suitSpinner: true,
     mapsUrl: 'https://maps.google.com/?q=West+Campus+Pool+Berkeley+CA',
     websiteUrl: 'https://berkeleyca.gov/community-recreation/parks-recreation/facilities/pools-and-aquatic-programs/west-campus-pool',
