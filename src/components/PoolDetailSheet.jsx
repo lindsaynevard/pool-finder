@@ -23,6 +23,18 @@ export default function PoolDetailSheet({ pool, onClose }) {
           <span className="pool-sheet-value">{pool.waterTemp ?? 'Unknown'}</span>
         </div>
         <div className="pool-sheet-row">
+          <span className="pool-sheet-label">Locking lockers</span>
+          <span className="pool-sheet-value">
+            {pool.lockingLockers === true ? 'Yes' : pool.lockingLockers === false ? 'No' : 'Unknown'}
+          </span>
+        </div>
+        <div className="pool-sheet-row">
+          <span className="pool-sheet-label">Suit spinner</span>
+          <span className="pool-sheet-value">
+            {pool.suitSpinner === true ? 'Yes' : pool.suitSpinner === false ? 'No' : 'Unknown'}
+          </span>
+        </div>
+        <div className="pool-sheet-row">
           <span className="pool-sheet-label">Email alerts</span>
           {pool.mailingList?.subscribed
             ? <span className="pool-sheet-badge">✓  Subscribed</span>
