@@ -59,6 +59,7 @@ const TOOLTIP_TEXT = {
   tot: 'Shallow-water session designed for young children and parents.',
   open: 'General recreational swimming open to the public.',
   masters: 'Coached swim program for adult competitive swimmers. Masters shares pool space during lap hours, which may mean fewer available lanes.',
+  'open-water': 'Open water swimming in the SF Bay. Swimmable when tide is at least 3.5 feet. No lifeguard on duty.',
 };
 
 export default function Schedule({ user }) {

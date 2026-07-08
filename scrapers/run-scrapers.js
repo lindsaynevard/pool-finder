@@ -12,6 +12,8 @@ import { scrapePiedmont } from './scrape-piedmont.js';
 import { scrapeLions } from './scrape-lions.js';
 import { scrapeRichmond } from './scrape-richmond.js';
 import { scrapeRichmondSwimCenter } from './scrape-richmond-swim-center.js';
+import { scrapeMills } from './scrape-mills.js';
+import { scrapeBerkeleyMarina } from './scrape-berkeley-marina.js';
 import { scrapeGmail } from './scrape-gmail.js';
 
 // Fetch doc IDs that have been manually edited and should not be overwritten by scrapers.
@@ -124,8 +126,10 @@ async function main() {
   const lions            = await run('Lions Pool (Oakland)', () => scrapeLions(14));
   const richmond         = await run('Richmond Plunge', () => scrapeRichmond(14));
   const richmondSwimCenter = await run('Richmond Swim Center (RSC)', () => scrapeRichmondSwimCenter(14));
+  const mills              = await run('Trefethen Aquatic Center (Mills/NU Oakland)', () => scrapeMills(14));
+  const berkeleyMarina     = await run('Berkeley Marina (NOAA tides)', () => scrapeBerkeleyMarina(14));
 
-  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter };
+  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter, ...mills, ...berkeleyMarina };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const overrides = await getManualOverrides();
@@ -147,6 +151,8 @@ async function main() {
   await writePoolMeta(lions,             'scrape-lions.js');
   await writePoolMeta(richmond,          'scrape-richmond.js');
   await writePoolMeta(richmondSwimCenter,'scrape-richmond-swim-center.js');
+  await writePoolMeta(mills,            'scrape-mills.js');
+  await writePoolMeta(berkeleyMarina,   'scrape-berkeley-marina.js');
   console.log('  ✓ Pool metadata written.');
 
   console.log('\n→ Gmail (closure notices)...');
