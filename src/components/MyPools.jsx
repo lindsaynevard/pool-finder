@@ -6,7 +6,7 @@ const LIVE_POOLS = new Set([
   'west-campus', 'king', 'golden-bear', 'emeryville',
   'albany-indoor', 'albany-outdoor', 'roberts', 'east-oakland',
   'el-cerrito-pool', 'el-cerrito-splash', 'piedmont-lap', 'piedmont-activity', 'defremery', 'lions', 'richmond',
-  'richmond-swim-center',
+  'richmond-swim-center', 'berkeley-marina',
 ]);
 
 export default function MyPools({ user, preferences, onToggleFavorite, onToggleHidden }) {

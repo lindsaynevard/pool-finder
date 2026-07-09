@@ -244,7 +244,9 @@ export default function Schedule({ user }) {
 
   const filtered = sessions.filter(s =>
     !hiddenSet.has(s.poolId) &&
-    (mode === 'lap' ? s.type === 'lap' : ['family','rec','community','tot','open'].includes(s.type))
+    (mode === 'lap'
+      ? s.type === 'lap' || s.type === 'open-water'
+      : ['family','rec','community','tot','open'].includes(s.type))
   );
   const sorted = [...filtered].sort((a, b) => {
     const aFav = favSet.has(a.poolId) ? 0 : 1;
