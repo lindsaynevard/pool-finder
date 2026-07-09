@@ -408,7 +408,12 @@ export default function Schedule({ user }) {
                   <div key={rowKey} className={`session-row${favSet.has(s.poolId) ? ' session-row-fav' : ''}`}>
                     <div className="session-left">
                       <div className="pool-name">
-                        {getPoolName(s.poolId)}
+                        {(() => {
+                          const url = POOLS.find(p => p.id === s.poolId)?.websiteUrl;
+                          return url
+                            ? <a href={url} target="_blank" rel="noopener noreferrer" className="pool-name-link">{getPoolName(s.poolId)}</a>
+                            : getPoolName(s.poolId);
+                        })()}
                         {favSet.has(s.poolId) && <span className="session-fav-star">★</span>}
                       </div>
                       <div className="session-meta">
