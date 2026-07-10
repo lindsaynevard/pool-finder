@@ -266,7 +266,10 @@ export default function Schedule({ user }) {
     <div className="screen">
       {/* Header */}
       <div className="header">
-        <h1 className="app-title">{TAB_TITLES[activeTab]}</h1>
+        <div className="app-title-wrap">
+          <img src="/apple-touch-icon.png" className="app-header-icon" alt="" />
+          <h1 className="app-title">{TAB_TITLES[activeTab]}</h1>
+        </div>
         {activeTab !== 'settings' && (
           user ? (
             <button className="avatar-btn" onClick={() => signOut(auth)} title="Sign out">
