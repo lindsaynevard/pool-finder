@@ -1,103 +1,620 @@
 {
-  "pdfHash": "8aeea77bd716b318352978b261498c935804ec6b55bb003095569ebe4d31360d",
-  "source": "comp-mpyr0wyl",
-  "validFrom": "2026-06-21",
-  "validUntil": "2026-07-09",
-  "closedDates": ["2026-06-19", "2026-07-03", "2026-07-04", "2026-08-09", "2026-09-07"],
+  "validFrom": "2026-07-10",
+  "validUntil": "2026-07-19",
+  "closedDates": [
+    "2026-08-09",
+    "2026-09-07"
+  ],
   "weekly": {
     "monday": [
-      { "start": "6:00 AM",  "end": "7:15 AM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-5" },
-      { "start": "7:15 AM",  "end": "10:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "All lanes" },
-      { "start": "10:00 AM", "end": "11:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-2" },
-      { "start": "11:00 AM", "end": "12:00 PM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 6-10" },
-      { "start": "12:00 PM", "end": "1:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "2 lanes" },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 2-6" },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "rec", "pool": "albany-outdoor", "notes": "Lanes 1, 7-10" },
-      { "start": "4:45 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-2" },
-      { "start": "6:00 AM",  "end": "8:00 AM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "8:00 AM",  "end": "9:00 AM",  "type": "lap", "pool": "albany-indoor",  "notes": "Lanes 1, 6" },
-      { "start": "9:00 AM",  "end": "12:20 PM", "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "9:00 AM",  "end": "12:20 PM", "type": "tot", "pool": "albany-indoor",  "notes": null },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": null },
-      { "start": "6:30 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "6:55 PM",  "end": "8:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": "Limited capacity" }
+      {
+        "start": "6:00 AM",
+        "end": "7:15 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-5"
+      },
+      {
+        "start": "7:15 AM",
+        "end": "10:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "All lanes"
+      },
+      {
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-2"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "12:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 5-10"
+      },
+      {
+        "start": "12:00 PM",
+        "end": "1:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "2 lanes"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 2-6"
+      },
+      {
+        "start": "4:45 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-2"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "rec",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1, 7-10"
+      },
+      {
+        "start": "6:00 AM",
+        "end": "8:00 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "8:00 AM",
+        "end": "9:00 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": "Lanes 1, 6"
+      },
+      {
+        "start": "9:00 AM",
+        "end": "12:20 PM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:30 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:00 AM",
+        "end": "8:00 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww"
+      },
+      {
+        "start": "9:00 AM",
+        "end": "12:20 PM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww/ts"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:55 PM",
+        "end": "8:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      }
     ],
     "tuesday": [
-      { "start": "6:00 AM",  "end": "10:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "All lanes" },
-      { "start": "10:00 AM", "end": "11:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-8" },
-      { "start": "11:00 AM", "end": "12:00 PM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 6-10" },
-      { "start": "12:00 PM", "end": "1:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "2 lanes" },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 2-6" },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "rec", "pool": "albany-outdoor", "notes": "Lanes 1, 7-10" },
-      { "start": "4:45 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-2" },
-      { "start": "7:00 AM",  "end": "9:30 AM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "7:00 AM",  "end": "9:30 AM",  "type": "tot", "pool": "albany-indoor",  "notes": null },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": null },
-      { "start": "6:30 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "6:55 PM",  "end": "8:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": "Limited capacity" }
+      {
+        "start": "6:00 AM",
+        "end": "10:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "All lanes"
+      },
+      {
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-8"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "12:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 5-10"
+      },
+      {
+        "start": "12:00 PM",
+        "end": "1:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "2 lanes"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 2-6"
+      },
+      {
+        "start": "4:45 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-2"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "rec",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1, 7-10"
+      },
+      {
+        "start": "7:00 AM",
+        "end": "9:30 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:30 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "7:00 AM",
+        "end": "9:30 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww/ts"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:55 PM",
+        "end": "8:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      }
     ],
     "wednesday": [
-      { "start": "6:00 AM",  "end": "7:15 AM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-5" },
-      { "start": "7:15 AM",  "end": "10:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "All lanes" },
-      { "start": "10:00 AM", "end": "11:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-5" },
-      { "start": "11:00 AM", "end": "12:00 PM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 6-10" },
-      { "start": "12:00 PM", "end": "1:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "2 lanes" },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 2-6" },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "rec", "pool": "albany-outdoor", "notes": "Lanes 1, 7-10" },
-      { "start": "4:45 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-2" },
-      { "start": "6:00 AM",  "end": "8:00 AM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "8:00 AM",  "end": "9:00 AM",  "type": "lap", "pool": "albany-indoor",  "notes": "Lanes 1, 6" },
-      { "start": "9:00 AM",  "end": "12:20 PM", "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "9:00 AM",  "end": "12:20 PM", "type": "tot", "pool": "albany-indoor",  "notes": null },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": null },
-      { "start": "6:30 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "6:55 PM",  "end": "8:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": "Limited capacity" }
+      {
+        "start": "6:00 AM",
+        "end": "7:15 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-5"
+      },
+      {
+        "start": "7:15 AM",
+        "end": "10:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "All lanes"
+      },
+      {
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-5"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "12:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 5-10"
+      },
+      {
+        "start": "12:00 PM",
+        "end": "1:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "2 lanes"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 2-6"
+      },
+      {
+        "start": "4:45 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-2"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "rec",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1, 7-10"
+      },
+      {
+        "start": "6:00 AM",
+        "end": "8:00 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "8:00 AM",
+        "end": "9:00 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": "Lanes 1, 6"
+      },
+      {
+        "start": "9:00 AM",
+        "end": "12:20 PM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:30 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:00 AM",
+        "end": "8:00 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww"
+      },
+      {
+        "start": "9:00 AM",
+        "end": "10:00 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww/ts"
+      },
+      {
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww/ts"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "12:20 PM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww/ts"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:55 PM",
+        "end": "8:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      }
     ],
     "thursday": [
-      { "start": "6:00 AM",  "end": "10:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "All lanes" },
-      { "start": "10:00 AM", "end": "11:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-8" },
-      { "start": "11:00 AM", "end": "12:00 PM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 6-10" },
-      { "start": "12:00 PM", "end": "1:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "2 lanes" },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 2-6" },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "rec", "pool": "albany-outdoor", "notes": "Lanes 1, 7-10" },
-      { "start": "4:45 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-2" },
-      { "start": "7:00 AM",  "end": "9:30 AM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "7:00 AM",  "end": "9:30 AM",  "type": "tot", "pool": "albany-indoor",  "notes": null },
-      { "start": "1:00 PM",  "end": "3:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": null },
-      { "start": "6:30 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "6:55 PM",  "end": "8:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": "Limited capacity" }
+      {
+        "start": "6:00 AM",
+        "end": "10:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "All lanes"
+      },
+      {
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-8"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "12:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 5-10"
+      },
+      {
+        "start": "12:00 PM",
+        "end": "1:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "2 lanes"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 2-6"
+      },
+      {
+        "start": "4:45 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-2"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "rec",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1, 7-10"
+      },
+      {
+        "start": "7:00 AM",
+        "end": "9:30 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:30 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "7:00 AM",
+        "end": "9:30 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww/ts"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "3:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:55 PM",
+        "end": "8:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      }
     ],
     "friday": [
-      { "start": "6:00 AM",  "end": "7:15 AM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-5" },
-      { "start": "7:15 AM",  "end": "10:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "All lanes" },
-      { "start": "10:00 AM", "end": "11:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-5" },
-      { "start": "11:00 AM", "end": "12:30 PM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 6-10" },
-      { "start": "4:45 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-2" },
-      { "start": "6:00 AM",  "end": "8:00 AM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "8:00 AM",  "end": "9:00 AM",  "type": "lap", "pool": "albany-indoor",  "notes": "Lanes 1, 6" },
-      { "start": "9:00 AM",  "end": "11:50 AM", "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "9:00 AM",  "end": "11:50 AM", "type": "tot", "pool": "albany-indoor",  "notes": null },
-      { "start": "4:45 PM",  "end": "8:00 PM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "4:45 PM",  "end": "8:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": null }
+      {
+        "start": "6:00 AM",
+        "end": "7:15 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-5"
+      },
+      {
+        "start": "7:15 AM",
+        "end": "10:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "All lanes"
+      },
+      {
+        "start": "10:00 AM",
+        "end": "11:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-5"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "12:30 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 6-10"
+      },
+      {
+        "start": "4:45 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-2"
+      },
+      {
+        "start": "6:00 AM",
+        "end": "8:00 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "8:00 AM",
+        "end": "9:00 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": "Lanes 1, 6"
+      },
+      {
+        "start": "9:00 AM",
+        "end": "11:50 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "4:45 PM",
+        "end": "8:00 PM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "6:00 AM",
+        "end": "8:00 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww"
+      },
+      {
+        "start": "9:00 AM",
+        "end": "11:50 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww/ts"
+      },
+      {
+        "start": "6:10 PM",
+        "end": "8:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": null
+      }
     ],
     "saturday": [
-      { "start": "7:00 AM",  "end": "9:00 AM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-5" },
-      { "start": "9:00 AM",  "end": "11:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-4" },
-      { "start": "11:00 AM", "end": "1:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "All lanes" },
-      { "start": "1:00 PM",  "end": "4:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 2-6" },
-      { "start": "1:30 PM",  "end": "4:00 PM",  "type": "rec", "pool": "albany-outdoor", "notes": "Lanes 1, 7-10" },
-      { "start": "11:00 AM", "end": "1:00 PM",  "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "11:00 AM", "end": "1:00 PM",  "type": "tot", "pool": "albany-indoor",  "notes": null },
-      { "start": "1:00 PM",  "end": "4:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": null }
+      {
+        "start": "7:00 AM",
+        "end": "9:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-5"
+      },
+      {
+        "start": "9:00 AM",
+        "end": "11:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-4"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "1:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "All lanes"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "4:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 2-10"
+      },
+      {
+        "start": "7:00 AM",
+        "end": "8:45 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "11:00 AM",
+        "end": "1:00 PM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "7:00 AM",
+        "end": "8:45 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "1:00 PM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ww/ts"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "4:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": "All lanes"
+      }
     ],
     "sunday": [
-      { "start": "8:00 AM",  "end": "11:00 AM", "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1-9" },
-      { "start": "11:00 AM", "end": "1:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 1,2,7-9" },
-      { "start": "1:00 PM",  "end": "4:00 PM",  "type": "lap", "pool": "albany-outdoor", "notes": "Lanes 2-6" },
-      { "start": "1:30 PM",  "end": "4:00 PM",  "type": "rec", "pool": "albany-outdoor", "notes": "Lanes 1, 7-10" },
-      { "start": "8:00 AM",  "end": "11:55 AM", "type": "tot", "pool": "albany-indoor",  "notes": null },
-      { "start": "9:05 AM",  "end": "11:55 AM", "type": "lap", "pool": "albany-indoor",  "notes": null },
-      { "start": "1:00 PM",  "end": "4:00 PM",  "type": "rec", "pool": "albany-indoor",  "notes": null }
+      {
+        "start": "8:00 AM",
+        "end": "11:00 AM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1-9"
+      },
+      {
+        "start": "11:00 AM",
+        "end": "1:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 1, 2, 7-9"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "4:00 PM",
+        "type": "lap",
+        "pool": "albany-outdoor",
+        "notes": "Lanes 2-10"
+      },
+      {
+        "start": "9:05 AM",
+        "end": "11:55 AM",
+        "type": "lap",
+        "pool": "albany-indoor",
+        "notes": null
+      },
+      {
+        "start": "8:00 AM",
+        "end": "11:55 AM",
+        "type": "tot",
+        "pool": "albany-indoor",
+        "notes": "ts/ww"
+      },
+      {
+        "start": "1:00 PM",
+        "end": "4:00 PM",
+        "type": "rec",
+        "pool": "albany-indoor",
+        "notes": "All lanes"
+      }
     ]
-  }
+  },
+  "pdfHash": "b982bfc2cc096d2d25fdd770be2704b1d3e6f2558a094d2a479d1f1cef1d74f4"
 }
