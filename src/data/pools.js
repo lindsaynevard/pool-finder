@@ -92,7 +92,7 @@ export const POOLS = [
     waterTemp: null,
     suitSpinner: false,
     mapsUrl: 'https://maps.google.com/?q=Berkeley+Marina+Berkeley+CA',
-    websiteUrl: 'https://www.cityofberkeley.info/marina/',
+    websiteUrl: 'https://tideschart.com/United-States/California/Alameda-County/Berkeley/',
     admissionPrice: 'Free',
     lockingLockers: false,
     mailingList: null,
