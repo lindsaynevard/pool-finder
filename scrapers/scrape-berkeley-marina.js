@@ -29,7 +29,7 @@ async function fetchPredictions(startDate, endDate) {
     `&product=predictions` +
     `&datum=MLLW` +
     `&time_zone=lst_ldt` +
-    `&interval=6` +
+    `&interval=h` +
     `&units=english` +
     `&application=pool_finder` +
     `&format=json`;
@@ -42,7 +42,7 @@ async function fetchPredictions(startDate, endDate) {
 }
 
 function swimWindowsForDay(preds) {
-  // Find contiguous 6-minute blocks at or above TIDE_MIN
+  // Find contiguous hourly blocks at or above TIDE_MIN
   const windows = [];
   let windowStart = null;
 
