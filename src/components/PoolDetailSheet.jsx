@@ -43,6 +43,11 @@ export default function PoolDetailSheet({ pool, onClose }) {
             : <span className="pool-sheet-no-alerts">No email list</span>
           }
         </div>
+        {pool.ticketingUrl && (
+          <a href={pool.ticketingUrl} target="_blank" rel="noopener noreferrer" className="pool-sheet-website-btn">
+            Reserve entry ↗
+          </a>
+        )}
         {pool.mapsUrl && (
           <a href={pool.mapsUrl} target="_blank" rel="noopener noreferrer" className="pool-sheet-maps-btn">
             View on Maps ↗
