@@ -24,6 +24,16 @@
 
 ---
 
+## Features to consider
+
+- [ ] Map view — show all pools on a map with pins; tap a pin to open the pool detail sheet
+- [ ] Filter by distance — "show pools within X miles of me" using device location
+- [ ] Session reminders — notify me before a swim session I've favorited
+- [ ] Upcoming closures view — single screen showing all amber banners across all pools for the next 7 days
+- [ ] Share a session — tap a session to share the pool name + time via iMessage/email
+
+---
+
 ## Done
 
 - Admission price added to pool detail sheet — pulled from each pool's website; all prices filled in

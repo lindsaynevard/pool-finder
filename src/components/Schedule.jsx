@@ -69,9 +69,13 @@ export default function Schedule({ user }) {
   const [tooltip, setTooltip] = useState(null);
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [closureNotices, setClosureNotices] = useState({});
   const [poolMeta, setPoolMeta] = useState({});
+  const [undoToast, setUndoToast] = useState(null);
+  const undoTimerRef = useRef(null);
   const PREFS_EMPTY = { lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] };
 
   function loadLocalPrefs() {
@@ -102,6 +106,7 @@ export default function Schedule({ user }) {
       d.setDate(d.getDate() + dayOffset);
       const ds = dateStr(d);
 
+      setFetchError(false);
       try {
         const q = query(collection(db, 'schedules'), where('date', '==', ds));
         const snap = await getDocs(q);
@@ -138,11 +143,12 @@ export default function Schedule({ user }) {
         setClosureNotices(notices);
       } catch (err) {
         console.error('Failed to fetch schedule:', err);
+        setFetchError(true);
       }
       setLoading(false);
     }
     fetchSchedule();
-  }, [dayOffset]);
+  }, [dayOffset, retryKey]);
 
   useEffect(() => {
     async function fetchPoolMeta() {
@@ -179,7 +185,8 @@ export default function Schedule({ user }) {
 
   async function toggleHidden(poolId, hiddenMode) {
     const key = `${hiddenMode}_hidden`;
-    const updated = preferences[key].includes(poolId)
+    const isCurrentlyHidden = preferences[key].includes(poolId);
+    const updated = isCurrentlyHidden
       ? preferences[key].filter(id => id !== poolId)
       : [...preferences[key], poolId];
     const newPrefs = { ...preferences, [key]: updated };
@@ -188,6 +195,22 @@ export default function Schedule({ user }) {
     if (user) {
       await setDoc(doc(db, 'user_preferences', user.uid), { [key]: updated }, { merge: true });
     }
+    if (!isCurrentlyHidden) {
+      if (undoTimerRef.current) clearTimeout(undoTimerRef.current);
+      setUndoToast({ poolId, mode: hiddenMode });
+      undoTimerRef.current = setTimeout(() => setUndoToast(null), 5000);
+    } else if (undoToast?.poolId === poolId) {
+      clearTimeout(undoTimerRef.current);
+      setUndoToast(null);
+    }
+  }
+
+  function undoHide() {
+    if (!undoToast) return;
+    clearTimeout(undoTimerRef.current);
+    const { poolId, mode: hiddenMode } = undoToast;
+    setUndoToast(null);
+    toggleHidden(poolId, hiddenMode);
   }
 
   async function toggleFavorite(poolId, favMode) {
@@ -222,7 +245,7 @@ export default function Schedule({ user }) {
       const hoursAgo = (nowMs - new Date(meta.lastRun).getTime()) / 3600000;
       if (hoursAgo > 25) {
         const daysAgo = Math.floor(hoursAgo / 24);
-        return [{ poolId, type: 'stale', message: `Data may be outdated · last updated ${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago · check ${meta.scraperFile}` }];
+        return [{ poolId, type: 'stale', message: `Schedule may be outdated — last updated ${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago` }];
       }
     }
     return [];
@@ -255,6 +278,13 @@ export default function Schedule({ user }) {
     return getPoolName(a.poolId).localeCompare(getPoolName(b.poolId));
   });
   const grouped = groupByTime(sorted);
+
+  const hasHiddenSessionsForMode = sessions.some(s => {
+    if (!hiddenSet.has(s.poolId)) return false;
+    return mode === 'lap'
+      ? s.type === 'lap' || s.type === 'open-water'
+      : ['family', 'rec', 'community', 'tot', 'open'].includes(s.type);
+  });
 
   const freshnessText = lastUpdated
     ? `✓ Last updated ${new Date(lastUpdated).toLocaleDateString('en-US', {month:'short', day:'numeric'})} at ${new Date(lastUpdated).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'})}`
@@ -361,7 +391,13 @@ export default function Schedule({ user }) {
               {healthWarnings.map(({ poolId, type, message }) => (
                 <div key={poolId} className={`health-warning health-warning-${type}`}>
                   <span className="health-warning-icon">{type === 'stale' ? '🔴' : '⚠️'}</span>
-                  <span><strong>{getPoolName(poolId)}</strong> — {message}</span>
+                  <span>
+                    <strong>{getPoolName(poolId)}</strong> — {message}
+                    {type === 'stale' && (() => {
+                      const url = POOLS.find(p => p.id === poolId)?.websiteUrl;
+                      return url ? <> · <a href={url} target="_blank" rel="noopener noreferrer" className="health-warning-link">Check website ↗</a></> : null;
+                    })()}
+                  </span>
                 </div>
               ))}
             </div>
@@ -398,8 +434,26 @@ export default function Schedule({ user }) {
           <div className="schedule-list">
             {loading && <div className="empty-state">Loading schedule…</div>}
 
-            {!loading && grouped.length === 0 && (
-              <div className="empty-state">No {mode === 'lap' ? 'lap' : 'family'} swim sessions found for this day.</div>
+            {!loading && fetchError && (
+              <div className="empty-state error-state">
+                <span>Couldn't load schedule — check your connection.</span>
+                <button className="retry-btn" onClick={() => setRetryKey(k => k + 1)}>Retry</button>
+              </div>
+            )}
+
+            {!loading && !fetchError && grouped.length === 0 && (
+              <div className="empty-state">
+                {hasHiddenSessionsForMode ? (
+                  <>
+                    Some pools are hidden.{' '}
+                    <button className="empty-state-link" onClick={() => setActiveTab('my-pools')}>
+                      Manage in My Pools →
+                    </button>
+                  </>
+                ) : (
+                  `No ${mode === 'lap' ? 'lap' : 'family'} swim sessions found for this day.`
+                )}
+              </div>
             )}
 
             {!loading && grouped.map(([time, slotSessions]) => (
@@ -461,6 +515,14 @@ export default function Schedule({ user }) {
 
       {/* Settings tab */}
       {activeTab === 'settings' && <SettingsTab user={user} />}
+
+      {/* Undo toast */}
+      {undoToast && (
+        <div className="undo-toast">
+          <span>{getPoolName(undoToast.poolId)} hidden</span>
+          <button className="undo-toast-btn" onClick={undoHide}>Undo</button>
+        </div>
+      )}
 
       {/* Tab bar */}
       <div className="tab-bar">
