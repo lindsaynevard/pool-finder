@@ -1,6 +1,6 @@
 {
-  "validFrom": "2026-07-20",
-  "validUntil": "2026-07-26",
+  "validFrom": "2026-07-27",
+  "validUntil": "2026-08-02",
   "closedDates": [],
   "weekly": {
     "monday": [
@@ -27,6 +27,12 @@
         "end": "3:00 PM",
         "type": "family",
         "notes": "Activity pool · rECswim"
+      },
+      {
+        "start": "3:30 PM",
+        "end": "7:00 PM",
+        "type": "family",
+        "notes": "Activity pool · rECswim"
       }
     ],
     "tuesday": [
@@ -43,14 +49,14 @@
         "notes": "Ages 14+ · Min. 2 lanes, shared pool"
       },
       {
-        "start": "4:00 PM",
-        "end": "4:30 PM",
-        "type": "lap",
-        "notes": "Ages 14+ · Min. 2 lanes, shared pool"
-      },
-      {
         "start": "12:30 PM",
         "end": "3:00 PM",
+        "type": "family",
+        "notes": "Activity pool · rECswim"
+      },
+      {
+        "start": "3:30 PM",
+        "end": "7:00 PM",
         "type": "family",
         "notes": "Activity pool · rECswim"
       }
@@ -79,6 +85,12 @@
         "end": "3:00 PM",
         "type": "family",
         "notes": "Activity pool · rECswim"
+      },
+      {
+        "start": "3:30 PM",
+        "end": "7:00 PM",
+        "type": "family",
+        "notes": "Activity pool · rECswim"
       }
     ],
     "thursday": [
@@ -95,14 +107,14 @@
         "notes": "Ages 14+ · Min. 2 lanes, shared pool"
       },
       {
-        "start": "4:00 PM",
-        "end": "4:30 PM",
-        "type": "lap",
-        "notes": "Ages 14+ · Min. 2 lanes, shared pool"
-      },
-      {
         "start": "12:30 PM",
         "end": "3:00 PM",
+        "type": "family",
+        "notes": "Activity pool · rECswim"
+      },
+      {
+        "start": "3:30 PM",
+        "end": "7:00 PM",
         "type": "family",
         "notes": "Activity pool · rECswim"
       }
@@ -127,8 +139,8 @@
         "notes": "Activity pool · rECswim"
       },
       {
-        "start": "6:30 PM",
-        "end": "9:00 PM",
+        "start": "3:30 PM",
+        "end": "7:00 PM",
         "type": "family",
         "notes": "Activity pool · rECswim"
       }
@@ -174,5 +186,5 @@
       }
     ]
   },
-  "pdfHash": "940ea558b1ebdcfc3f5be5fded42237da3fd3012d02837f0263abdece512e8eb"
+  "pdfHash": "d3523247e643f4d4878fe4ed45c2ebb58e163e2e2f0dc080bb8fc327dad2c518"
 }
