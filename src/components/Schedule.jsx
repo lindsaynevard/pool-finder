@@ -456,7 +456,7 @@ export default function Schedule({ user }) {
 
       {/* My Pools tab */}
       {activeTab === 'my-pools' && (
-        <MyPools user={user} preferences={preferences} onToggleFavorite={toggleFavorite} onToggleHidden={toggleHidden} />
+        <MyPools user={user} preferences={preferences} onToggleFavorite={toggleFavorite} onToggleHidden={toggleHidden} onSignIn={() => signInWithPopup(auth, provider)} />
       )}
 
       {/* Settings tab */}

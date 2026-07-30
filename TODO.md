@@ -5,6 +5,10 @@
 ### Core features
 - [ ] Build My Pools screen (Lap Order / Family Order tabs) — no hard deadline, tackle when you have a few hours
 
+### Design & UX audits
+- [ ] Heuristic usability audit — review the app against standard usability heuristics (visibility of system status, error prevention, recognition vs. recall, etc.)
+- [ ] Visual design audit — consistency of spacing, typography, color, and component styles across all screens
+
 ### Verify / QA
 - [ ] **Jul 1** — LN: Check El Cerrito in the app. Swim Center should show in Lap mode (Fitness Swim, ages 14+) and in Family mode (rECswim, 12:30–3pm M–F, 1–4pm Sat–Sun). Splash Park should show separately in Family mode (spray pad only, 9–12 and 3:30–7 weekdays).
 - [ ] **Jul 2** — LN: Confirm El Cerrito Swim Center shows as closed (amber banner) on July 4. Hardcoded July 4 into scraper (deployed Jul 1) — tomorrow's run should write it correctly. If still wrong, run fix script manually.
@@ -22,6 +26,8 @@
 
 ## Done
 
+- Admission price added to pool detail sheet — pulled from each pool's website; all prices filled in
+- Richmond Swim Center admission price: $7 adult (res) · $8.75 (non-res) · $4 child (res) — same fee sheet as Richmond Plunge (updated 2/28/26, from city PDF)
 - Per-pool lap/family filter — lap-only and family-only pools hidden from the wrong mode; toggle in My Pools controls visibility per mode
 - Oakland pools email list — confirmed: no email newsletter for DeFremery, Lions, or East Oakland. City has @OPRaquatics on Facebook and OPRAquatics@oaklandca.gov but no signup system. `mailingList: null` is correct.
 - Context-sensitive session notes — Emeryville "3 lanes only Mon–Thu" note suppressed on Fridays (fix in scrape-emeryville.js)
@@ -75,3 +81,5 @@
 - Holiday closures on schedule — Berkeley reads live from PDF, Emeryville and El Cerrito read live from website, East Oakland writes closure notice, Albany and Golden Bear already correct, Roberts has no live data
 - **Scraper health alerts** — per-pool warnings in schedule view: gray "No schedule available past [date]" for gaps, red "Data may be outdated · check [scraper]" for staleness. Powered by pool_meta Firestore collection written after each daily scraper run.
 - Subscribed poolfinderalerts@gmail.com to Piedmont pool email list (Constant Contact) — future closure emails will be picked up automatically by Gmail scraper
+- Pool names on schedule are tappable links — opens pool website in a new tab so users can verify the schedule
+- **Trefethen Aquatic Center (Mills)** added to app: scraper (Mon 6–1pm, Tue–Fri 8–1pm, Sat–Sun 1–5pm rec), pools.js entry with lap+family swim types, closure dates from website, subscribed to weekly newsletter (Campaign Monitor via confirmsubscription.com)

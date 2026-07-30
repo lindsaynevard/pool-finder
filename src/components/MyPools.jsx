@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { POOLS } from '../data/pools';
 import PoolDetailSheet from './PoolDetailSheet';
 
@@ -9,9 +9,17 @@ const LIVE_POOLS = new Set([
   'richmond-swim-center', 'berkeley-marina', 'mills',
 ]);
 
-export default function MyPools({ user, preferences, onToggleFavorite, onToggleHidden }) {
+export default function MyPools({ user, preferences, onToggleFavorite, onToggleHidden, onSignIn }) {
   const [favMode, setFavMode] = useState('lap');
   const [selectedPool, setSelectedPool] = useState(null);
+  const [nudge, setNudge] = useState(null); // 'star' | 'toggle'
+  const nudgeTimer = useRef(null);
+
+  function showNudge(type) {
+    if (nudgeTimer.current) clearTimeout(nudgeTimer.current);
+    setNudge(type);
+    nudgeTimer.current = setTimeout(() => setNudge(null), 4000);
+  }
 
   const favorites = new Set(preferences?.[`${favMode}_favorites`] || []);
   const hidden = new Set(preferences?.[`${favMode}_hidden`] || []);
@@ -29,8 +37,15 @@ export default function MyPools({ user, preferences, onToggleFavorite, onToggleH
           <button className={`mode-btn ${favMode === 'lap' ? 'active' : ''}`} onClick={() => setFavMode('lap')}>Lap</button>
           <button className={`mode-btn ${favMode === 'family' ? 'active' : ''}`} onClick={() => setFavMode('family')}>Family</button>
         </div>
-        {!user && (
-          <p className="my-pools-signin-note">Sign in to save favorites</p>
+        {!user && nudge && (
+          <div className="signin-nudge">
+            <span>
+              {nudge === 'star'
+                ? 'Sign in to save ★ favorites across devices'
+                : 'Sign in to sync your settings across devices'}
+            </span>
+            <button className="signin-nudge-btn" onClick={onSignIn}>Sign in</button>
+          </div>
         )}
       </div>
 
@@ -56,9 +71,8 @@ export default function MyPools({ user, preferences, onToggleFavorite, onToggleH
                       <>
                         <button
                           className={`pool-star-btn ${isFav ? 'active' : ''}`}
-                          onClick={(e) => { e.stopPropagation(); user && onToggleFavorite(pool.id, favMode); }}
+                          onClick={(e) => { e.stopPropagation(); if (!user) { showNudge('star'); return; } onToggleFavorite(pool.id, favMode); }}
                           aria-label={isFav ? `Unfavorite ${pool.name}` : `Favorite ${pool.name}`}
-                          title={!user ? 'Sign in to save favorites' : undefined}
                         >
                           {isFav ? '★' : '☆'}
                         </button>
@@ -70,7 +84,7 @@ export default function MyPools({ user, preferences, onToggleFavorite, onToggleH
                           <input
                             type="checkbox"
                             checked={!isHidden}
-                            onChange={() => onToggleHidden(pool.id, favMode)}
+                            onChange={() => { onToggleHidden(pool.id, favMode); if (!user) showNudge('toggle'); }}
                           />
                           <span className="pool-toggle-slider" />
                         </label>
@@ -87,7 +101,7 @@ export default function MyPools({ user, preferences, onToggleFavorite, onToggleH
       <div className="tab-footer-note">
         {user
           ? 'Starred pools appear first in the schedule.'
-          : 'Sign in to save your favorites.'}
+          : 'Sign in to save your preferences across devices.'}
       </div>
 
       <PoolDetailSheet pool={selectedPool} onClose={() => setSelectedPool(null)} />
