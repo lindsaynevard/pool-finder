@@ -14,6 +14,8 @@ import { scrapeRichmond } from './scrape-richmond.js';
 import { scrapeRichmondSwimCenter } from './scrape-richmond-swim-center.js';
 import { scrapeMills } from './scrape-mills.js';
 import { scrapeBerkeleyMarina } from './scrape-berkeley-marina.js';
+import { scrapeDonCastro } from './scrape-don-castro.js';
+import { scrapeCullCanyon } from './scrape-cull-canyon.js';
 import { scrapeGmail } from './scrape-gmail.js';
 
 // Fetch doc IDs that have been manually edited and should not be overwritten by scrapers.
@@ -128,8 +130,10 @@ async function main() {
   const richmondSwimCenter = await run('Richmond Swim Center (RSC)', () => scrapeRichmondSwimCenter(14));
   const mills              = await run('Trefethen Aquatic Center (Mills/NU Oakland)', () => scrapeMills(14));
   const berkeleyMarina     = await run('Berkeley Marina (NOAA tides)', () => scrapeBerkeleyMarina(14));
+  const donCastro          = await run('Don Castro Lagoon (EBRPD)', () => scrapeDonCastro(14));
+  const cullCanyon         = await run('Cull Canyon Lagoon (EBRPD)', () => scrapeCullCanyon(14));
 
-  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter, ...mills, ...berkeleyMarina };
+  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter, ...mills, ...berkeleyMarina, ...donCastro, ...cullCanyon };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const overrides = await getManualOverrides();
@@ -153,6 +157,8 @@ async function main() {
   await writePoolMeta(richmondSwimCenter,'scrape-richmond-swim-center.js');
   await writePoolMeta(mills,            'scrape-mills.js');
   await writePoolMeta(berkeleyMarina,   'scrape-berkeley-marina.js');
+  await writePoolMeta(donCastro,        'scrape-don-castro.js');
+  await writePoolMeta(cullCanyon,       'scrape-cull-canyon.js');
   console.log('  ✓ Pool metadata written.');
 
   console.log('\n→ Gmail (closure notices)...');
