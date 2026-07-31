@@ -55,7 +55,7 @@ export default function PoolDetailSheet({ pool, onClose }) {
         )}
         {pool.websiteUrl && (
           <a href={pool.websiteUrl} target="_blank" rel="noopener noreferrer" className="pool-sheet-website-btn">
-            View website ↗
+            Check official schedule ↗
           </a>
         )}
       </div>
