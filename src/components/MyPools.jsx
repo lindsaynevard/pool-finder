@@ -50,6 +50,13 @@ export default function MyPools({ user, preferences, onToggleFavorite, onToggleH
       </div>
 
       <div className="pool-list">
+        <div className="pool-columns-header">
+          <span className="pool-columns-spacer" />
+          <div className="pool-columns-labels">
+            <span className="pool-column-label">Favorites</span>
+            <span className="pool-column-label">Show</span>
+          </div>
+        </div>
         {Object.entries(byCity).map(([city, pools]) => (
           <div key={city} className="pool-city-group">
             <div className="pool-city-header">{city}</div>

@@ -22,6 +22,15 @@ function getDateLabel(offset) {
   return `${FULL_DAYS[d.getDay()]}, ${dateStr}`;
 }
 
+function formatTimeRange(start, end) {
+  const startPeriod = start.match(/(AM|PM)/i)?.[1]?.toUpperCase();
+  const endPeriod = end.match(/(AM|PM)/i)?.[1]?.toUpperCase();
+  if (startPeriod && startPeriod === endPeriod) {
+    return `${start.replace(/\s*(AM|PM)/i, '')}–${end}`;
+  }
+  return `${start}–${end}`;
+}
+
 function timeToMinutes(t) {
   const m = t.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
   if (!m) return 0;
@@ -492,7 +501,7 @@ export default function Schedule({ user }) {
                       )}
                     </div>
                     <div className="session-right">
-                      <span className="end-time">until {s.end}</span>
+                      <span className="end-time">{formatTimeRange(s.start, s.end)}</span>
                     </div>
                     {(() => {
                       const mastersNote = mode === 'lap' && hasOverlappingMasters(s) ? 'Shared with Masters swim' : null;

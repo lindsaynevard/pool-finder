@@ -435,7 +435,28 @@ body {
 }
 .pool-star-btn.active { color: #f5a623; }
 
-.pool-list { padding-top: 8px; }
+.pool-list { padding-top: 4px; }
+
+.pool-columns-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 16px 2px;
+}
+.pool-columns-spacer { flex: 1; }
+.pool-columns-labels {
+  display: flex;
+  gap: 16px;
+}
+.pool-column-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #aaa;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-align: center;
+  min-width: 38px;
+}
 
 .pool-city-group { margin-bottom: 8px; }
 
