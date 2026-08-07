@@ -1,6 +1,6 @@
 {
-  "validFrom": "2026-07-27",
-  "validUntil": "2026-08-02",
+  "validFrom": "2026-08-03",
+  "validUntil": "2026-08-09",
   "closedDates": [],
   "weekly": {
     "monday": [
@@ -163,6 +163,12 @@
         "end": "4:00 PM",
         "type": "family",
         "notes": "Activity pool · rECswim"
+      },
+      {
+        "start": "4:30 PM",
+        "end": "7:00 PM",
+        "type": "family",
+        "notes": "Activity pool · rECswim"
       }
     ],
     "sunday": [
@@ -183,8 +189,14 @@
         "end": "4:00 PM",
         "type": "family",
         "notes": "Activity pool · rECswim"
+      },
+      {
+        "start": "4:30 PM",
+        "end": "6:00 PM",
+        "type": "family",
+        "notes": "Activity pool · rECswim"
       }
     ]
   },
-  "pdfHash": "d3523247e643f4d4878fe4ed45c2ebb58e163e2e2f0dc080bb8fc327dad2c518"
+  "pdfHash": "8260e63dfc58f93c54f77ddede08dca4ba935af8348c5f5a66f062ba5f4d32bf"
 }
