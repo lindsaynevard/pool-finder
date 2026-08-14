@@ -119,7 +119,10 @@ function buildSchedule(scheduleData, daysAhead) {
   const weekly = scheduleData.weekly;
 
   const validUntil = scheduleData.validUntil ? new Date(scheduleData.validUntil + 'T23:59:59') : null;
-  const closureNotice = (validUntil && base > validUntil)
+  // If validUntil is more than 180 days in the past, Albany's PDF date header is likely
+  // a recycled annual template — the sessions are still correct, so suppress the stale notice.
+  const isRecycledTemplate = validUntil && (base - validUntil) > 180 * 24 * 60 * 60 * 1000;
+  const closureNotice = (validUntil && !isRecycledTemplate && base > validUntil)
     ? 'Albany schedule may be outdated. Check albanyaquaticcenter.com for current times.'
     : null;
 
