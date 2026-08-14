@@ -23,20 +23,27 @@ const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 
 
 async function getPdfUrl() {
   const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage();
+  const context = await browser.newContext();
+  const page = await context.newPage();
 
-  let pdfUrl = null;
-  page.on('response', resp => {
+  const pdfUrls = [];
+  // Use context-level listener to catch PDF responses from inside cross-origin iframes
+  // (pdf-viewer-pro embeds the schedule in an iframe; page.on misses those responses)
+  context.on('response', resp => {
     const ct = resp.headers()['content-type'] || '';
-    if (ct.includes('pdf')) pdfUrl = resp.url();
+    const url = resp.url();
+    const isPdf = ct.includes('application/pdf') ||
+      (ct.includes('octet-stream') && url.includes('.pdf')) ||
+      (url.includes('pdf.pdf-viewer-pro.com') && url.includes('.pdf') && url.includes('Expires='));
+    if (isPdf) pdfUrls.push(url);
   });
 
   await page.goto(SCHEDULE_URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
   await page.waitForTimeout(8000);
   await browser.close();
 
-  if (!pdfUrl) throw new Error('Could not find PDF on Albany schedule page');
-  return pdfUrl;
+  if (!pdfUrls.length) throw new Error('Could not find PDF on Albany schedule page');
+  return pdfUrls[0];
 }
 
 async function downloadPdf(url) {

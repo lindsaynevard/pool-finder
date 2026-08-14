@@ -21,6 +21,20 @@ const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 
 const SEASON_START = '2026-06-17';
 const SEASON_END   = '2026-09-07';
 
+const MONTH_MAP = {
+  january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
+  july: 6, august: 7, september: 8, october: 9, november: 10, december: 11,
+};
+
+// Parse the end date from a URL like ".../August-10-through-August-16-2026"
+function parseEndDate(href) {
+  const m = href.match(/through-(\w+)-(\d+)-(\d{4})/i);
+  if (!m) return null;
+  const monthIdx = MONTH_MAP[m[1].toLowerCase()];
+  if (monthIdx === undefined) return null;
+  return new Date(parseInt(m[3]), monthIdx, parseInt(m[2]));
+}
+
 // Hard-coded holiday closures — Claude AI sometimes misses these when parsing the PDF.
 // These override whatever closedDates Claude returns.
 const HARD_CLOSED = new Set([
@@ -45,11 +59,27 @@ async function getPdfBytes() {
 
   await browser.close();
 
-  const scheduleLink = links.find(l =>
+  // El Cerrito accumulates weekly PDFs on the page. Pick the one whose end date
+  // is >= today (sorted ascending) — that's the current week's schedule.
+  // Previously used .find() which always picked the oldest (first) match.
+  const scheduleLinks = links.filter(l =>
     /swim.center.schedule/i.test(l.href) ||
     /swim.schedule/i.test(l.href) ||
     /schedule.*swim/i.test(l.text)
-  ) || links[0];
+  );
+
+  let scheduleLink;
+  if (scheduleLinks.length > 1) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const withDates = scheduleLinks
+      .map(l => ({ link: l, endDate: parseEndDate(l.href) }))
+      .sort((a, b) => (a.endDate || 0) - (b.endDate || 0));
+    const current = withDates.find(({ endDate }) => !endDate || endDate >= today);
+    scheduleLink = (current || withDates[withDates.length - 1]).link;
+  } else {
+    scheduleLink = scheduleLinks[0] || links[0];
+  }
 
   if (!scheduleLink) throw new Error('No schedule PDF link found on El Cerrito Swim Center page');
 
