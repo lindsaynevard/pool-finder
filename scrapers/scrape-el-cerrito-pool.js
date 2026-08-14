@@ -182,12 +182,7 @@ function buildSchedule(byLink, daysAhead) {
       continue;
     }
 
-    // Find the period covering this date exactly
-    let period = periods.find(p => ds >= (p.validFrom || '') && ds <= (p.validUntil || '9999'));
-    // Fallback: most recent period (best-effort when schedule not yet updated)
-    if (!period) {
-      period = [...periods].reverse().find(p => ds >= (p.validFrom || ''));
-    }
+    const period = periods.find(p => ds >= (p.validFrom || '') && ds <= (p.validUntil || '9999'));
     if (!period) continue;
 
     const day = DAYS[d.getDay()];
