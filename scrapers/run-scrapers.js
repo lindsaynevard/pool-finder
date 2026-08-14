@@ -162,7 +162,29 @@ async function main() {
   console.log('  ✓ Pool metadata written.');
 
   console.log('\n→ Gmail (closure notices)...');
-  const gmailNotices = await scrapeGmail();
+  const hasGmailToken = !!process.env.GMAIL_REFRESH_TOKEN;
+  let gmailNotices = {};
+  if (hasGmailToken) {
+    let gmailSuccess = true;
+    try {
+      gmailNotices = await scrapeGmail();
+    } catch (err) {
+      console.error(`  ✗ Gmail scraper failed: ${err.message}`);
+      gmailSuccess = false;
+      await db.collection('scraper_meta').doc('gmail').set({
+        lastRun: new Date().toISOString(),
+        success: false,
+        error: err.message,
+      });
+    }
+    if (gmailSuccess) {
+      await db.collection('scraper_meta').doc('gmail').set({
+        lastRun: new Date().toISOString(),
+        success: true,
+        noticeCount: Object.keys(gmailNotices).length,
+      });
+    }
+  }
   const noticeCount = Object.keys(gmailNotices).length;
   console.log(`  ${noticeCount} closure notice(s) found`);
   if (noticeCount > 0) {

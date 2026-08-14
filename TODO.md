@@ -6,7 +6,8 @@
 - [ ] Build My Pools screen (Lap Order / Family Order tabs) — no hard deadline, tackle when you have a few hours
 
 ### Design & UX audits
-- [ ] Heuristic usability audit — review the app against standard usability heuristics (visibility of system status, error prevention, recognition vs. recall, etc.)
+- [ ] **Audit fix #6** — Users don't know what the hide toggle does — they might think it's notifications or account settings. Goal: someone landing on My Pools for the first time should immediately understand that the toggle controls whether a pool shows up in their schedule. Proposed: add "Show in schedule" as a label near the column header, or a one-time tooltip on first load.
+- [ ] **Audit fix #8** — When a user sees a session they're interested in, they have no way to check pool details (water temp, lockers, admission price) without leaving the schedule and hunting for the pool in My Pools. Goal: tap the pool name in the schedule to open the pool's detail sheet directly. Currently, tapping the pool name opens the external website — move that link inside the detail sheet (it's already there as "Check official schedule ↗") and use the tap to open the sheet instead.
 - [ ] Visual design audit — consistency of spacing, typography, color, and component styles across all screens
 
 ### Verify / QA
@@ -15,10 +16,15 @@
 - [ ] **Jul 1** — LN: Confirm Piedmont July 4 closure notice was picked up (amber banner should appear on July 4 for Piedmont Competition Pool and/or Activity Pool).
 - [ ] **Jul 7** — LN: Check GitHub Actions logs to confirm the El Cerrito dynamic PDF scraper picked up the new weekly PDF (Jul 6–12). If it parsed correctly, the schedule will have updated automatically without any manual work.
 
+### Maintenance
+- [ ] Regenerate "pool-finder CLI" GitHub PAT (expired Aug 7) — needed if you ever push a change to a workflow file. Go to github.com/settings/tokens in incognito (personal account), regenerate token ID 4891329033, keep `repo` + `workflow` scopes.
+
 ### Scrapers to add or fix
 - [ ] **Jul 15** — Roberts Pool: No live closure data from EBRPD. Revisit whether to subscribe to their Park Explorer newsletter (https://www.ebparks.org/form/newsletter-sign-up) as a passive fallback — not pool-specific but may catch seasonal closures.
 
 ### Gmail closure notice coverage
+- [ ] **Aug 13 — DO NEXT** — Gmail scraper had an expired refresh token for an unknown period before Aug 10. Any closure emails that arrived during that gap were never processed. Manually review poolfinderalerts@gmail.com inbox for missed closure emails from all subscribed pools (Albany, Berkeley, Emeryville, Piedmont, El Cerrito, Richmond, Mills) and check whether any of those dates need closure notices written to Firestore.
+- [ ] **Aug 10** — Piedmont sent a closure email today but the Gmail scraper found 0 notices (ran twice, both came up empty). Check poolfinderalerts@gmail.com inbox: is the email there? If yes, look at the sender address and email content — the scraper may need to be updated to recognize a new sender or different phrasing (e.g. "modified hours" vs "closed").
 - [ ] **Jul 15** — LN: Check whether any closure emails have arrived from Piedmont or El Cerrito, and that they're surfacing as amber banners in the app.
 - Note: Golden Bear (RecWell), DeFremery, Lions, East Oakland, Roberts have no pool email lists to subscribe to
 
@@ -26,6 +32,7 @@
 
 ## Features to consider
 
+- [ ] Assess usage — who is using the app and how (page views, most-visited pools, Lap vs. Family mode split, return visits)
 - [ ] Map view — show all pools on a map with pins; tap a pin to open the pool detail sheet
 - [ ] Filter by distance — "show pools within X miles of me" using device location
 - [ ] Session reminders — notify me before a swim session I've favorited
@@ -36,6 +43,9 @@
 
 ## Done
 
+- Gmail scraper health alerting — amber in-app banner when Gmail scraper hasn't run in 48h or last run errored. Scraper writes to `scraper_meta/gmail` in Firestore; Schedule.jsx reads it on load and shows the banner.
+- Audit fixes #4 + #5: session rows now show full time range ("8:00–9:30 AM"); "Favorites" + "Show" column headers added to My Pools
+- Heuristic usability audit complete — 10 findings across all 4 screens, saved to `docs/heuristic-audit.md`; top fixes implemented (#1 empty state recovery, #3 health warning message, #7 undo toast, #8 "Check official schedule ↗" button, #9 fetch error state)
 - Admission price added to pool detail sheet — pulled from each pool's website; all prices filled in
 - Richmond Swim Center admission price: $7 adult (res) · $8.75 (non-res) · $4 child (res) — same fee sheet as Richmond Plunge (updated 2/28/26, from city PDF)
 - Per-pool lap/family filter — lap-only and family-only pools hidden from the wrong mode; toggle in My Pools controls visibility per mode

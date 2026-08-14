@@ -83,6 +83,7 @@ export default function Schedule({ user }) {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [closureNotices, setClosureNotices] = useState({});
   const [poolMeta, setPoolMeta] = useState({});
+  const [gmailMeta, setGmailMeta] = useState(null);
   const [undoToast, setUndoToast] = useState(null);
   const undoTimerRef = useRef(null);
   const PREFS_EMPTY = { lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] };
@@ -174,6 +175,16 @@ export default function Schedule({ user }) {
   }, []);
 
   useEffect(() => {
+    async function fetchGmailMeta() {
+      try {
+        const snap = await getDoc(doc(db, 'scraper_meta', 'gmail'));
+        if (snap.exists()) setGmailMeta(snap.data());
+      } catch {}
+    }
+    fetchGmailMeta();
+  }, []);
+
+  useEffect(() => {
     if (!user) return; // signed out: keep whatever is in localStorage (already loaded as initial state)
     async function loadPrefs() {
       const snap = await getDoc(doc(db, 'user_preferences', user.uid));
@@ -259,6 +270,17 @@ export default function Schedule({ user }) {
     }
     return [];
   });
+
+  const gmailWarning = (() => {
+    if (!gmailMeta) return null;
+    if (!gmailMeta.success) return 'Closure notice emails may be missing — the email scraper encountered an error.';
+    const ageH = (Date.now() - new Date(gmailMeta.lastRun).getTime()) / 3600000;
+    if (ageH > 48) {
+      const daysAgo = Math.floor(ageH / 24);
+      return `Closure notice emails may be delayed — last checked ${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago.`;
+    }
+    return null;
+  })();
 
   // Build a masters lookup for adding notes to overlapping lap sessions
   const mastersByPool = {};
@@ -409,6 +431,16 @@ export default function Schedule({ user }) {
                   </span>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Gmail scraper health warning */}
+          {!loading && gmailWarning && (
+            <div className="health-warnings">
+              <div className="health-warning health-warning-amber">
+                <span className="health-warning-icon">📧</span>
+                <span>{gmailWarning}</span>
+              </div>
             </div>
           )}
 

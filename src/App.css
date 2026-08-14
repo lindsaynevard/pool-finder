@@ -181,6 +181,10 @@ body {
   background: #fff0f0;
   color: #c0392b;
 }
+.health-warning-amber {
+  background: #fff3cd;
+  color: #856404;
+}
 .health-warning-icon { flex-shrink: 0; }
 
 .coming-soon-banner {

@@ -224,8 +224,7 @@ export async function scrapeGmail() {
   try {
     accessToken = await getAccessToken();
   } catch (err) {
-    console.warn(`  Gmail auth error: ${err.message}`);
-    return {};
+    throw new Error(`Gmail auth error: ${err.message}`);
   }
 
   // Fetch message IDs from the last 7 days
@@ -234,8 +233,7 @@ export async function scrapeGmail() {
     const listRes = await gmailGet('messages?q=newer_than%3A7d&maxResults=100', accessToken);
     messageIds = listRes.messages ?? [];
   } catch (err) {
-    console.warn(`  Gmail list error: ${err.message}`);
-    return {};
+    throw new Error(`Gmail list error: ${err.message}`);
   }
 
   if (messageIds.length === 0) {
