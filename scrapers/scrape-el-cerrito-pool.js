@@ -151,8 +151,10 @@ async function parseWithClaude(pdfText) {
 
 function buildSchedule(byLink, daysAhead) {
   const results = {};
-  const base = new Date();
-  base.setHours(0, 0, 0, 0);
+  // Use Pacific date as base — GitHub Actions runs in UTC; pools are in the Pacific time zone.
+  const pacificDate = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+  const [py, pm, pd] = pacificDate.split('-').map(Number);
+  const base = new Date(py, pm - 1, pd);
 
   // Sort periods by validFrom
   const periods = Object.values(byLink).sort((a, b) =>

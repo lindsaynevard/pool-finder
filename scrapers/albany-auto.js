@@ -44,7 +44,10 @@ async function getPdfUrls() {
   });
 
   await page.goto(SCHEDULE_URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
-  await page.waitForTimeout(20000); // allow both iframes to load
+  await page.waitForTimeout(8000);
+  // Scroll to bottom to trigger lazy-loading of the second pdf-viewer-pro iframe
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await page.waitForTimeout(15000);
   await browser.close();
 
   return found;
@@ -119,8 +122,10 @@ async function parseWithClaude(pdfText) {
 
 function buildSchedule(byComp, daysAhead) {
   const results = {};
-  const base = new Date();
-  base.setHours(0, 0, 0, 0);
+  // Use Pacific date as base — GitHub Actions runs in UTC; pools are in the Pacific time zone.
+  const pacificDate = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+  const [py, pm, pd] = pacificDate.split('-').map(Number);
+  const base = new Date(py, pm - 1, pd);
 
   // Sort schedule periods by validFrom so we can find the right one for each date
   const periods = Object.values(byComp).sort((a, b) =>
