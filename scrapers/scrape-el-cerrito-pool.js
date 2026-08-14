@@ -1,5 +1,6 @@
 // El Cerrito Swim Center — dynamic schedule scraper
-// Weekly rotating PDF → Claude AI → cached weekly template
+// Handles multiple weekly PDFs (current week + next week) accumulating on the schedule page.
+// Each PDF link is cached independently by URL; only re-parses when a PDF changes.
 // Cache: scrapers/.el-cerrito-pool-schedule-cache.json
 //
 // Extracts: Fitness Swim (lap, ages 14+) and rECswim (family, activity pool).
@@ -26,7 +27,12 @@ const MONTH_MAP = {
   july: 6, august: 7, september: 8, october: 9, november: 10, december: 11,
 };
 
-// Parse the end date from a URL like ".../August-10-through-August-16-2026"
+// Hard-coded holiday closures — Claude AI sometimes misses these when parsing the PDF.
+const HARD_CLOSED = new Set([
+  '2026-07-04', // Independence Day
+]);
+
+// Parse the end date from a DocumentCenter URL like ".../August-10-through-August-16-2026"
 function parseEndDate(href) {
   const m = href.match(/through-(\w+)-(\d+)-(\d{4})/i);
   if (!m) return null;
@@ -35,19 +41,15 @@ function parseEndDate(href) {
   return new Date(parseInt(m[3]), monthIdx, parseInt(m[2]));
 }
 
-// Hard-coded holiday closures — Claude AI sometimes misses these when parsing the PDF.
-// These override whatever closedDates Claude returns.
-const HARD_CLOSED = new Set([
-  '2026-07-04', // Independence Day
-]);
-
 // --- PDF fetch ---
 
-async function getPdfBytes() {
+// Returns all matching schedule PDF links from the El Cerrito schedule page,
+// sorted by end date ascending (oldest first). We process all of them and
+// let buildSchedule pick the right one for each date.
+async function getScheduleLinks() {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage();
 
-  // Load the schedule page to find the current PDF link
   await page.goto(SCHEDULE_PAGE, { waitUntil: 'domcontentloaded', timeout: 30000 });
   await page.waitForTimeout(4000);
 
@@ -59,32 +61,23 @@ async function getPdfBytes() {
 
   await browser.close();
 
-  // El Cerrito accumulates weekly PDFs on the page. Pick the one whose end date
-  // is >= today (sorted ascending) — that's the current week's schedule.
-  // Previously used .find() which always picked the oldest (first) match.
   const scheduleLinks = links.filter(l =>
     /swim.center.schedule/i.test(l.href) ||
     /swim.schedule/i.test(l.href) ||
     /schedule.*swim/i.test(l.text)
   );
 
-  let scheduleLink;
-  if (scheduleLinks.length > 1) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const withDates = scheduleLinks
-      .map(l => ({ link: l, endDate: parseEndDate(l.href) }))
-      .sort((a, b) => (a.endDate || 0) - (b.endDate || 0));
-    const current = withDates.find(({ endDate }) => !endDate || endDate >= today);
-    scheduleLink = (current || withDates[withDates.length - 1]).link;
-  } else {
-    scheduleLink = scheduleLinks[0] || links[0];
-  }
+  // Sort by end date ascending so buildSchedule periods are ordered
+  return scheduleLinks.sort((a, b) => {
+    const da = parseEndDate(a.href);
+    const db = parseEndDate(b.href);
+    return (da || 0) - (db || 0);
+  });
+}
 
-  if (!scheduleLink) throw new Error('No schedule PDF link found on El Cerrito Swim Center page');
-
-  // DocumentCenter URLs trigger a file download — fetch directly via HTTP instead of Playwright
-  const resp = await fetch(scheduleLink.href);
+async function fetchPdfBytes(url) {
+  // DocumentCenter URLs trigger a file download — fetch directly via HTTP
+  const resp = await fetch(url);
   if (!resp.ok) throw new Error(`HTTP ${resp.status} fetching El Cerrito PDF`);
   return Buffer.from(await resp.arrayBuffer());
 }
@@ -156,16 +149,18 @@ async function parseWithClaude(pdfText) {
 
 // --- Schedule builder ---
 
-function buildSchedule(scheduleData, daysAhead) {
+function buildSchedule(byLink, daysAhead) {
   const results = {};
   const base = new Date();
   base.setHours(0, 0, 0, 0);
-  const closedSet = new Set([...(scheduleData.closedDates || []), ...HARD_CLOSED]);
 
-  const validUntil = scheduleData.validUntil ? new Date(scheduleData.validUntil + 'T23:59:59') : null;
-  const closureNotice = (validUntil && base > validUntil)
-    ? 'El Cerrito schedule may be outdated — check elcerrito.gov for current times.'
-    : null;
+  // Sort periods by validFrom
+  const periods = Object.values(byLink).sort((a, b) =>
+    (a.validFrom || '').localeCompare(b.validFrom || '')
+  );
+
+  // Merge closed dates across all periods + hard-coded closures
+  const allClosed = new Set([...HARD_CLOSED, ...periods.flatMap(p => p.closedDates || [])]);
 
   for (let i = 0; i < daysAhead; i++) {
     const d = new Date(base);
@@ -174,7 +169,7 @@ function buildSchedule(scheduleData, daysAhead) {
 
     if (ds < SEASON_START || ds > SEASON_END) continue;
 
-    if (closedSet.has(ds)) {
+    if (allClosed.has(ds)) {
       results[`el-cerrito-pool_${ds}`] = {
         poolId: 'el-cerrito-pool',
         date: ds,
@@ -185,8 +180,16 @@ function buildSchedule(scheduleData, daysAhead) {
       continue;
     }
 
+    // Find the period covering this date exactly
+    let period = periods.find(p => ds >= (p.validFrom || '') && ds <= (p.validUntil || '9999'));
+    // Fallback: most recent period (best-effort when schedule not yet updated)
+    if (!period) {
+      period = [...periods].reverse().find(p => ds >= (p.validFrom || ''));
+    }
+    if (!period) continue;
+
     const day = DAYS[d.getDay()];
-    const sessions = (scheduleData.weekly[day] || []).map(s => ({
+    const sessions = (period.weekly[day] || []).map(s => ({
       start: s.start,
       end: s.end,
       type: s.type,
@@ -197,7 +200,7 @@ function buildSchedule(scheduleData, daysAhead) {
       poolId: 'el-cerrito-pool',
       date: ds,
       sessions,
-      closureNotice,
+      closureNotice: null,
       lastUpdated: new Date().toISOString(),
     };
   }
@@ -208,49 +211,74 @@ function buildSchedule(scheduleData, daysAhead) {
 // --- Main export ---
 
 export async function scrapeElCerritoPool(daysAhead = 14) {
-  let cache = null;
+  // Load cache. Migrates old single-PDF format to new multi-link format.
+  // New format: { byLink: { [url]: { pdfHash, validFrom, validUntil, weekly, closedDates } } }
+  let cache = { byLink: {} };
   if (existsSync(CACHE_FILE)) {
-    try { cache = JSON.parse(readFileSync(CACHE_FILE, 'utf8')); } catch {}
+    try {
+      const raw = JSON.parse(readFileSync(CACHE_FILE, 'utf8'));
+      if (raw.byLink) {
+        cache = raw;
+      } else if (raw.pdfHash && raw.weekly) {
+        cache = { byLink: { 'legacy': raw } };
+        console.log('  Migrated El Cerrito cache from single-PDF format.');
+      }
+    } catch {}
   }
 
-  let pdfText, pdfHash;
+  // Get all schedule PDF links from the page
+  let scheduleLinks;
   try {
-    console.log('  Fetching El Cerrito schedule PDF via browser...');
-    const pdfBytes = await getPdfBytes();
-    pdfText = await extractText(pdfBytes);
-    pdfHash = createHash('sha256').update(pdfText).digest('hex');
+    console.log('  Fetching El Cerrito schedule PDF links...');
+    scheduleLinks = await getScheduleLinks();
+    if (!scheduleLinks.length) throw new Error('No schedule PDF links found');
+    console.log(`  Found ${scheduleLinks.length} schedule PDF(s).`);
   } catch (err) {
-    console.warn(`  Warning: could not fetch El Cerrito PDF (${err.message}). Using cached schedule.`);
-    if (cache) return buildSchedule(cache, daysAhead);
-    throw err;
+    console.warn(`  Warning: could not fetch El Cerrito links (${err.message}). Using cached schedule.`);
+    return buildSchedule(cache.byLink, daysAhead);
   }
 
-  if (cache && cache.pdfHash === pdfHash) {
-    console.log('  El Cerrito PDF unchanged — using cached schedule.');
-    return buildSchedule(cache, daysAhead);
-  }
-
-  console.log('  El Cerrito PDF has changed! Parsing with Claude AI...');
-  if (!process.env.ANTHROPIC_API_KEY) {
-    if (cache) {
-      console.warn('  ANTHROPIC_API_KEY not set — using cached schedule (may be outdated)');
-      return buildSchedule(cache, daysAhead);
+  // Process each PDF link: check hash, re-parse if changed
+  let cacheChanged = false;
+  for (const link of scheduleLinks) {
+    const url = link.href;
+    let pdfText, pdfHash;
+    try {
+      const pdfBytes = await fetchPdfBytes(url);
+      pdfText = await extractText(pdfBytes);
+      pdfHash = createHash('sha256').update(pdfText).digest('hex');
+    } catch (err) {
+      console.warn(`  Warning: could not download ${url} (${err.message}). Skipping.`);
+      continue;
     }
-    throw new Error('ANTHROPIC_API_KEY is required to parse updated El Cerrito schedule (no cache available)');
+
+    const cached = cache.byLink[url];
+    if (cached && cached.pdfHash === pdfHash) {
+      console.log(`  ${url.split('/').slice(-1)[0]}: unchanged.`);
+      continue;
+    }
+
+    console.log(`  ${url.split('/').slice(-1)[0]}: changed — parsing with Claude AI...`);
+    if (!process.env.ANTHROPIC_API_KEY) {
+      console.warn('  ANTHROPIC_API_KEY not set — skipping re-parse.');
+      continue;
+    }
+
+    try {
+      const scheduleData = await parseWithClaude(pdfText);
+      scheduleData.pdfHash = pdfHash;
+      cache.byLink[url] = scheduleData;
+      cacheChanged = true;
+      console.log(`  Parsed → ${scheduleData.validFrom} – ${scheduleData.validUntil}`);
+    } catch (err) {
+      console.warn(`  Claude AI parsing failed: ${err.message}. Using cached.`);
+    }
   }
 
-  let scheduleData;
-  try {
-    scheduleData = await parseWithClaude(pdfText);
-  } catch (err) {
-    console.warn(`  Claude AI parsing failed: ${err.message}. Using cached schedule.`);
-    if (cache) return buildSchedule(cache, daysAhead);
-    throw err;
+  if (cacheChanged) {
+    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+    console.log('  Updated .el-cerrito-pool-schedule-cache.json.');
   }
-  scheduleData.pdfHash = pdfHash;
 
-  writeFileSync(CACHE_FILE, JSON.stringify(scheduleData, null, 2));
-  console.log('  Updated .el-cerrito-pool-schedule-cache.json with new schedule.');
-
-  return buildSchedule(scheduleData, daysAhead);
+  return buildSchedule(cache.byLink, daysAhead);
 }
