@@ -27,19 +27,18 @@ async function getPdfUrl() {
   const page = await context.newPage();
 
   const pdfUrls = [];
-  // Use context-level listener to catch PDF responses from inside cross-origin iframes
-  // (pdf-viewer-pro embeds the schedule in an iframe; page.on misses those responses)
+  // Only capture signed PDF URLs from pdf-viewer-pro (the schedule iframe).
+  // The Albany page also serves a static rules PDF via application/pdf — skipping
+  // that avoids a false hash match against the cached schedule.
   context.on('response', resp => {
-    const ct = resp.headers()['content-type'] || '';
     const url = resp.url();
-    const isPdf = ct.includes('application/pdf') ||
-      (ct.includes('octet-stream') && url.includes('.pdf')) ||
-      (url.includes('pdf.pdf-viewer-pro.com') && url.includes('.pdf') && url.includes('Expires='));
-    if (isPdf) pdfUrls.push(url);
+    if (url.includes('pdf.pdf-viewer-pro.com') && url.includes('.pdf') && url.includes('Expires=')) {
+      pdfUrls.push(url);
+    }
   });
 
   await page.goto(SCHEDULE_URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
-  await page.waitForTimeout(8000);
+  await page.waitForTimeout(15000); // iframes from pdf-viewer-pro need more time than 8s
   await browser.close();
 
   if (!pdfUrls.length) throw new Error('Could not find PDF on Albany schedule page');
