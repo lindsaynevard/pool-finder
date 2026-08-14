@@ -23,7 +23,7 @@
 - [ ] **Jul 15** — Roberts Pool: No live closure data from EBRPD. Revisit whether to subscribe to their Park Explorer newsletter (https://www.ebparks.org/form/newsletter-sign-up) as a passive fallback — not pool-specific but may catch seasonal closures.
 
 ### Gmail closure notice coverage
-- [ ] **Aug 13 — DO NEXT** — Gmail scraper had an expired refresh token for an unknown period before Aug 10. Any closure emails that arrived during that gap were never processed. Manually review poolfinderalerts@gmail.com inbox for missed closure emails from all subscribed pools (Albany, Berkeley, Emeryville, Piedmont, El Cerrito, Richmond, Mills) and check whether any of those dates need closure notices written to Firestore.
+- [x] **Aug 13** — Reviewed 30-day inbox backfill after token expiry. All past closures (Albany indoor pool Aug 1–?, outdoor Aug 8–9; Emeryville morning swim) are in the past and don't affect the current schedule. Upcoming Albany closures (9/7, 9/13, 9/20) will be auto-picked up when within 14 days. Also fixed: added Mills (northeastern.edu) to POOL_SENDERS — was missing entirely.
 - [ ] **Aug 10** — Piedmont sent a closure email today but the Gmail scraper found 0 notices (ran twice, both came up empty). Check poolfinderalerts@gmail.com inbox: is the email there? If yes, look at the sender address and email content — the scraper may need to be updated to recognize a new sender or different phrasing (e.g. "modified hours" vs "closed").
 - [ ] **Jul 15** — LN: Check whether any closure emails have arrived from Piedmont or El Cerrito, and that they're surfacing as amber banners in the app.
 - Note: Golden Bear (RecWell), DeFremery, Lions, East Oakland, Roberts have no pool email lists to subscribe to
