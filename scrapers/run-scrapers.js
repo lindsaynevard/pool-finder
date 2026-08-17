@@ -16,6 +16,7 @@ import { scrapeMills } from './scrape-mills.js';
 import { scrapeBerkeleyMarina } from './scrape-berkeley-marina.js';
 import { scrapeDonCastro } from './scrape-don-castro.js';
 import { scrapeCullCanyon } from './scrape-cull-canyon.js';
+import { scrapeTemescal } from './scrape-temescal.js';
 import { scrapeGmail } from './scrape-gmail.js';
 
 // Fetch doc IDs that have been manually edited and should not be overwritten by scrapers.
@@ -132,8 +133,9 @@ async function main() {
   const berkeleyMarina     = await run('Berkeley Marina (NOAA tides)', () => scrapeBerkeleyMarina(14));
   const donCastro          = await run('Don Castro Lagoon (EBRPD)', () => scrapeDonCastro(14));
   const cullCanyon         = await run('Cull Canyon Lagoon (EBRPD)', () => scrapeCullCanyon(14));
+  const temescal           = await run('Temescal Pool (Oakland)', () => scrapeTemescal(14));
 
-  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter, ...mills, ...berkeleyMarina, ...donCastro, ...cullCanyon };
+  const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter, ...mills, ...berkeleyMarina, ...donCastro, ...cullCanyon, ...temescal };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 
   const overrides = await getManualOverrides();
@@ -159,6 +161,7 @@ async function main() {
   await writePoolMeta(berkeleyMarina,   'scrape-berkeley-marina.js');
   await writePoolMeta(donCastro,        'scrape-don-castro.js');
   await writePoolMeta(cullCanyon,       'scrape-cull-canyon.js');
+  await writePoolMeta(temescal,         'scrape-temescal.js');
   console.log('  ✓ Pool metadata written.');
 
   console.log('\n→ Gmail (closure notices)...');

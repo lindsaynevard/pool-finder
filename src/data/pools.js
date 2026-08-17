@@ -281,6 +281,20 @@ export const POOLS = [
     lockingLockers: null,
     mailingList: null,
   },
+  {
+    id: 'temescal',
+    name: 'Temescal Pool',
+    city: 'Oakland',
+    description: 'Outdoor city pool in the Temescal neighborhood. Lap swim Mon–Fri mornings, middays, and evenings; recreational/family swim Sat–Sun 11 AM–2:30 PM.',
+    swimTypes: ['lap', 'family'],
+    waterTemp: null,
+    suitSpinner: null,
+    lockingLockers: null,
+    mapsUrl: 'https://maps.google.com/?q=Temescal+Pool+371+45th+St+Oakland+CA',
+    websiteUrl: 'https://www.oaklandca.gov/Community/Parks-Facilities/Pools/Temescal-Pool',
+    admissionPrice: '$6 adult · $4 senior (lap) · $3 adult · $1 child (rec)',
+    mailingList: null,
+  },
 ];
 
 export const SESSION_TYPES = {
