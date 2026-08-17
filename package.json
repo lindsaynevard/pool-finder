@@ -11,6 +11,7 @@
     "scrape": "node scrapers/run-scrapers.js"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "cheerio": "^1.2.0",
     "firebase": "^12.15.0",
     "firebase-admin": "^14.0.0",
