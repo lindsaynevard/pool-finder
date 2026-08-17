@@ -65,26 +65,30 @@ async function getClosedDates(poolUrl) {
     const html = await res.text();
     const $ = cheerio.load(html);
 
-    let pdfUrl = null;
+    const pdfUrls = [];
     $('a[href]').each((_, el) => {
       const href = $(el).attr('href') || '';
       if (href.includes('/sites/default/files/') && href.toLowerCase().endsWith('.pdf')) {
-        pdfUrl = href.startsWith('http') ? href : `https://berkeleyca.gov${href}`;
-        return false; // break
+        pdfUrls.push(href.startsWith('http') ? href : `https://berkeleyca.gov${href}`);
       }
     });
 
-    if (!pdfUrl) return [];
+    if (pdfUrls.length === 0) return [];
 
-    const pdfRes = await fetch(pdfUrl);
-    if (!pdfRes.ok) return [];
-    const pdfBytes = Buffer.from(await pdfRes.arrayBuffer());
-
-    const tmpPath = `/tmp/berkeley-${Date.now()}.pdf`;
-    writeFileSync(tmpPath, pdfBytes);
-    const parser = new PDFParse({ url: `file://${tmpPath}` });
-    const result = await parser.getText();
-    const text = result.text;
+    // Collect text from all linked PDFs so we catch closures from both
+    // summer and fall schedules when the page links both simultaneously.
+    const textParts = [];
+    for (const pdfUrl of pdfUrls) {
+      const pdfRes = await fetch(pdfUrl);
+      if (!pdfRes.ok) continue;
+      const pdfBytes = Buffer.from(await pdfRes.arrayBuffer());
+      const tmpPath = `/tmp/berkeley-${Date.now()}.pdf`;
+      writeFileSync(tmpPath, pdfBytes);
+      const parser = new PDFParse({ url: `file://${tmpPath}` });
+      const result = await parser.getText();
+      textParts.push(result.text);
+    }
+    const text = textParts.join(' ');
 
     // Extract text windows around any closure mentions.
     // The PDF text has line breaks mid-sentence so we can't split on newlines.
