@@ -6,8 +6,24 @@
 - [ ] Build My Pools screen (Lap Order / Family Order tabs) — no hard deadline, tackle when you have a few hours
 
 ### Design & UX audits
+
+Major fixes (from heuristic audit, July 2026 — full findings in docs/heuristic-audit.md):
+- [ ] **Audit fix #2** — Lap/Family mode toggle is not shared between Schedule and My Pools tabs. A user could be viewing Family mode in the schedule while My Pools still shows Lap pools. Fix: lift mode state to the parent so both tabs always reflect the same mode.
+- [ ] **Audit fix #5** — "Starred pools appear first" explanation is buried in tiny footer text at the very bottom of My Pools, easy to scroll past. Fix: move it near the star column header, or surface it as a brief label when the user first taps a star.
 - [ ] **Audit fix #6** — Users don't know what the hide toggle does — they might think it's notifications or account settings. Goal: someone landing on My Pools for the first time should immediately understand that the toggle controls whether a pool shows up in their schedule. Proposed: add "Show in schedule" as a label near the column header, or a one-time tooltip on first load.
 - [ ] **Audit fix #8** — When a user sees a session they're interested in, they have no way to check pool details (water temp, lockers, admission price) without leaving the schedule and hunting for the pool in My Pools. Goal: tap the pool name in the schedule to open the pool's detail sheet directly. Currently, tapping the pool name opens the external website — move that link inside the detail sheet (it's already there as "Check official schedule ↗") and use the tap to open the sheet instead.
+- [ ] **Audit fix #10** — Star and toggle are immediately adjacent in My Pools, making it easy to tap one when meaning the other. Fix: increase horizontal gap to at least 16px, or move the star to the left of the pool name.
+
+Minor polish (lower priority — do when touching related code):
+- [ ] Session type tooltips are only available in Family mode — enable them in Lap mode too (H2, H6)
+- [ ] "rECswim" is El Cerrito internal branding — show as "Family Swim (rECswim)" in session rows (H2)
+- [ ] Add a "Today" button that appears when viewing a future date, so users can jump back without tapping the back arrow repeatedly (H3)
+- [ ] Session type pill/tooltip trigger looks like a navigation link (plain blue text) — add dotted underline or ℹ icon to signal "tap for info" (H4)
+- [ ] "Coming soon" pools are mixed into city groups with no visual separation — group them at the bottom under a light divider (H4)
+- [ ] Reframe "Email alerts" row in pool detail sheet — users don't know what poolfinderalerts@gmail.com is. Change to "Schedule updates: auto-updated daily" or "Check pool website" depending on pool (H8)
+- [ ] Add first-run tooltip or empty-state explanation for new users: what Lap vs. Family means, what starring does (H10)
+- [ ] Berkeley Marina pool description: add one sentence explaining swim windows are based on NOAA tide data (H10)
+
 - [ ] Visual design audit — consistency of spacing, typography, color, and component styles across all screens
 
 ### Verify / QA
@@ -20,10 +36,11 @@
 - [ ] Regenerate "pool-finder CLI" GitHub PAT (expired Aug 7) — needed if you ever push a change to a workflow file. Go to github.com/settings/tokens in incognito (personal account), regenerate token ID 4891329033, keep `repo` + `workflow` scopes.
 
 ### Scrapers to add or fix
+- [ ]- aquaphiles marina swim schedule?
 - [ ] **Jul 15** — Roberts Pool: No live closure data from EBRPD. Revisit whether to subscribe to their Park Explorer newsletter (https://www.ebparks.org/form/newsletter-sign-up) as a passive fallback — not pool-specific but may catch seasonal closures.
+- [ ] **Next summer (June 2027)** — Add Clarke Memorial Swim Center (Heather Farm Park, Walnut Creek) for family swim. Season runs roughly June–early August. Rec/family swim: 1–4 PM weekdays, noon–5 PM weekends. Admission: $5 adult · $4.25 youth (7–17) · $3.50 child (0–6). Website: walnutcreekartsrec.org/aquatics/swim-center-hours-programs/clarke-memorial-swim-center. Also has year-round lap swim on the 50m pool if that becomes relevant.
 
 ### Gmail closure notice coverage
-- [x] **Aug 13** — Reviewed 30-day inbox backfill after token expiry. All past closures (Albany indoor pool Aug 1–?, outdoor Aug 8–9; Emeryville morning swim) are in the past and don't affect the current schedule. Upcoming Albany closures (9/7, 9/13, 9/20) will be auto-picked up when within 14 days. Also fixed: added Mills (northeastern.edu) to POOL_SENDERS — was missing entirely.
 - [ ] **Aug 10** — Piedmont sent a closure email today but the Gmail scraper found 0 notices (ran twice, both came up empty). Check poolfinderalerts@gmail.com inbox: is the email there? If yes, look at the sender address and email content — the scraper may need to be updated to recognize a new sender or different phrasing (e.g. "modified hours" vs "closed").
 - [ ] **Jul 15** — LN: Check whether any closure emails have arrived from Piedmont or El Cerrito, and that they're surfacing as amber banners in the app.
 - Note: Golden Bear (RecWell), DeFremery, Lions, East Oakland, Roberts have no pool email lists to subscribe to
@@ -43,6 +60,7 @@
 
 ## Done
 
+- Gmail inbox backfill reviewed (Aug 13) after token expiry gap. Past closures (Albany Aug 1–9, Emeryville mornings) don't affect current schedule. Upcoming Albany closures (9/7, 9/13, 9/20) auto-picked up when within 14 days. Added Mills (northeastern.edu) to POOL_SENDERS.
 - Gmail scraper health alerting — amber in-app banner when Gmail scraper hasn't run in 48h or last run errored. Scraper writes to `scraper_meta/gmail` in Firestore; Schedule.jsx reads it on load and shows the banner.
 - Audit fixes #4 + #5: session rows now show full time range ("8:00–9:30 AM"); "Favorites" + "Show" column headers added to My Pools
 - Heuristic usability audit complete — 10 findings across all 4 screens, saved to `docs/heuristic-audit.md`; top fixes implemented (#1 empty state recovery, #3 health warning message, #7 undo toast, #8 "Check official schedule ↗" button, #9 fetch error state)
