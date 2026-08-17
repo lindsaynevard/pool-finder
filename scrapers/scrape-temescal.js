@@ -4,12 +4,9 @@
 // Schedule: Mon/Wed/Fri 6:30–8:30 AM, 12–2 PM, 5:30–7:30 PM lap;
 //           Tue/Thu 12–2 PM, 5:30–7:30 PM lap;
 //           Sat/Sun 11 AM–2:30 PM recreational/family
-// Season: roughly June–Sept; exact end date unconfirmed — verify annually
+// Open year-round — no season limits
 
 import { dateStr } from './utils.js';
-
-const SEASON_START = '2026-06-01';
-const SEASON_END   = '2026-09-07'; // Labor Day — verify each year
 
 export async function scrapeTemescal(daysAhead = 14) {
   const results = {};
@@ -20,8 +17,6 @@ export async function scrapeTemescal(daysAhead = 14) {
     const d = new Date(today);
     d.setDate(today.getDate() + i);
     const ds = dateStr(d);
-
-    if (ds < SEASON_START || ds > SEASON_END) continue;
 
     const dow = d.getDay(); // 0=Sun, 6=Sat
 
