@@ -1,6 +1,6 @@
 // East Oakland Sports Center Pool (Larry E. Reid Sports Center)
 // 9161 Edes Ave, Oakland, CA 94603
-// Summer 2026 schedule: June 6 – July 31, 2026
+// Summer 2026 schedule: June 6 – Sept 7, 2026 (Labor Day)
 // Public Recreational Swim: Mon–Sat 1:00 PM – 4:00 PM (no waterslide)
 // Source: https://www.oaklandca.gov/Community/Parks-Facilities/Pools/Larry-E.-Reid-Sports-Center-Pool
 //
@@ -12,7 +12,7 @@ import { chromium } from 'playwright';
 import { dateStr } from './utils.js';
 
 const SEASON_START = '2026-06-06';
-const SEASON_END   = '2026-07-31';
+const SEASON_END   = '2026-09-07';
 
 const CLOSED_DATES = new Set([
   '2026-07-04', // Independence Day

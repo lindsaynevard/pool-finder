@@ -1,34 +1,32 @@
 // Richmond Plunge (Municipal Natatorium)
 // 1 E. Richmond Ave, Richmond, CA 94801 | 510-620-6820
-// Summer 2026: June 22 – August 16, 2026
+// Fall 2026: August 24, 2026 onward
 // Source: https://www.ci.richmond.ca.us/2140/Richmond-Plunge
-// PDF: https://www.ci.richmond.ca.us/DocumentCenter/View/79633/SUMMER-26Pool-Schedule-and-Description-PDF
+// PDF: https://ci.richmond.ca.us/DocumentCenter/View/76131/FallWinter-Pool-Schedule-and-Description-PDF
 //
 // Session types from PDF:
 //   LS = Lap Swim (ages 16+)
-//   Rec Swim = Family Recreation Swim — all ages, shallow+deep
+//   Rec Swim = Family Recreation Swim — all ages, shallow+deep (Saturdays only in fall)
 //
-// Schedule:
+// Schedule (fall/spring — different from summer):
 //   Mon:  8am–1pm (lap), 4–7pm (lap)
 //   Tue:  4–7pm (lap)
-//   Wed:  8am–1pm (lap), 1:30–3:30pm (rec), 4–8pm (lap)
+//   Wed:  8am–1pm (lap), 4–8pm (lap)
 //   Thu:  4–7pm (lap)
-//   Fri:  8am–1pm (lap), 2–3:30pm (rec), 4–7pm (lap)
-//   Sat:  8am–12pm (lap), 1:30–3:30pm (rec)
+//   Fri:  8am–1pm (lap), 4–7pm (lap)
+//   Sat:  8am–12:30pm (lap), 1:30–3:30pm (rec)
 //   Sun:  Closed
 //
-// Holiday closures within the summer window:
-//   June 19 (Juneteenth), July 3 (Independence Day observed)
+// Holiday closures: Sept 7 (Labor Day), Sept 9 (Admissions Day)
 
 import { dateStr } from './utils.js';
 
-const SEASON_START = '2026-06-22';
-const SEASON_END   = '2026-08-16';
+const SEASON_START = '2026-08-24';
+const SEASON_END   = '2026-12-31';
 
 const CLOSED_DATES = new Set([
-  '2026-06-19', // Juneteenth (before summer start, but included for safety)
-  '2026-07-04', // Independence Day (per city PDF)
-  '2026-08-15', // Plunge Event (per city PDF)
+  '2026-09-07', // Labor Day
+  '2026-09-09', // Admissions Day
 ]);
 
 const SESSIONS_BY_DOW = {
@@ -41,7 +39,6 @@ const SESSIONS_BY_DOW = {
   ],
   3: [ // Wednesday
     { start: '8:00 AM',  end: '1:00 PM',  type: 'lap', notes: null },
-    { start: '1:30 PM',  end: '3:30 PM',  type: 'rec', notes: 'Public Rec Swim — all ages' },
     { start: '4:00 PM',  end: '8:00 PM',  type: 'lap', notes: null },
   ],
   4: [ // Thursday
@@ -49,11 +46,10 @@ const SESSIONS_BY_DOW = {
   ],
   5: [ // Friday
     { start: '8:00 AM',  end: '1:00 PM',  type: 'lap', notes: null },
-    { start: '2:00 PM',  end: '3:30 PM',  type: 'rec', notes: 'Public Rec Swim — all ages' },
     { start: '4:00 PM',  end: '7:00 PM',  type: 'lap', notes: null },
   ],
   6: [ // Saturday
-    { start: '8:00 AM',  end: '12:00 PM', type: 'lap', notes: null },
+    { start: '8:00 AM',  end: '12:30 PM', type: 'lap', notes: null },
     { start: '1:30 PM',  end: '3:30 PM',  type: 'rec', notes: 'Public Rec Swim — all ages' },
   ],
   0: [], // Sunday — closed

@@ -1,25 +1,25 @@
 // Richmond Swim Center (RSC)
 // 4300 Cutting Blvd (enter on 45th Street), Richmond, CA | 510-620-6654
-// Summer 2026: June 22 – August 16, 2026
-// Source: https://www.ci.richmond.ca.us/DocumentCenter/View/79633/SUMMER-26Pool-Schedule-and-Description-PDF
+// Fall 2026: August 25, 2026 onward
+// Source: https://ci.richmond.ca.us/DocumentCenter/View/76131/FallWinter-Pool-Schedule-and-Description-PDF
 //
-// Schedule (from PDF — Mon and Fri closed):
-//   Tue:  7am–12pm (lap), 1:30–3:30pm (rec), 5–8pm (lap)
+// Schedule (fall/spring — Mon and Fri closed; Tue/Thu rec swim is summer-only):
+//   Tue:  7am–12pm (lap), 5–8pm (lap)
 //   Wed:  6–11am (lap)
-//   Thu:  7am–12pm (lap), 1:30–3:30pm (rec), 5–8pm (lap)
+//   Thu:  7am–12pm (lap), 5–8pm (lap)
 //   Sat:  9am–12pm (lap)
 //   Sun:  10am–12:30pm (lap), 1:30–3:30pm (rec)
 //
-// Holiday closures within the summer window:
-//   July 4 (Independence Day)
+// Holiday closures: Sept 7 (Labor Day), Sept 9 (Admissions Day)
 
 import { dateStr } from './utils.js';
 
-const SEASON_START = '2026-06-22';
-const SEASON_END   = '2026-08-16';
+const SEASON_START = '2026-08-25';
+const SEASON_END   = '2026-12-31';
 
 const CLOSED_DATES = new Set([
-  '2026-07-04', // Independence Day
+  '2026-09-07', // Labor Day
+  '2026-09-09', // Admissions Day
 ]);
 
 const SESSIONS_BY_DOW = {
@@ -30,7 +30,6 @@ const SESSIONS_BY_DOW = {
   1: [], // Monday — closed
   2: [ // Tuesday
     { start: '7:00 AM',  end: '12:00 PM', type: 'lap', notes: null },
-    { start: '1:30 PM',  end: '3:30 PM',  type: 'rec', notes: 'Public Rec Swim — all ages' },
     { start: '5:00 PM',  end: '8:00 PM',  type: 'lap', notes: null },
   ],
   3: [ // Wednesday
@@ -38,7 +37,6 @@ const SESSIONS_BY_DOW = {
   ],
   4: [ // Thursday
     { start: '7:00 AM',  end: '12:00 PM', type: 'lap', notes: null },
-    { start: '1:30 PM',  end: '3:30 PM',  type: 'rec', notes: 'Public Rec Swim — all ages' },
     { start: '5:00 PM',  end: '8:00 PM',  type: 'lap', notes: null },
   ],
   5: [], // Friday — closed

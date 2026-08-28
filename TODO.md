@@ -49,6 +49,8 @@ Minor polish (lower priority — do when touching related code):
 
 ## Features to consider
 
+- [ ] Make feedback more prominent — users should easily see how to report an issue or send feedback to the developer (currently buried in Settings)
+- [ ] Live closure reporting — let users submit a real-time closure notice from inside the app (e.g. "This pool is closed right now" button on the schedule), so other users see it immediately
 - [ ] Assess usage — who is using the app and how (page views, most-visited pools, Lap vs. Family mode split, return visits)
 - [ ] Map view — show all pools on a map with pins; tap a pin to open the pool detail sheet
 - [ ] Filter by distance — "show pools within X miles of me" using device location

@@ -1,6 +1,6 @@
 // deFremery Pool (Oakland Parks & Rec)
 // 1651 Adeline St, Oakland, CA 94607
-// Summer 2026: Mon 6/8/26 – Fri 7/31/26
+// Summer 2026: Mon 6/8/26 – Mon 9/7/26 (Labor Day)
 // Lap swim only: 12:30 PM – 1:30 PM, Monday–Friday
 // Source: https://www.oaklandca.gov/Community/Recreation-Programs/Aquatics-Swimming/Lap-Swimmers-Information
 // Holiday closures pulled live from the same page.
@@ -10,7 +10,7 @@ import { dateStr } from './utils.js';
 
 const SCHEDULE_URL = 'https://www.oaklandca.gov/Community/Recreation-Programs/Aquatics-Swimming/Lap-Swimmers-Information';
 const SEASON_START = '2026-06-08';
-const SEASON_END   = '2026-07-31';
+const SEASON_END   = '2026-09-07';
 
 const MONTH_NAMES = {
   january:1, february:2, march:3, april:4, may:5, june:6,
