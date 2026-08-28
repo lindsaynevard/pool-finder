@@ -268,6 +268,9 @@ export default function Schedule({ user }) {
         return [{ poolId, type: 'stale', message: `Schedule may be outdated — last updated ${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago` }];
       }
     }
+    if (meta.scheduleWarning) {
+      return [{ poolId, type: 'unverified', message: meta.scheduleWarning }];
+    }
     return [];
   });
 
@@ -424,7 +427,7 @@ export default function Schedule({ user }) {
                   <span className="health-warning-icon">{type === 'stale' ? '🔴' : '⚠️'}</span>
                   <span>
                     <strong>{getPoolName(poolId)}</strong> — {message}
-                    {type === 'stale' && (() => {
+                    {(type === 'stale' || type === 'unverified') && (() => {
                       const url = POOLS.find(p => p.id === poolId)?.websiteUrl;
                       return url ? <> · <a href={url} target="_blank" rel="noopener noreferrer" className="health-warning-link">Check website ↗</a></> : null;
                     })()}

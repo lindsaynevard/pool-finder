@@ -185,6 +185,10 @@ body {
   background: #fff3cd;
   color: #856404;
 }
+.health-warning-unverified {
+  background: #fff3cd;
+  color: #856404;
+}
 .health-warning-icon { flex-shrink: 0; }
 
 .coming-soon-banner {

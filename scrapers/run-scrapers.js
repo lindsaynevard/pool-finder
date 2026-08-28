@@ -76,7 +76,7 @@ async function writePoolMeta(scraperResults, scraperFile) {
       sessionCount,
       scraperFile,
       lastRun: now,
-    });
+    }, { merge: true });
   }
   await batch.commit();
 }
