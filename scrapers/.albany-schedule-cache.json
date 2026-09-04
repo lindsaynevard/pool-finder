@@ -1059,19 +1059,414 @@
       "pdfHash": "ce12cf7d548327d5400604b7419387da9ff0ca8783c5a58411a361ff4965e008"
     },
     "comp-mpyr0wyl": {
-      "validFrom": null,
-      "validUntil": null,
-      "closedDates": [],
+      "validFrom": "2026-09-07",
+      "validUntil": "2026-09-13",
+      "closedDates": [
+        "2026-09-07",
+        "2026-09-13"
+      ],
       "weekly": {
-        "monday": [],
-        "tuesday": [],
-        "wednesday": [],
-        "thursday": [],
-        "friday": [],
-        "saturday": [],
-        "sunday": []
+        "monday": [
+          {
+            "start": "6:00 AM",
+            "end": "7:30 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-6"
+          },
+          {
+            "start": "7:30 AM",
+            "end": "9:15 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
+          {
+            "start": "10:00 AM",
+            "end": "12:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
+          {
+            "start": "12:00 PM",
+            "end": "1:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "4:45 PM",
+            "end": "6:30 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-2"
+          },
+          {
+            "start": "7:00 AM",
+            "end": "9:30 AM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "7:00 AM",
+            "end": "9:25 AM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk lanes 1-3, 6"
+          },
+          {
+            "start": "9:00 AM",
+            "end": "1:00 PM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk lanes 1-3, 6"
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "6:00 AM",
+            "end": "7:15 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "7:15 AM",
+            "end": "9:15 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
+          {
+            "start": "10:00 AM",
+            "end": "11:00 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "12:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
+          {
+            "start": "12:00 PM",
+            "end": "1:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "4:45 PM",
+            "end": "6:45 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-2"
+          },
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "8:00 AM",
+            "end": "9:00 AM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": "Lanes 1, 6"
+          },
+          {
+            "start": "9:00 AM",
+            "end": "1:00 PM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk"
+          },
+          {
+            "start": "9:00 AM",
+            "end": "1:00 PM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk"
+          },
+          {
+            "start": "6:45 PM",
+            "end": "8:00 PM",
+            "type": "rec",
+            "pool": "albany-indoor",
+            "notes": "Lanes 1-3"
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "6:00 AM",
+            "end": "7:30 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-6"
+          },
+          {
+            "start": "7:30 AM",
+            "end": "9:15 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
+          {
+            "start": "10:00 AM",
+            "end": "12:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
+          {
+            "start": "12:00 PM",
+            "end": "1:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "4:45 PM",
+            "end": "6:30 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-2"
+          },
+          {
+            "start": "7:00 AM",
+            "end": "9:30 AM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "12:35 PM",
+            "end": "1:35 PM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "4:15 PM",
+            "end": "5:15 PM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "6:15 PM",
+            "end": "8:00 PM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "7:00 AM",
+            "end": "9:25 AM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk"
+          },
+          {
+            "start": "4:15 PM",
+            "end": "8:00 PM",
+            "type": "rec",
+            "pool": "albany-indoor",
+            "notes": "Lanes 1-3"
+          }
+        ],
+        "thursday": [
+          {
+            "start": "6:00 AM",
+            "end": "7:15 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "7:15 AM",
+            "end": "10:00 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
+          {
+            "start": "10:00 AM",
+            "end": "11:00 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "12:30 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
+          {
+            "start": "4:45 PM",
+            "end": "6:30 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-2"
+          },
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "8:00 AM",
+            "end": "9:00 AM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": "Lanes 1, 6"
+          },
+          {
+            "start": "9:00 AM",
+            "end": "12:30 PM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "4:45 PM",
+            "end": "6:30 PM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": "Lanes 4-6"
+          },
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk"
+          },
+          {
+            "start": "9:00 AM",
+            "end": "12:30 PM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk / Tot Swim"
+          },
+          {
+            "start": "6:10 PM",
+            "end": "8:00 PM",
+            "type": "rec",
+            "pool": "albany-indoor",
+            "notes": "Lanes 1-3"
+          }
+        ],
+        "friday": [
+          {
+            "start": "7:00 AM",
+            "end": "9:30 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "9:30 AM",
+            "end": "11:00 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-3"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "1:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-8; shared with LG class"
+          },
+          {
+            "start": "1:30 PM",
+            "end": "4:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-2"
+          },
+          {
+            "start": "1:30 PM",
+            "end": "4:00 PM",
+            "type": "rec",
+            "pool": "albany-indoor",
+            "notes": "All lanes"
+          }
+        ],
+        "saturday": [
+          {
+            "start": "9:00 AM",
+            "end": "11:00 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-9"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "1:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1, 2, 7-9"
+          },
+          {
+            "start": "1:30 PM",
+            "end": "4:00 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 2-9"
+          },
+          {
+            "start": "9:00 AM",
+            "end": "11:55 AM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
+          },
+          {
+            "start": "9:00 AM",
+            "end": "11:55 AM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Tot Swim / Water Walk"
+          },
+          {
+            "start": "1:30 PM",
+            "end": "4:00 PM",
+            "type": "rec",
+            "pool": "albany-indoor",
+            "notes": "All lanes"
+          }
+        ],
+        "sunday": [
+          {
+            "start": "9:00 AM",
+            "end": "11:00 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Open 9:00-11:00 AM (closed date exception)"
+          }
+        ]
       },
-      "pdfHash": "f5d0debcbbcbd85a00e6ec39e95b5a53fa2af3bed46ef3d03c5f75dcb50528c1"
+      "pdfHash": "dc393bdab22de99092f58f61b82fc96213a885149ba6647d8b4f37c934c9528a"
     }
   }
 }
