@@ -1,0 +1,15 @@
+{
+  "pageHash": null,
+  "schedule": {
+    "entries": [
+      { "date": "2026-09-08", "poolName": "GBRC Pool", "start": "12:00 PM", "end": "3:00 PM" },
+      { "date": "2026-09-09", "poolName": "GBRC Pool", "start": "7:00 AM", "end": "9:00 AM" },
+      { "date": "2026-09-09", "poolName": "GBRC Pool", "start": "12:00 PM", "end": "3:00 PM" },
+      { "date": "2026-09-10", "poolName": "GBRC Pool", "start": "7:00 AM", "end": "9:00 AM" },
+      { "date": "2026-09-10", "poolName": "GBRC Pool", "start": "12:00 PM", "end": "3:00 PM" },
+      { "date": "2026-09-11", "poolName": "GBRC Pool", "start": "7:00 AM", "end": "9:00 AM" },
+      { "date": "2026-09-11", "poolName": "GBRC Pool", "start": "12:00 PM", "end": "3:00 PM" },
+      { "date": "2026-09-12", "poolName": "GBRC Pool", "start": "12:00 PM", "end": "4:00 PM" }
+    ]
+  }
+}

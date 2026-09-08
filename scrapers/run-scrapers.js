@@ -135,6 +135,18 @@ async function main() {
   const cullCanyon         = await run('Cull Canyon Lagoon (EBRPD)', () => scrapeCullCanyon(14));
   const temescal           = await run('Temescal Pool (Oakland)', () => scrapeTemescal(14));
 
+  // Warn if year-round indoor pools return 0 — usually means hardcoded schedule blocks expired.
+  // Seasonal outdoor pools (East Oakland, DeFremery, Lions, Temescal, Roberts) are excluded
+  // because they legitimately return 0 when closed for the season.
+  const yearRoundPools = { 'West Campus + King': berkeley, 'Emeryville': emeryville, 'Albany': albany, 'El Cerrito Pool': elCerritoPool, 'Richmond': richmond, 'Richmond Swim Center': richmondSwimCenter, 'Mills': mills };
+  const empty = Object.entries(yearRoundPools).filter(([, r]) => Object.keys(r).length === 0).map(([name]) => name);
+  if (empty.length > 0) {
+    console.error(`\n⚠️  YEAR-ROUND SCRAPERS RETURNED 0 RESULTS — schedule blocks may have expired:`);
+    empty.forEach(name => console.error(`   • ${name}`));
+    console.error('Update the schedule blocks in those scraper files!\n');
+    process.exitCode = 1;
+  }
+
   const all = { ...berkeley, ...goldenBear, ...emeryville, ...albany, ...roberts, ...eastOakland, ...elCerritoSplash, ...elCerritoPool, ...defremery, ...piedmont, ...lions, ...richmond, ...richmondSwimCenter, ...mills, ...berkeleyMarina, ...donCastro, ...cullCanyon, ...temescal };
   console.log(`\nTotal: ${Object.keys(all).length} entries — writing to Firestore...`);
 

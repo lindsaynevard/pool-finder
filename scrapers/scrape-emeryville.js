@@ -1,164 +1,180 @@
 // Scraper for Emeryville ECCL lap swim
-// Schedule uses date ranges rather than a simple weekly pattern
+// Fetches the live schedule page and uses Claude AI to parse it.
+// Caches the parsed schedule by page hash — only re-parses when the page changes.
+// Cache: scrapers/.emeryville-schedule-cache.json
+
 import * as cheerio from 'cheerio';
-import { dateStr, dayName } from './utils.js';
+import Anthropic from '@anthropic-ai/sdk';
+import { createHash } from 'crypto';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { dateStr } from './utils.js';
 
 const URL = 'https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness';
+const CACHE_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), '.emeryville-schedule-cache.json');
+const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
-function parseTime(str) {
-  str = str.trim();
-  const m = str.match(/(\d{1,2}:\d{2})\s*(am|pm)/i);
-  if (!m) return null;
-  return `${m[1]} ${m[2].toUpperCase()}`;
-}
+const PARSE_PROMPT = `You are parsing the Emeryville ECCL pool schedule from a webpage.
+Return ONLY valid JSON — no explanation, no markdown, just the JSON object.
 
-function parseRange(str) {
-  const parts = str.replace(/–|—/g, '-').split(/\s*-\s*/);
-  if (parts.length < 2) return null;
-  return { start: parseTime(parts[0]), end: parseTime(parts[1]) };
-}
+The schedule is organized into date-range periods (e.g. "June 6 – June 21, 2026").
+Each period has sessions that vary by day of week.
+Modified hours for specific dates (e.g. swim meets) may be listed separately.
 
-function parseDateStr(str) {
-  // "June 22, 2026" or "June 22"
-  str = str.trim();
-  const months = { january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11 };
-  const m = str.match(/(\w+)\s+(\d+),?\s*(\d{4})?/i);
-  if (!m) return null;
-  const month = months[m[1].toLowerCase()];
-  if (month === undefined) return null;
-  const day = parseInt(m[2]);
-  const year = m[3] ? parseInt(m[3]) : new Date().getFullYear();
-  return new Date(year, month, day);
-}
+Rules:
+- Time format: "6:00 AM", "10:00 AM", "1:30 PM" (always include AM/PM, no leading zero on hour).
+- All sessions are type "lap".
+- "validFrom" and "validUntil": from the period header. Format: "YYYY-MM-DD". Use the current year if no year is given.
+- "closedDates": from closure/holiday listings. Format: "YYYY-MM-DD".
+- "modifiedDates": specific dates with different hours than their weekday pattern. Include date and the full session list for that day.
+- Expand day ranges ("Mon–Thu") into individual day keys in "weekly".
+- If a period has no Friday-specific hours listed, Friday uses the weekday sessions.
 
-function parseClosedDatesFromPage(html) {
+Return this exact JSON shape:
+{
+  "periods": [
+    {
+      "validFrom": "YYYY-MM-DD",
+      "validUntil": "YYYY-MM-DD",
+      "weekly": {
+        "monday":    [{ "start": "H:MM AM", "end": "H:MM PM", "type": "lap", "notes": null }],
+        "tuesday":   [...],
+        "wednesday": [...],
+        "thursday":  [...],
+        "friday":    [...],
+        "saturday":  [...],
+        "sunday":    [...]
+      },
+      "closedDates": ["YYYY-MM-DD"],
+      "modifiedDates": [
+        { "date": "YYYY-MM-DD", "sessions": [{ "start": "...", "end": "...", "type": "lap", "notes": "..." }] }
+      ]
+    }
+  ]
+}`;
+
+function extractScheduleText(html) {
   const $ = cheerio.load(html);
-  const year = new Date().getFullYear();
-  const dates = new Set();
+  // Remove nav, footer, scripts, styles — keep main content
+  $('nav, footer, script, style, header').remove();
+  return $('body').text().replace(/\s+/g, ' ').trim();
+}
 
-  // DOM approach: find all "Closure Dates:" headers and extract M/D dates from the following <ul>
-  // The <ul> may be a sibling of the parent <p>, or of the grandparent <div> (page-dependent)
-  $('strong').each((_, el) => {
-    if (!$(el).text().includes('Closure Dates')) return;
-    let list = $(el).parent().next('ul');
-    if (!list.length) list = $(el).parent().parent().next('ul');
-    list.find('li').each((_, li) => {
-      const item = $(li).text();
-      const mdRe = /(\d{1,2})\/(\d{1,2})/g;
-      let m;
-      while ((m = mdRe.exec(item)) !== null) {
-        dates.add(dateStr(new Date(year, parseInt(m[1]) - 1, parseInt(m[2]))));
-      }
-    });
+async function parseWithClaude(pageText) {
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  const year = new Date().getFullYear();
+
+  const message = await client.messages.create({
+    model: 'claude-sonnet-4-6',
+    max_tokens: 4000,
+    messages: [{
+      role: 'user',
+      content: `Current year: ${year}\n\n${PARSE_PROMPT}\n\nPage text to parse:\n\n${pageText}`,
+    }],
   });
 
-  return [...dates];
+  const raw = message.content[0].text.trim();
+  const clean = raw.replace(/^```json?\n?/, '').replace(/\n?```$/, '');
+  return JSON.parse(clean);
 }
 
-export async function scrapeEmeryville(daysAhead = 14) {
-  const res = await fetch(URL);
-  const text = await res.text();
-
-  // Current schedule periods — times sourced from the website
-  const scheduleBlocks = [
-    {
-      from: new Date(2026, 5, 6),  // June 6
-      to: new Date(2026, 5, 21),   // June 21
-      weekdaySessions: [
-        { start: '10:00 AM', end: '1:30 PM', type: 'lap' },
-        { start: '7:30 PM', end: '9:00 PM', type: 'lap' },
-      ],
-      weekendSessions: [
-        { start: '1:30 PM', end: '7:30 PM', type: 'lap' },
-      ],
-      closedDates: [],
-    },
-    {
-      from: new Date(2026, 5, 22), // June 22
-      to: new Date(2026, 7, 16),   // August 16
-      weekdaySessions: [
-        { start: '9:45 AM', end: '12:30 PM', type: 'lap', notes: '3 lanes only Mon-Thu' },
-        { start: '7:30 PM', end: '9:00 PM', type: 'lap' },
-      ],
-      weekendSessions: [
-        { start: '4:30 PM', end: '8:00 PM', type: 'lap' },
-      ],
-      closedDates: [],
-    },
-  ];
-
-  // Merge live closure dates from website into each block (additive — preserves hardcoded dates)
-  const liveClosed = parseClosedDatesFromPage(text);
-  if (liveClosed.length > 0) {
-    console.log(`  Emeryville closed dates from website: ${liveClosed.join(', ')}`);
-    scheduleBlocks.forEach(b => {
-      b.closedDates = [...new Set([...(b.closedDates || []), ...liveClosed])];
-    });
-  }
-
+function buildResults(schedule, daysAhead) {
   const results = {};
+  const pacificDate = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
+  const [py, pm, pd] = pacificDate.split('-').map(Number);
+  const base = new Date(py, pm - 1, pd);
 
-  const base = new Date();
+  const allClosed = new Set(schedule.periods.flatMap(p => p.closedDates || []));
+
   for (let i = 0; i < daysAhead; i++) {
     const d = new Date(base);
     d.setDate(base.getDate() + i);
     const ds = dateStr(d);
-    const day = d.getDay(); // 0=Sun, 6=Sat
-    const isWeekend = day === 0 || day === 6;
 
-    const block = scheduleBlocks.find(b => ds >= dateStr(b.from) && ds <= dateStr(b.to));
-    if (!block) continue;
-    if (block.closedDates?.includes(ds)) {
+    if (allClosed.has(ds)) {
       results[`emeryville_${ds}`] = {
-        poolId: 'emeryville',
-        date: ds,
-        sessions: [],
-        lastUpdated: new Date().toISOString(),
+        poolId: 'emeryville', date: ds, sessions: [],
         closureNotice: 'Closed — see emeryville.org for details',
+        lastUpdated: new Date().toISOString(),
       };
       continue;
     }
 
-    const sessions = (isWeekend ? block.weekendSessions : block.weekdaySessions)
-      .map(s => {
-        const notes = s.notes === '3 lanes only Mon-Thu'
-          ? (day >= 1 && day <= 4 ? s.notes : null)
-          : (s.notes || null);
-        return { ...s, notes };
-      });
+    const period = schedule.periods.find(p => ds >= p.validFrom && ds <= p.validUntil);
+    if (!period) continue;
+
+    // Check for a modified date override first
+    const modified = period.modifiedDates?.find(m => m.date === ds);
+    if (modified) {
+      results[`emeryville_${ds}`] = {
+        poolId: 'emeryville', date: ds,
+        sessions: modified.sessions,
+        closureNotice: null,
+        lastUpdated: new Date().toISOString(),
+      };
+      continue;
+    }
+
+    const day = DAYS[d.getDay()];
+    const sessions = period.weekly[day] || [];
+    if (sessions.length === 0) continue;
 
     results[`emeryville_${ds}`] = {
-      poolId: 'emeryville',
-      date: ds,
-      sessions,
-      lastUpdated: new Date().toISOString(),
+      poolId: 'emeryville', date: ds, sessions,
       closureNotice: null,
+      lastUpdated: new Date().toISOString(),
     };
   }
 
-  // Parse "Modified Hours:" notices from the live page and attach to specific dates
-  try {
-    const $ = cheerio.load(text);
-    $('strong').each((_, el) => {
-      if (!$(el).text().includes('Modified Hours')) return;
-      const list = $(el).parent().next('ul');
-      list.find('li').each((_, li) => {
-        const item = $(li).text().trim();
-        const m = item.match(/^(\d+)\/(\d+)\s*[-–—]\s*(.+)/);
-        if (!m) return;
-        const month = parseInt(m[1]) - 1;
-        const day = parseInt(m[2]);
-        const year = new Date().getFullYear();
-        const ds = dateStr(new Date(year, month, day));
-        const notice = m[3].trim();
-        if (results[`emeryville_${ds}`]) {
-          results[`emeryville_${ds}`].closureNotice = notice;
-        }
-      });
-    });
-  } catch (e) {
-    // ignore parse errors — closureNotice stays null
+  return results;
+}
+
+export async function scrapeEmeryville(daysAhead = 14) {
+  // Load cache
+  let cache = { pageHash: null, schedule: null };
+  if (existsSync(CACHE_FILE)) {
+    try { cache = JSON.parse(readFileSync(CACHE_FILE, 'utf8')); } catch {}
   }
 
-  return results;
+  // Fetch live page
+  let pageText, pageHash;
+  try {
+    const res = await fetch(URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const html = await res.text();
+    pageText = extractScheduleText(html);
+    pageHash = createHash('sha256').update(pageText).digest('hex');
+  } catch (err) {
+    console.warn(`  Emeryville: could not fetch page (${err.message}). Using cached schedule.`);
+    if (cache.schedule) return buildResults(cache.schedule, daysAhead);
+    return {};
+  }
+
+  // Use cache if page hasn't changed
+  if (cache.pageHash === pageHash && cache.schedule) {
+    console.log('  Emeryville: page unchanged — using cached schedule.');
+    return buildResults(cache.schedule, daysAhead);
+  }
+
+  // Page changed — re-parse with Claude
+  console.log('  Emeryville: page changed — parsing with Claude AI...');
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.warn('  ANTHROPIC_API_KEY not set — skipping re-parse. Using cached schedule.');
+    if (cache.schedule) return buildResults(cache.schedule, daysAhead);
+    return {};
+  }
+
+  try {
+    const schedule = await parseWithClaude(pageText);
+    cache = { pageHash, schedule };
+    writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
+    const periods = schedule.periods.map(p => `${p.validFrom} – ${p.validUntil}`).join(', ');
+    console.log(`  Emeryville: parsed → ${periods}`);
+    return buildResults(schedule, daysAhead);
+  } catch (err) {
+    console.warn(`  Emeryville: Claude parsing failed (${err.message}). Using cached schedule.`);
+    if (cache.schedule) return buildResults(cache.schedule, daysAhead);
+    return {};
+  }
 }

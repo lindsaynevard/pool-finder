@@ -2,6 +2,9 @@
 
 ## Up Next
 
+### 🔴 Needs your attention
+- [ ] **Create Google Form for in-app feedback** — go to forms.google.com, create a form titled "Pool Finder — Report a Problem" with fields: Which pool? / What's the problem? / Your email (optional). Share the link and Claude will update the app to use it. (Current "Report a problem" link goes to GitHub Issues — too high a barrier for most users, zero feedback received so far.)
+
 ### Core features
 - [ ] Build My Pools screen (Lap Order / Family Order tabs) — no hard deadline, tackle when you have a few hours
 

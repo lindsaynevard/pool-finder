@@ -1,0 +1,30 @@
+{
+  "pageHash": null,
+  "schedule": {
+    "periods": [
+      {
+        "validFrom": "2026-08-17",
+        "validUntil": "2026-09-27",
+        "weekly": {
+          "monday":    [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
+          "tuesday":   [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
+          "wednesday": [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
+          "thursday":  [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
+          "friday":    [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "6:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
+          "saturday":  [{ "start": "4:30 PM", "end": "8:00 PM", "type": "lap", "notes": null }],
+          "sunday":    [{ "start": "4:30 PM", "end": "8:00 PM", "type": "lap", "notes": null }]
+        },
+        "closedDates": ["2026-09-07"],
+        "modifiedDates": [
+          {
+            "date": "2026-09-25",
+            "sessions": [
+              { "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null },
+              { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": "Swim meet — evening start delayed" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
