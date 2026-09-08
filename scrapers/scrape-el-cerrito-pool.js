@@ -20,7 +20,7 @@ const CACHE_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), '.el-
 const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 const SEASON_START = '2026-06-17';
-const SEASON_END   = '2026-09-07';
+const SEASON_END   = '2027-12-31'; // El Cerrito Swim Center is year-round
 
 const MONTH_MAP = {
   january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
@@ -136,6 +136,7 @@ async function parseWithClaude(pdfText) {
   const message = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 4000,
+    system: 'You must respond with ONLY valid JSON. No explanations, no caveats, no prose. If you cannot determine a value, use null. Never start your response with words — start with { or [.',
     messages: [{
       role: 'user',
       content: `${PARSE_PROMPT}\n\nPDF text to parse:\n\n${pdfText}`,

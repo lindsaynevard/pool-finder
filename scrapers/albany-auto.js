@@ -107,6 +107,7 @@ async function parseWithClaude(pdfText) {
   const message = await client.messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 6000,
+    system: 'You must respond with ONLY valid JSON. No explanations, no caveats, no prose. If you cannot determine a value, use null. Never start your response with words — start with { or [.',
     messages: [{
       role: 'user',
       content: `Current year: ${year}\n\n${PARSE_PROMPT}\n\nPDF text to parse:\n\n${pdfText}`,
@@ -127,10 +128,10 @@ function buildSchedule(byComp, daysAhead) {
   const [py, pm, pd] = pacificDate.split('-').map(Number);
   const base = new Date(py, pm - 1, pd);
 
-  // Sort schedule periods by validFrom so we can find the right one for each date
-  const periods = Object.values(byComp).sort((a, b) =>
-    (a.validFrom || '').localeCompare(b.validFrom || '')
-  );
+  // Sort schedule periods by validFrom. Skip any with no valid date range (null/empty).
+  const periods = Object.values(byComp)
+    .filter(p => p.validFrom)
+    .sort((a, b) => a.validFrom.localeCompare(b.validFrom));
 
   // Merge closed dates from all periods
   const allClosed = new Set(periods.flatMap(p => p.closedDates || []));
