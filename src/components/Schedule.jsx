@@ -109,6 +109,7 @@ export default function Schedule({ user }) {
 
   const [preferences, setPreferences] = useState(() => loadLocalPrefs());
   const dateInputRef = useRef(null);
+  const prevUserRef = useRef(undefined);
 
   useEffect(() => {
     async function fetchSchedule() {
@@ -186,6 +187,19 @@ export default function Schedule({ user }) {
   }, []);
 
   useEffect(() => {
+    if (prevUserRef.current === null && user) {
+      track('sign_in_completed');
+    }
+    prevUserRef.current = user ?? null;
+  }, [user]);
+
+  useEffect(() => {
+    if (!loading && !fetchError && sessions.length === 0) {
+      track('empty_state_shown', { day_offset: dayOffset, mode });
+    }
+  }, [loading, fetchError]);
+
+  useEffect(() => {
     if (!user) return; // signed out: keep whatever is in localStorage (already loaded as initial state)
     async function loadPrefs() {
       const snap = await getDoc(doc(db, 'user_preferences', user.uid));
@@ -231,6 +245,7 @@ export default function Schedule({ user }) {
     if (!undoToast) return;
     clearTimeout(undoTimerRef.current);
     const { poolId, mode: hiddenMode } = undoToast;
+    track('undo_hide_used', { pool: poolId, mode: hiddenMode });
     setUndoToast(null);
     toggleHidden(poolId, hiddenMode);
   }
@@ -347,7 +362,7 @@ export default function Schedule({ user }) {
               }
             </button>
           ) : (
-            <button className="sign-in-btn" onClick={() => signInWithPopup(auth, provider)}>
+            <button className="sign-in-btn" onClick={() => { track('sign_in_started'); signInWithPopup(auth, provider); }}>
               Sign in
             </button>
           )
@@ -470,8 +485,9 @@ export default function Schedule({ user }) {
                 onChange={e => {
                   const picked = new Date(e.target.value + 'T00:00:00');
                   const today = new Date(); today.setHours(0,0,0,0);
-                  const diff = Math.round((picked - today) / 86400000);
-                  setDayOffset(Math.max(0, Math.min(13, diff)));
+                  const diff = Math.max(0, Math.min(13, Math.round((picked - today) / 86400000)));
+                  setDayOffset(diff);
+                  track('date_picker_used', { day_offset: diff });
                 }}
               />
             </label>
@@ -525,7 +541,7 @@ export default function Schedule({ user }) {
                         {mode !== 'lap' && (
                           <button
                             className="session-type-btn"
-                            onClick={() => setTooltip(tooltip?.key===rowKey ? null : {key:rowKey, type:s.type})}
+                            onClick={() => { const opening = tooltip?.key !== rowKey; setTooltip(opening ? {key:rowKey, type:s.type} : null); if (opening) track('session_type_tooltip_opened', { type: s.type, pool: s.poolId }); }}
                           >
                             {SESSION_TYPES[s.type] || s.type}
                           </button>

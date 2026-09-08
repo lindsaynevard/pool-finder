@@ -1,4 +1,5 @@
 import { signOut, signInWithPopup } from 'firebase/auth';
+import { track } from '@vercel/analytics';
 import { auth, provider } from '../firebase';
 
 function GoogleIcon() {
@@ -50,6 +51,7 @@ export default function SettingsTab({ user }) {
           href="https://github.com/lindsaynevard/pool-finder/issues/new"
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => track('feedback_started')}
         >
           Report a problem
         </a>
