@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { signOut, signInWithPopup } from 'firebase/auth';
 import { collection, query, where, getDocs, doc, getDoc, setDoc } from 'firebase/firestore';
+import { track } from '@vercel/analytics';
 import { auth, db, provider } from '../firebase';
 import { POOLS, SESSION_TYPES } from '../data/pools';
 import MyPools from './MyPools';
@@ -206,6 +207,7 @@ export default function Schedule({ user }) {
   async function toggleHidden(poolId, hiddenMode) {
     const key = `${hiddenMode}_hidden`;
     const isCurrentlyHidden = preferences[key].includes(poolId);
+    track('pool_visibility_toggled', { pool: poolId, mode: hiddenMode, action: isCurrentlyHidden ? 'show' : 'hide' });
     const updated = isCurrentlyHidden
       ? preferences[key].filter(id => id !== poolId)
       : [...preferences[key], poolId];
@@ -235,7 +237,9 @@ export default function Schedule({ user }) {
 
   async function toggleFavorite(poolId, favMode) {
     const key = `${favMode}_favorites`;
-    const updated = preferences[key].includes(poolId)
+    const isCurrentlyFavorited = preferences[key].includes(poolId);
+    track('favorite_toggled', { pool: poolId, mode: favMode, action: isCurrentlyFavorited ? 'remove' : 'add' });
+    const updated = isCurrentlyFavorited
       ? preferences[key].filter(id => id !== poolId)
       : [...preferences[key], poolId];
     const newPrefs = { ...preferences, [key]: updated };
@@ -356,8 +360,8 @@ export default function Schedule({ user }) {
           {/* Mode toggle */}
           <div className="mode-toggle-wrap">
             <div className="mode-toggle">
-              <button className={`mode-btn ${mode==='lap'?'active':''}`} onClick={() => setMode('lap')}>Lap</button>
-              <button className={`mode-btn ${mode==='family'?'active':''}`} onClick={() => setMode('family')}>Family</button>
+              <button className={`mode-btn ${mode==='lap'?'active':''}`} onClick={() => { setMode('lap'); track('mode_toggled', { mode: 'lap' }); }}>Lap</button>
+              <button className={`mode-btn ${mode==='family'?'active':''}`} onClick={() => { setMode('family'); track('mode_toggled', { mode: 'family' }); }}>Family</button>
             </div>
           </div>
 
@@ -449,7 +453,7 @@ export default function Schedule({ user }) {
 
           {/* Day selector */}
           <div className="day-selector">
-            <button className="day-arrow" onClick={() => setDayOffset(Math.max(0, dayOffset-1))} disabled={dayOffset===0}>‹</button>
+            <button className="day-arrow" onClick={() => { const next = Math.max(0, dayOffset-1); setDayOffset(next); track('day_navigated', { direction: 'back', day_offset: next }); }} disabled={dayOffset===0}>‹</button>
             <label className="day-label-wrap" onClick={() => { try { dateInputRef.current?.showPicker(); } catch {} }}>
               <span className="day-label">{getDateLabel(dayOffset)}</span>
               <span className="date-chevron">▾</span>
@@ -471,7 +475,7 @@ export default function Schedule({ user }) {
                 }}
               />
             </label>
-            <button className="day-arrow" onClick={() => setDayOffset(Math.min(13, dayOffset+1))}>›</button>
+            <button className="day-arrow" onClick={() => { const next = Math.min(13, dayOffset+1); setDayOffset(next); track('day_navigated', { direction: 'forward', day_offset: next }); }}>›</button>
           </div>
 
           {/* Schedule list */}
@@ -512,7 +516,7 @@ export default function Schedule({ user }) {
                         {(() => {
                           const url = POOLS.find(p => p.id === s.poolId)?.websiteUrl;
                           return url
-                            ? <a href={url} target="_blank" rel="noopener noreferrer" className="pool-name-link">{getPoolName(s.poolId)}</a>
+                            ? <a href={url} target="_blank" rel="noopener noreferrer" className="pool-name-link" onClick={() => track('pool_website_opened', { pool: s.poolId })}>{getPoolName(s.poolId)}</a>
                             : getPoolName(s.poolId);
                         })()}
                         {favSet.has(s.poolId) && <span className="session-fav-star">★</span>}
@@ -570,15 +574,15 @@ export default function Schedule({ user }) {
 
       {/* Tab bar */}
       <div className="tab-bar">
-        <button className={`tab ${activeTab==='schedule'?'active':''}`} onClick={() => setActiveTab('schedule')}>
+        <button className={`tab ${activeTab==='schedule'?'active':''}`} onClick={() => { setActiveTab('schedule'); track('tab_switched', { tab: 'schedule' }); }}>
           <span className="tab-icon">📅</span>
           <span>Schedule</span>
         </button>
-        <button className={`tab ${activeTab==='my-pools'?'active':''}`} onClick={() => setActiveTab('my-pools')}>
+        <button className={`tab ${activeTab==='my-pools'?'active':''}`} onClick={() => { setActiveTab('my-pools'); track('tab_switched', { tab: 'my-pools' }); }}>
           <span className="tab-icon">🏊</span>
           <span>My Pools</span>
         </button>
-        <button className={`tab ${activeTab==='settings'?'active':''}`} onClick={() => setActiveTab('settings')}>
+        <button className={`tab ${activeTab==='settings'?'active':''}`} onClick={() => { setActiveTab('settings'); track('tab_switched', { tab: 'settings' }); }}>
           <span className="tab-icon">⚙️</span>
           <span>Settings</span>
         </button>
