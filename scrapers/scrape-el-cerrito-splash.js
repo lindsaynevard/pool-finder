@@ -2,13 +2,13 @@
 // 7007 Moeser Lane, El Cerrito, CA 94530
 // Spray features only — not a pool. No lifeguard on duty.
 // Source: https://www.elcerrito.gov/1579/Splash-Park
-// Season end date (Sept 7) is approximate — verify each year.
+// Year-round facility (Bay Area climate).
 
 import * as cheerio from 'cheerio';
 import { dateStr } from './utils.js';
 
-const SEASON_START = '2026-06-17'; // current schedule began 6/17
-const SEASON_END   = '2026-09-07'; // Labor Day, approximate
+const SEASON_START = '2026-01-01';
+const SEASON_END   = '2099-12-31';
 const PAGE_URL = 'https://www.elcerrito.gov/1579/Splash-Park';
 
 // Fetch the El Cerrito Splash Park page and extract any closure dates mentioned.
