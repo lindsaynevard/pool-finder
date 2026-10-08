@@ -79,6 +79,18 @@ async function parseWithClaude(pageText) {
   return JSON.parse(clean);
 }
 
+function warnIfExpiringSoon(schedule) {
+  if (!schedule?.periods?.length) return;
+  const today = new Date().toISOString().slice(0, 10);
+  const maxUntil = schedule.periods.map(p => p.validUntil).filter(Boolean).sort().at(-1);
+  if (!maxUntil) return;
+  const daysLeft = Math.ceil((new Date(maxUntil) - new Date(today)) / 86400000);
+  if (daysLeft <= 21) {
+    console.warn(`  ⚠️  Emeryville cache expires in ${daysLeft} day(s) (${maxUntil}).`);
+    console.warn(`      Emeryville.org blocks CI IPs — update .emeryville-schedule-cache.json manually before it expires.`);
+  }
+}
+
 function buildResults(schedule, daysAhead) {
   const results = {};
   const pacificDate = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Los_Angeles' });
@@ -153,13 +165,17 @@ export async function scrapeEmeryville(daysAhead = 14) {
     pageHash = createHash('sha256').update(pageText).digest('hex');
   } catch (err) {
     console.warn(`  Emeryville: could not fetch page (${err.message}). Using cached schedule.`);
-    if (cache.schedule) return buildResults(cache.schedule, daysAhead);
+    if (cache.schedule) {
+      warnIfExpiringSoon(cache.schedule);
+      return buildResults(cache.schedule, daysAhead);
+    }
     return {};
   }
 
   // Use cache if page hasn't changed
   if (cache.pageHash === pageHash && cache.schedule) {
     console.log('  Emeryville: page unchanged — using cached schedule.');
+    warnIfExpiringSoon(cache.schedule);
     return buildResults(cache.schedule, daysAhead);
   }
 
