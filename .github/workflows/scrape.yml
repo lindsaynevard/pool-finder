@@ -45,6 +45,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GMAIL_REFRESH_TOKEN: ${{ secrets.GMAIL_REFRESH_TOKEN }}
+          PROXY_SECRET: ${{ secrets.PROXY_SECRET }}
 
       - name: Commit updated schedule caches (if changed)
         if: always()

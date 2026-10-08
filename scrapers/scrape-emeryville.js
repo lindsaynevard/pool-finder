@@ -142,6 +142,47 @@ function buildResults(schedule, daysAhead) {
   return results;
 }
 
+// Vercel Edge Function proxy — used when direct fetch is blocked (e.g. GitHub Actions / Azure IPs)
+const PROXY_URL = 'https://pool-finder-pearl.vercel.app/api/emeryville-proxy';
+
+async function fetchPage() {
+  // Try direct fetch (works locally)
+  try {
+    const res = await fetch(URL, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+      },
+    });
+    if (res.ok) return await res.text();
+    console.warn(`  Emeryville: direct fetch returned ${res.status} — trying proxy.`);
+  } catch (err) {
+    console.warn(`  Emeryville: direct fetch failed (${err.message}) — trying proxy.`);
+  }
+
+  // Direct failed — try Vercel proxy (Cloudflare edge IPs, not blocked by CivicPlus)
+  const secret = process.env.PROXY_SECRET;
+  if (!secret) {
+    console.warn('  Emeryville: PROXY_SECRET not set — cannot use proxy.');
+    return null;
+  }
+  try {
+    const res = await fetch(PROXY_URL, {
+      headers: { 'x-proxy-secret': secret },
+    });
+    if (res.ok) {
+      console.log('  Emeryville: proxy fetch succeeded.');
+      return await res.text();
+    }
+    console.warn(`  Emeryville: proxy returned ${res.status}.`);
+  } catch (err) {
+    console.warn(`  Emeryville: proxy failed (${err.message}).`);
+  }
+
+  return null;
+}
+
 export async function scrapeEmeryville(daysAhead = 14) {
   // Load cache
   let cache = { pageHash: null, schedule: null };
@@ -149,28 +190,19 @@ export async function scrapeEmeryville(daysAhead = 14) {
     try { cache = JSON.parse(readFileSync(CACHE_FILE, 'utf8')); } catch {}
   }
 
-  // Fetch live page
+  // Fetch live page (direct, then via proxy if blocked)
+  const html = await fetchPage();
   let pageText, pageHash;
-  try {
-    const res = await fetch(URL, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-      },
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const html = await res.text();
-    pageText = extractScheduleText(html);
-    pageHash = createHash('sha256').update(pageText).digest('hex');
-  } catch (err) {
-    console.warn(`  Emeryville: could not fetch page (${err.message}). Using cached schedule.`);
+  if (!html) {
+    console.warn('  Emeryville: all fetch attempts failed. Using cached schedule.');
     if (cache.schedule) {
       warnIfExpiringSoon(cache.schedule);
       return buildResults(cache.schedule, daysAhead);
     }
     return {};
   }
+  pageText = extractScheduleText(html);
+  pageHash = createHash('sha256').update(pageText).digest('hex');
 
   // Use cache if page hasn't changed
   if (cache.pageHash === pageHash && cache.schedule) {
