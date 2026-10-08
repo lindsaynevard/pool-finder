@@ -142,11 +142,16 @@ function buildResults(schedule, daysAhead) {
   return results;
 }
 
-// Vercel Edge Function proxy — used when direct fetch is blocked (e.g. GitHub Actions / Azure IPs)
+// Vercel Edge Function proxy — used when direct fetch is blocked (e.g. GitHub Actions / Azure IPs).
+// Note: Emeryville's Akamai CDN also blocks Cloudflare IPs, so this usually falls through.
 const PROXY_URL = 'https://pool-finder-pearl.vercel.app/api/emeryville-proxy';
 
+// Raw HTML file committed to git by a local Mac cron job (fetch-emeryville-html.mjs).
+// Mac has a residential IP that Akamai doesn't block; CI reads this file and parses it.
+const RAW_HTML_FILE = new URL('.emeryville-raw-page.html', import.meta.url).pathname;
+
 async function fetchPage() {
-  // Try direct fetch (works locally)
+  // Try direct fetch (works locally on a residential IP)
   try {
     const res = await fetch(URL, {
       headers: {
@@ -156,28 +161,31 @@ async function fetchPage() {
       },
     });
     if (res.ok) return await res.text();
-    console.warn(`  Emeryville: direct fetch returned ${res.status} — trying proxy.`);
+    console.warn(`  Emeryville: direct fetch returned ${res.status}.`);
   } catch (err) {
-    console.warn(`  Emeryville: direct fetch failed (${err.message}) — trying proxy.`);
+    console.warn(`  Emeryville: direct fetch failed (${err.message}).`);
   }
 
-  // Direct failed — try Vercel proxy (Cloudflare edge IPs, not blocked by CivicPlus)
+  // Try Vercel proxy (blocked by Akamai too, but leaving in as a future option)
   const secret = process.env.PROXY_SECRET;
-  if (!secret) {
-    console.warn('  Emeryville: PROXY_SECRET not set — cannot use proxy.');
-    return null;
+  if (secret) {
+    try {
+      const res = await fetch(PROXY_URL, { headers: { 'x-proxy-secret': secret } });
+      if (res.ok) {
+        console.log('  Emeryville: proxy fetch succeeded.');
+        return await res.text();
+      }
+    } catch {}
   }
-  try {
-    const res = await fetch(PROXY_URL, {
-      headers: { 'x-proxy-secret': secret },
-    });
-    if (res.ok) {
-      console.log('  Emeryville: proxy fetch succeeded.');
-      return await res.text();
+
+  // Read raw HTML committed to git by local Mac cron job (no API key required locally)
+  if (existsSync(RAW_HTML_FILE)) {
+    try {
+      console.log('  Emeryville: using locally-committed raw HTML file.');
+      return readFileSync(RAW_HTML_FILE, 'utf8');
+    } catch (err) {
+      console.warn(`  Emeryville: could not read raw HTML file (${err.message}).`);
     }
-    console.warn(`  Emeryville: proxy returned ${res.status}.`);
-  } catch (err) {
-    console.warn(`  Emeryville: proxy failed (${err.message}).`);
   }
 
   return null;

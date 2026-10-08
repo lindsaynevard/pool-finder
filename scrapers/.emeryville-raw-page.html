@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en-US">
+<!--<![endif]-->
+<head>
+	<!-- Published by OpenCities, 1.38.0.1 -->
+
+    
+        
+    
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="theme-color" content="#FFFFFF"/>
+    <title>Swim For Fitness - City of Emeryville, CA</title>
+	<meta name="generator" content="OpenCities - https://granicus.com/product/opencities" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Using mobile-web-app-capable for now to enable full-screen experience on supported platforms -->
+    <!-- Note: This tag works mainly on Android Chrome. It does NOT enable full-screen mode on iOS Safari. -->
+    <!-- For iOS, the correct tag is: <meta name="apple-mobile-web-app-capable" content="yes"> -->
+    <!-- TODO: Monitor for updated meta tag standards from Apple or other browser vendors -->
+    <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="description" content="Stay fit and focused with Swim For Fitness at the ECCL Pool. Designed for swimmers looking to build endurance or enjoy a low-impact workout, our dedicated lap swim hours offer a quiet, structured environment for all levels. Lanes are shared, so circle swimming and proper lap..." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness" />
+    <meta property="og:title" content="Swim For Fitness" />
+    <meta property="og:description" content="Stay fit and focused with Swim For Fitness at the ECCL Pool. Designed for swimmers looking to build endurance or enjoy a low-impact workout, our dedicated lap swim hours offer a quiet, structured environment for all levels. Lanes are shared, so circle swimming and proper lap..." />
+    <meta property="og:image" content="https://www.emeryville.org/files/ocwebsite/City/HeroImage/emeryville%20symbol_1.png?w=1200" />
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content="Swim For Fitness" />
+    <meta property="twitter:description" content="Stay fit and focused with Swim For Fitness at the ECCL Pool. Designed for swimmers looking to build endurance or enjoy a low-impact workout, our dedicated lap swim hours offer a quiet, structured environment for all levels. Lanes are shared, so circle swimming and proper lap..." />
+    <meta property="twitter:image" content="https://www.emeryville.org/files/ocwebsite/City/HeroImage/emeryville%20symbol_1.png?w=1080" />
+    <link rel="canonical" href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness" />
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/files/ocfavicon/City/apple-touch-icon.png?V=638591367205919142">
+<link rel="icon" type="image/png" sizes="32x32" href="/files/ocfavicon/City/favicon-32x32.png?V=638591367205919142">
+<link rel="icon" type="image/png" sizes="16x16" href="/files/ocfavicon/City/favicon-16x16.png?V=638591367205919142">
+<link rel="manifest" href="/files/ocfavicon/City/site.webmanifest?V=638591367205919142">
+<link rel="shortcut icon" href="/files/ocfavicon/City/favicon.ico?V=638591367205919142">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="msapplication-config" content="/files/ocfavicon/City/browserconfig.xml?V=638591367205919142">
+    <script>
+        (function () {
+            if (window.__UNLOAD_LAZY_PATCH__) return;
+            window.__UNLOAD_LAZY_PATCH__ = true;
+
+            var supportsPageHide = ("onpagehide" in window);
+            var mappedType = supportsPageHide ? "pagehide" : "beforeunload";
+            var nativeAdd = window.addEventListener;
+            var nativeRemove = window.removeEventListener;
+            var unloadMap = null;
+            var patched = false;
+
+            function ensurePatched() {
+                if (patched) return;
+                unloadMap = new WeakMap();
+
+                window.addEventListener = function (type, listener, options) {
+                    if (type === "unload") {
+                        var wrapped = function (evt) {
+                            if (supportsPageHide && evt.persisted) return;
+                            listener.call(this, evt);
+                        };
+                        unloadMap.set(listener, wrapped);
+                        return nativeAdd.call(this, mappedType, wrapped, options);
+                    }
+                    return nativeAdd.call(this, type, listener, options);
+                };
+
+                window.removeEventListener = function (type, listener, options) {
+                    if (type === "unload") {
+                        var wrapped = unloadMap.get(listener);
+                        if (wrapped) {
+                            nativeRemove.call(this, mappedType, wrapped, options);
+                            unloadMap.delete(listener);
+                        }
+                        return;
+                    }
+                    return nativeRemove.call(this, type, listener, options);
+                };
+
+                var orig = null;
+                Object.defineProperty(window, "onunload", {
+                    configurable: true, enumerable: true,
+                    get: function () { return orig; },
+                    set: function (h) {
+                        orig = h;
+                        if (typeof h === "function") window.addEventListener("unload", h);
+                    }
+                });
+                patched = true;
+            }
+
+            window.addEventListener = function (type, listener, options) {
+                if (type === "unload") {
+                    ensurePatched();
+                    return window.addEventListener(type, listener, options);
+                }
+                return nativeAdd.call(this, type, listener, options);
+            };
+
+            window.removeEventListener = function (type, listener, options) {
+                if (type === "unload" && !patched) {
+                    return;
+                }
+                return nativeRemove.call(this, type, listener, options);
+            };
+
+            function patchTelerik() {
+                ensurePatched();
+                var ns = window.RadAjaxNamespace;
+                if (!ns || !ns.EventManager || !ns.EventManager.Add || ns.EventManager.__UnloadPatched) return;
+                var origAdd = ns.EventManager.Add;
+                ns.EventManager.Add = function (el, evtName, handler, clientId) {
+                    if (el === window && evtName === "unload") {
+                        return window.addEventListener("unload", handler);
+                    }
+                    return origAdd.call(this, el, evtName, handler, clientId);
+                };
+                ns.EventManager.__UnloadPatched = true;
+            }
+
+            if (window.RadAjaxNamespace)
+                patchTelerik();
+            else (window.requestIdleCallback || function (cb)
+            {
+                setTimeout(cb, 120);
+            })(patchTelerik);
+        })();
+    </script>
+    <!-- Preconnecting to Google Fonts servers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Defer Roboto font loading to avoid render-blocking -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const robotoLink = document.createElement('link');
+            robotoLink.rel = 'stylesheet';
+            robotoLink.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap';
+            document.head.appendChild(robotoLink);
+        });
+    </script>
+
+    <style>
+        .gm-style, .gm-style * {
+            font-family: 'Roboto', system-ui, -apple-system, "Segoe UI", Arial, sans-serif !important;
+        }
+    </style>
+
+    <script>
+        document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, "js");
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    
+        
+            <script type="text/javascript">
+                window.__oc_flags_ImprovedBreakpointEventHandling = true;
+            </script>
+            
+        
+    
+    
+    
+        <script type="text/javascript">
+            var __metaQueryBreakpoints = {
+                'sc-size-4': '(max-width: 480px)',
+                'sc-size-3': '(min-width: 480px) and (max-width: 768px)',
+                'sc-size-2': '(min-width: 768px) and (max-width: 992px)',
+                'sc-size-1': '(min-width: 992px)'
+            }
+
+            var __ocSizePoints = [
+                { min: 0, name: 'sc-size-4' },
+                { min: 480, name: 'sc-size-3' },
+                { min: 768, name: 'sc-size-2' },
+                { min: 992, name: 'sc-size-1' }
+            ];
+
+        </script>
+    
+
+    <!-- Framework Section -->
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/files/templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/jquery-3.7.1.min.js?seamlessts=639263243724572218" ><\/script>')</script>
+
+    <!--Google Maps API Loader – Improved Version to avoid Warning
+    This script loads the Google Maps JavaScript API using a dynamic and async method.
+    It replaces the old static <script> tag to avoid performance warnings from Google.
+
+    Dynamically creates the <script> tag with loading = async for better performance
+    Builds the API URL with required libraries(places, geometry, marker, geocoding)
+    Uses a Promise and callback(google.maps.__ib__) to confirm when the script is ready
+
+    It Avoids Google’s warning about direct script loading
+    Improves page load speed by loading the API asynchronously-->
+
+    
+        <script>
+            (function (root) {
+                root.OpenCities = root.OpenCities || {};
+                if (!root.OpenCities.GoogleMapsLoader) {
+                    root.OpenCities.GoogleMapsLoader = {
+                        _cbs: [],
+                        _ready: false,
+                        onReady: function (cb) {
+                            if (this._ready) { try { cb(); } catch (e) { console.error(e); } }
+                            else if (typeof cb === 'function') this._cbs.push(cb);
+                        },
+                        _fire: function () {
+                            if (this._ready) return;
+                            this._ready = true;
+                            var q = this._cbs.splice(0);
+                            for (var i = 0; i < q.length; i++) {
+                                try { q[i](); } catch (e) { console.error(e); }
+                            }
+                        }
+                    };
+                }
+            })(window);
+
+            (g => {
+                var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__",
+                    m = document, b = window;
+                b = b[c] || (b[c] = {});
+                var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams,
+                    u = () => h || (h = new Promise(async (resolve, reject) => {
+                        a = m.createElement("script");
+                        e.set("libraries", [...r] + "");
+                        for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+                        e.set("callback", c + ".maps." + q);
+                        a.src = "https://maps." + c + "apis.com/maps/api/js?" + e.toString();
+                        a.loading = "async";
+                        a.async = true;
+                        a.defer = true;
+                        d[q] = resolve;
+                        a.onerror = () => reject(Error(p + " could not load."));
+                        a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                        m.head.append(a);
+                    }));
+                if (d[l]) {
+                    console.warn(p + " only loads once. Ignoring duplicate load.");
+                } else {
+                    d[l] = (f, ...n) => (r.add(f), u().then(() => d[l](f, ...n)));
+                }
+            })({
+                key: "AIzaSyAPJ0ZyGu16JVRHwGSOBXUBGTE54ZkwTWk ",
+                v: "3.65"
+            });
+
+            (async () => {
+                try {
+                    if (!google?.maps?.importLibrary) return;
+
+                    if (!window.OpenCities.__mapsLibsPromise) {
+                        window.OpenCities.__mapsLibsPromise = Promise.all([
+                            google.maps.importLibrary('maps'),
+                            google.maps.importLibrary('places'),
+                            google.maps.importLibrary('geocoding'),
+                            google.maps.importLibrary('marker'),
+                            google.maps.importLibrary('geometry')
+                        ]);
+                    }
+                    await window.OpenCities.__mapsLibsPromise;
+
+                    if (window.OpenCities?.GoogleMapsLoader) {
+                        window.OpenCities.GoogleMapsLoader._fire();
+                    }
+                } catch (err) {
+                    console.error('Google Maps failed to initialise', err);
+                }
+            })();
+        </script>
+    
+    <script src="/files/templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/modernizr.custom.710f3bf.js?seamlessts=639263243724572218" defer></script>
+    
+    <!--// End Framework Section -->
+    <!-- OpenCities Section -->
+    <script>
+        var OpenCities = OpenCities || {};
+        OpenCities.Paths = {
+            SiteTemplate: '/files/templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/',
+            ThemePath: '/files/templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/'
+        };
+    </script>
+    <script src='/ocapi/6cc373df-1b7b-4584-bdba-f1e397227bc2/en-US/websitesettings.js'></script>
+    <script src="/files/templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/oc_head.js?applied=20250731023152"></script>
+    <!-- Script Combine. To enter debug mode for this browser session, enter OcScriptCombineDebug=true as a querystring -->
+<link href="/files/oc-templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/oc_grid.css~oc_style.css~oc_wizard_style.css~oc_main.css~oc_forms.css~oc_wizard.css~oc_wizard_menu.css~oc_main_s1.css~oc_wizard_s1.css~oc_wizard_menu_s1.css~oc_grid_s1.css~OcScriptCombine_Minify0?uniqueid=20250731023152" rel="stylesheet" type="text/css">
+    <!-- Script Combine. To enter debug mode for this browser session, enter OcScriptCombineDebug=true as a querystring -->
+<link href="/files/oc-templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/client_style.css~client.css~client_menu.css~client_s1.css~client_menu_s1.css~client_forms.css~OcScriptCombine_Minify0?uniqueid=20250731023152" rel="stylesheet" type="text/css">
+    <script>
+(function (BackgroundSettings, $, undefined) {
+    BackgroundSettings.initialise = function () {
+        this.Application = {"CSSSelector":".background-container","EnableFade":false,"MediaType":"image"};
+    };
+} (OpenCities.BackgroundSettings = OpenCities.BackgroundSettings || {}, jQuery));
+OpenCities.BackgroundSettings.initialise();
+</script>
+    
+    <!-- Script Combine. To enter debug mode for this browser session, enter OcScriptCombineDebug=true as a querystring -->
+<link href="/files/oc-templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/oc_print.css~client_print.css~OcScriptCombine_Minify0?uniqueid=20250731023152" rel="stylesheet" type="text/css" media="print">
+    <!-- Script Combine. To enter debug mode for this browser session, enter OcScriptCombineDebug=true as a querystring -->
+<script src="/files/oc-templates/00000000-0000-0000-0000-000000000000/63e99f01-f92e-4ece-af49-b74dfba49a65/v/185/external_plugins.js~oc_form_helper.js~oc_main.js~plugins.js~oc_main_init.js~OcScriptCombine_Minify0?uniqueid=20250731023152" defer="true"></script>
+    
+    
+
+                                <script>!function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="DYTCK-JM9C8-ED4EP-C3GGK-Z575H",function(){function e(){if(!r){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.appendChild(e),r=!0}}function t(e){r=!0;var n,t,a,i,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",i=(a.frameElement||a).style,i.width=0,i.height=0,i.border=0,i.display="none",o.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void 0;",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("<bo"+"dy onload='document._boomrl();'>");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=14,window.BOOMR.url=n+"DYTCK-JM9C8-ED4EP-C3GGK-Z575H";var i=document.currentScript||document.getElementsByTagName("script")[0],o=i.parentNode,r=!1,d=document.createElement("link");if(d.relList&&"function"==typeof d.relList.supports&&d.relList.supports("preload")&&"as"in d)window.BOOMR.snippetMethod="p",d.href=window.BOOMR.url,d.rel="preload",d.as="script",d.addEventListener("load",e),d.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!r)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.appendChild(d);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="un2izlax34nk62wh2tlq-f-ae957b98e-clientnsv4-s.akamaihd.net",i="false"=="true"?2:1,o={"ak.v":"41","ak.cp":"1865612","ak.ai":parseInt("1075935",10),"ak.ol":"0","ak.cr":65,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"91ce995a","ak.r":49945,"ak.a2":n,"ak.m":"dscb","ak.n":"essl","ak.cport":19268,"ak.gh":"23.200.41.111","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1791481047","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==tWcsF0mgfFywbKzoCmITYmir0hyCIY31qxT3BdEy1rjcKBTbjugdIsOD6GBHYISCQB47t9aKTqCn4kt6ivguqKlGUYz6v6BsMrZmJAUs0f9cTgAg1QfizB7LdQMeVI5vCHDDSI+57eq6gj4A/UhNCs+NCofdi4EYtwVyRqnXqnuQ2TqR9pAfloY86Cn7fWwvshb4S2C+nvo0kohC2zklsaa1tEDOwmlat5ddXXuQSGk3OBHuv88BJYBxllt1mfsJa46Wk8KqCY4jm83GEV9Pti/KxV20Pl+WvlnAhgq8U4S32QvH6LDQ0d5jqU+zWzYzEHVUkErEIIajEezUYN3x/yEzJuo+LvVdoakyZXBTyAwV3Uuc5NNbhV4zhoVsjK3rp/jnsUsMsiT0zxPWahArG8GRWP2mx4irl9GV09wiLNA=","ak.pv":"353","ak.dpoabenc":"","ak.tf":i};if(""!==t)o["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))o["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(o)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:o,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);</script></head>
+<body class="body layout-modern  site-search-always-visble  content-type-oc-general content-template-oc-2-column group-template-oc-2-column-with-default-header page-name-swim-for-fitness page-sequence-1 page-depth-4 page-section-5 website-type-primary device-desktop " id="body-top">
+    <div id="skip-to-content-container">
+        <a href="#main-content" class="visuallyhidden focusable" id="skip-to-content-link">Skip to main content</a>
+    </div>
+    <script>
+        // OCNOW-11988 (Cursor): Proactively focus skip link when returning from browser chrome.
+        // Must run inline (not deferred oc_main.js) so focus is intercepted before NVDA speaks footer.
+        (function () {
+            var awaitingReentry = false;
+            var inertSupported = 'inert' in HTMLElement.prototype;
+
+            function isExplicitlyOutsideDocument(node) {
+                return node != null && !document.documentElement.contains(node);
+            }
+
+            function getSkipContainer() {
+                return document.getElementById('skip-to-content-container');
+            }
+
+            function getSkipLink() {
+                return document.getElementById('skip-to-content-link');
+            }
+
+            function applyGuard() {
+                awaitingReentry = true;
+                if (!inertSupported) {
+                    return;
+                }
+                var skipContainer = getSkipContainer();
+                var children = document.body.children;
+                for (var i = 0; i < children.length; i++) {
+                    if (children[i] !== skipContainer) {
+                        children[i].setAttribute('inert', '');
+                    }
+                }
+            }
+
+            function clearGuard() {
+                awaitingReentry = false;
+                if (!inertSupported) {
+                    return;
+                }
+                var children = document.body.children;
+                for (var i = 0; i < children.length; i++) {
+                    children[i].removeAttribute('inert');
+                }
+            }
+
+            function isSkipLinkElement(target) {
+                if (!target) {
+                    return false;
+                }
+                var skipContainer = getSkipContainer();
+                return target.id === 'skip-to-content-link' ||
+                    (skipContainer && skipContainer.contains(target));
+            }
+
+            function focusSkipLink() {
+                var skipLink = getSkipLink();
+                if (!skipLink) {
+                    return;
+                }
+                if (window.scrollY > 0) {
+                    window.scrollTo(0, 0);
+                }
+                skipLink.focus({ preventScroll: true });
+            }
+
+            function scheduleGuardIfDocumentLostFocus() {
+                window.setTimeout(function () {
+                    if (!document.hasFocus()) {
+                        applyGuard();
+                    }
+                }, 0);
+            }
+
+            document.addEventListener('focusout', function (e) {
+                if (isExplicitlyOutsideDocument(e.relatedTarget)) {
+                    applyGuard();
+                }
+            }, true);
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Tab') {
+                    scheduleGuardIfDocumentLostFocus();
+                } else if (e.key === 'F6' || (e.key === 'l' && e.ctrlKey)) {
+                    scheduleGuardIfDocumentLostFocus();
+                }
+            }, true);
+
+            window.addEventListener('focus', function () {
+                if (!awaitingReentry) {
+                    return;
+                }
+                applyGuard();
+                focusSkipLink();
+            }, true);
+
+            document.addEventListener('focusin', function (e) {
+                var reentryFromChrome = awaitingReentry || isExplicitlyOutsideDocument(e.relatedTarget);
+                if (!reentryFromChrome) {
+                    return;
+                }
+                if (isSkipLinkElement(e.target)) {
+                    clearGuard();
+                    return;
+                }
+                applyGuard();
+                focusSkipLink();
+                clearGuard();
+            }, true);
+        })();
+    </script>
+    <form name="mainForm" method="post" action="/Recreation/Fitness/Aquatics/Swim-For-Fitness" id="mainForm">
+<div>
+<input type="hidden" name="ctl04_seamless_script_manager_TSM" id="ctl04_seamless_script_manager_TSM" value="" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__SEAMLESSVIEWSTATE" id="__SEAMLESSVIEWSTATE" value="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" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['mainForm'];
+if (!theForm) {
+    theForm = document.mainForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZEwxevNHYVPiVa1Imd_CfwV7Ab8FE1aS0qMo2VVt5LKJo2QwSrlAqlF7-BPzzVxibA2&amp;t=639190581332169432" type="text/javascript"></script>
+
+
+<script src="/Telerik.Web.UI.WebResource.axd?_TSM_HiddenField_=ctl04_seamless_script_manager_TSM&amp;compress=1&amp;_TSM_CombinedScripts_=%3b%3bSystem.Web.Extensions%2c+Version%3d4.0.0.0%2c+Culture%3dneutral%2c+PublicKeyToken%3d31bf3856ad364e35%3aen-GB%3add3ac3d5-1e29-4112-8fed-529caffa8f24%3aea597d4b%3ab25378d2" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=EYVjNsQ7oYmzBqCI0dkEyYe0LYmPcVFL4WPcQCXhKfQwUqkAT7lLra0za-OLMuUUcCyPINdTVMHIWti96-8R_oN-trjXUUZnJRzckxTjid4ecctwwEJyNI-05jZYvXHBRiEKL0MUQMEyEJ2FXanyE1uBk88RxZ1wVK6AUn9D4v8rW-LNx2OOtB8vE3hC8P0jk4XZt7GAPiCeYQolxUlwFZA8cuOfgd4u08OASxFdh8mChz3A0YHhuwRrXGVlulfs9SJVkAvulhjdHYIIp1SRohDxt9acTwxUQrOlxuxC847b00zOOWg9SlpwD_iBuQQ1rOK9WH9O_wN9c2TXm4GeXaQHHT4yQ9IlzZXw6th8ch3f-k_n1yYeeurDMbwChXW1Vh_7rpu00kgmegsg9w2J3ququXIPfy2Gq8IscVTmtwouupfmUzAOicU_yESgQ-dG0" type="text/javascript"></script>
+<script src="/Telerik.Web.UI.WebResource.axd?_TSM_HiddenField_=ctl04_seamless_script_manager_TSM&amp;compress=1&amp;_TSM_CombinedScripts_=%3b%3bOpenCities.CustomControls%3aen-GB%3a7197b077-b068-4a69-9481-a6cf2e7718f9%3a8e1d32bf" type="text/javascript"></script>
+    <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl04$seamless_script_manager', 'mainForm', [], [], [], 90, '');
+//]]>
+</script>
+
+<script type="text/javascript">
+    try{
+        function SeamlessEndRequestHandler(sender, args) {
+            try {
+                var dataItems = args.get_dataItems();
+                if(dataItems.ctl04_seamless_script_manager)
+                    document.getElementById('__SEAMLESSVIEWSTATE').value = dataItems.ctl04_seamless_script_manager;
+            }
+            catch (e) { }
+        }
+
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(SeamlessEndRequestHandler);
+    }
+    catch (e) { }
+</script>
+
+    <div class="unsupported-browser-warning js-element"></div>
+    
+    <div hidden>
+        <span id="new-window-0">opens in new tab or window </span>
+    </div>
+    <div class="overlay-container"></div>
+    
+    <div class="background-container">
+        <div class="page-container">
+            <!-- OC Layout Element GROUP TEMPLATE -->
+            <!--groupTemplateStart--><header>
+            <div class="toolbar-outer-container">
+  <div class="toolbar-inner-container clearfix">
+    <div class="toolbar-item toolbar-quicklinks toolbar-display-dropdown">
+	<button type="button" aria-controls="toolbar-quicklinks-drop-down" aria-expanded="false" class="toolbar-button toolbar-button-quicklinks js-element"><span>Quick Links</span><i aria-hidden="true"></i></button>	
+	<div id="toolbar-quicklinks-drop-down" class="toolbar-drop-down toolbar-quicklinks-drop-down clearfix">
+		<ul>
+		  <li><a href="https://www.facebook.com/profile.php?id=100087325997219" class="oc-icon-b oc-i-facebook link-type-external link-hide-text" target="_blank"><span>Facebook</span></a></li><li><a href="https://www.instagram.com/cityofemeryville/" class="oc-icon-b oc-i-instagram link-type-external link-hide-text" target="_blank"><span>Instagram</span></a></li><li><a href="www.x.com/EmeryvilleCA" class="oc-icon-b oc-i-x link-type-external link-hide-text" target="_blank"><span>X</span></a></li>
+		</ul>
+	</div>
+</div><div class="toolbar-item toolbar-language notranslate toolbar-display-dropdown"><div class="no-js-element">
+		  <ul>
+		    <li id="toolbar-language-option-en-us-noscript"><a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=en-US" class="lang-item lang-en-us" data-translate-to="en-us" lang="en-US">English<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li id="toolbar-language-option-ar-noscript"><a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=ar" class="lang-item lang-ar" data-translate-to="ar" lang="en">Arabic<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li id="toolbar-language-option-zh-tw-noscript"><a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=zh-TW" class="lang-item lang-zh-tw" data-translate-to="zh-tw" lang="en">Chinese (Traditional)<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li id="toolbar-language-option-es-noscript"><a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=es" class="lang-item lang-es" data-translate-to="es" lang="en">Spanish<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li id="toolbar-language-option-tl-noscript"><a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=tl" class="lang-item lang-tl" data-translate-to="tl" lang="en">Tagalog (Filipino)<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li id="toolbar-language-option-vi-noscript"><a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=vi" class="lang-item lang-vi" data-translate-to="vi" lang="en">Vietnamese<span class="visuallyhidden"> Select this as your preferred language</span></a></li>
+          </ul>
+		</div>
+	<button type="button" role="combobox" aria-controls="toolbar-language-drop-down" aria-expanded="false" aria-haspopup="listbox" aria-autocomplete="none" aria-labelledby="toolbar-language-label" class="toolbar-button toolbar-button-language js-element">  
+        <span class="toolbar-language-globe-icon" aria-hidden="true"></span>
+        <span id="toolbar-language-label" class="current-language">
+            Select a language to translate to
+		</span>
+		<i aria-hidden="true"></i>
+	</button>
+	<div id="toolbar-language-drop-down" role="listbox" aria-label="Available languages" class="toolbar-drop-down toolbar-language-drop-down js-element clearfix">
+		<ul role="group">
+		    <li role="presentation"><a id="toolbar-language-option-en-us" role="option" aria-selected="true" href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=en-US" class="lang-item lang-en-us" data-translate-to="en-us" lang="en-US">English<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li role="presentation"><a id="toolbar-language-option-ar" role="option" aria-selected="false" href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=ar" class="lang-item lang-ar" data-translate-to="ar" lang="en">Arabic<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li role="presentation"><a id="toolbar-language-option-zh-tw" role="option" aria-selected="false" href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=zh-TW" class="lang-item lang-zh-tw" data-translate-to="zh-tw" lang="en">Chinese (Traditional)<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li role="presentation"><a id="toolbar-language-option-es" role="option" aria-selected="false" href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=es" class="lang-item lang-es" data-translate-to="es" lang="en">Spanish<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li role="presentation"><a id="toolbar-language-option-tl" role="option" aria-selected="false" href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=tl" class="lang-item lang-tl" data-translate-to="tl" lang="en">Tagalog (Filipino)<span class="visuallyhidden"> Select this as your preferred language</span></a></li><li role="presentation"><a id="toolbar-language-option-vi" role="option" aria-selected="false" href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness?oc_lang=vi" class="lang-item lang-vi" data-translate-to="vi" lang="en">Vietnamese<span class="visuallyhidden"> Select this as your preferred language</span></a></li>
+        </ul>
+	</div></div>
+  </div>
+</div>
+            <div class="header-outer-container">
+    <div class="header-container header-layout-3  clearfix">
+			<div class="header-site-logo">
+				<a href="https://www.emeryville.org/Home" lang="en-US" aria-label="City of Emeryville, CA - Home - Logo">
+				</a>
+			</div>
+      
+		    <div class="mobile-search-btn js-element">
+		        <button><i aria-hidden="true"></i><span class="mobile-search-btn-text"><span class="visuallyhidden">Open </span>Search</span></button>
+		    </div>
+		    <div class="header-website-settings">
+                <button id="btn-mob-nav" type="button" aria-expanded="false" aria-controls="nav">
+                    <i aria-hidden="true"></i><span class="side-menu-btn-text">Menu</span>
+                </button>
+        	</div>
+          <div class="navigation-outer-container">
+	<div id="nav" role="navigation" class="navigation-container  navigation-container-option-7" data-menu-type="horizontal" aria-label="primary">
+        <div class="grid">
+            <div class="col-xs-12">              
+                <ul class="sf-menu" id="sc-main-menu"><li class="nav-section-quarters-1   first-item nav-item-seq-1">
+<a href="https://www.emeryville.org/Government" class="nav-level-1 nav-has-children"  target="">
+	<i class="item-icon" aria-hidden="true"></i><span class="item-text">Government</span>
+</a>
+<button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow" aria-controls="sc-menu-second-level-nav-item-seq-1">
+              <i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-second-level-nav-item-seq-1">
+
+          
+            <li class=" "><a  href="https://www.emeryville.org/Government/City-Council" class="nav-has-children"  target="">City Council</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-1-nav-item-seq-1"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-1-nav-item-seq-1">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Government/City-Council/Council-Members"  target="">Council Members</a></li><li  class=" "><a href="https://www.emeryville.org/Government/City-Council/Strategic-Plan"  target="">Strategic Plan</a></li><li  class=" "><a href="https://www.emeryville.org/Government/City-Council/Meeting-Agendas-and-Minutes"  target="">Meeting Agendas and Minutes</a></li><li  class=" "><a href="https://www.emeryville.org/Government/City-Council/Boards-Commissions-and-Committees"  target="">Boards, Commissions, and Committees</a></li><li  class=" "><a href="https://www.emeryville.org/Government/City-Council/Municipal-Code"  target="_blank">Municipal Code</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Government/November-3-2026-General-Election" class="nav-has-children"  target="">November 3, 2026 General Election</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-1-nav-item-seq-2"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-1-nav-item-seq-2">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Government/November-3-2026-General-Election/Candidates-and-Campaign-Statements"  target="">Candidates and Campaign Statements</a></li><li  class=" "><a href="https://www.emeryville.org/Government/November-3-2026-General-Election/Measure-BB-Business-License-Tax-Reform"  target="">Measure BB - Business License Tax Reform</a></li><li  class=" "><a href="https://www.emeryville.org/Government/November-3-2026-General-Election/Basic-Steps-in-Running-for-Office"  target="">Basic Steps in Running for Office</a></li><li  class=" "><a href="https://www.emeryville.org/Government/November-3-2026-General-Election/Election-Resources"  target="">Election Resources</a></li><li  class=" "><a href="https://www.emeryville.org/Government/November-3-2026-General-Election/Placement-of-Political-Signs"  target="">Placement of Political Signs</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Government/Departments" class="nav-has-children"  target="">Departments</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-1-nav-item-seq-3"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-1-nav-item-seq-3">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Government/Departments/City-Attorney"  target="">City Attorney</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/City-Clerk"  target="">City Clerk</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/City-Managers-Office"  target="">City Manager's Office</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/Community-Development"  target="">Community Development</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/Community-Services"  target="">Community Services</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/Finance"  target="">Finance</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/Human-Resources"  target="">Human Resources</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/Information-Technology-IT"  target="">Information Technology</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/Police"  target="">Police</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/Public-Works"  target="">Public Works</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/ADA-Coordinator"  target="">ADA Coordinator</a></li><li  class=" "><a href="https://www.emeryville.org/Government/Departments/Fire-Services"  target="">Fire Services</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Government/Volunteer-Opportunities" class=""  target="">Volunteer Opportunities</a></li><li class=" "><a  href="https://www.emeryville.org/Government/About-Emeryville" class="nav-has-children"  target="">About Emeryville</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-1-nav-item-seq-5"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-1-nav-item-seq-5">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Government/About-Emeryville/History"  target="">History</a></li><li  class=" "><a href="https://www.emeryville.org/Government/About-Emeryville/Location"  target="">Location</a></li><li  class=" "><a href="https://www.emeryville.org/Government/About-Emeryville/Demographics"  target="">Demographics</a></li><li  class=" "><a href="https://www.emeryville.org/Government/About-Emeryville/Major-Employers"  target="">Major Employers</a></li><li  class=" "><a href="https://www.emeryville.org/Government/About-Emeryville/News"  target="">News</a></li><li  class=" "><a href="https://www.emeryville.org/Government/About-Emeryville/Charter-City"  target="">Charter City</a></li><li  class=" "><a href="https://www.emeryville.org/Government/About-Emeryville/Contact-Us"  target="">Contact Us</a></li></ul></li></ul></li>
+          
+            <li class="nav-section-quarters-2   nav-item-seq-2">
+<a href="https://www.emeryville.org/Services" class="nav-level-1 nav-has-children"  target="">Services</a>
+<button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow" aria-controls="sc-menu-second-level-nav-item-seq-2">
+              <i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-second-level-nav-item-seq-2">
+
+          
+            <li class=" "><a  href="https://www.emeryville.org/Services/Business" class="nav-has-children"  target="">Business</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-2-nav-item-seq-1"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-2-nav-item-seq-1">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Services/Business/Why-Emeryville"  target="">Why Emeryville?</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Business/Start-or-Locate-a-Business"  target="">Start or Locate a Business</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Business/Business-Licensing"  target="">Business Licensing</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Business/Permits-Regulations"  target="">Permits & Regulations</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Business/Labor-Standards"  target="">Labor Standards</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Business/Economic-Development-Incentives"  target="">Economic Development & Incentives</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Business/Resources-Training"  target="">Resources & Training</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Business/Data-Maps-and-Reports"  target="">Data, Maps and Reports</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Business/Contact-Help-Center"  target="">Contact & Help Center</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Services/Emeryville-Child-Development-Center-ECDC" class=""  target="_blank">Emeryville Child Development Center (ECDC)</a></li><li class=" "><a  href="https://www.emeryville.org/Services/Environmental-Services" class="nav-has-children"  target="">Environmental Services</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-2-nav-item-seq-3"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-2-nav-item-seq-3">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Services/Environmental-Services/Waste-Recycling-Compost"  target="">Waste, Recycling & Compost</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Environmental-Services/Water-Stormwater-Services"  target="">Water & Stormwater Services</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Environmental-Services/Energy"  target="">Energy</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Environmental-Services/Urban-Forestry"  target="">Urban Forestry</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Environmental-Services/Sea-Level-Rise-Adaptation-Planning"  target="">Sea Level Rise Adaptation Planning</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Environmental-Services/Climate-Action-Adaptation"  target="">Climate Action & Adaptation</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Environmental-Services/Money-Saving-Measures"  target="">Money Saving Measures</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Environmental-Services/Get-Involved"  target="">Get Involved!</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Services/Housing" class="nav-has-children"  target="">Housing</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-2-nav-item-seq-4"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-2-nav-item-seq-4">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Services/Housing/Homebuyers-Homeowners-Resources"  target="">Homebuyers & Homeowners Resources</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Housing/Tenant-Resources"  target="">Tenant Resources</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Housing/Developer-Landlord-Housing-Resources"  target="">Developer & Landlord Housing Resources</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Housing/Housing-Policy-Initiatives"  target="">Housing Policy Initiatives</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Housing/Housing-Element"  target="">Housing Element</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Housing/Unhoused-Resident-Support"  target="">Unhoused Resident Support</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Housing/Community-Housing-Resources"  target="">Community Housing Resources</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Housing/Fair-Equal-Housing"  target="">Fair & Equal Housing</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Services/Getting-Around-Emeryville" class="nav-has-children"  target="">Getting Around Emeryville</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-2-nav-item-seq-5"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-2-nav-item-seq-5">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Services/Getting-Around-Emeryville/Paid-Parking"  target="">Paid Parking</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Getting-Around-Emeryville/Public-Transit"  target="">Public Transit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Getting-Around-Emeryville/Emery-Go-Round"  target="">Emery Go-Round</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Getting-Around-Emeryville/Bike-Pedestrian"  target="">Bike & Pedestrian</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Getting-Around-Emeryville/Shared-Mobility"  target="">Shared Mobility</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Getting-Around-Emeryville/Title-VI-Information"  target="">Title VI Information</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Services/Permits" class="nav-has-children"  target="">Permits</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-2-nav-item-seq-6"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-2-nav-item-seq-6">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Services/Permits/Planning-Permits"  target="_self">Planning Permits</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Building-Fire-Permits"  target="_self">Building & Fire Permits</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Encroachment-Permit"  target="">Encroachment Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Sewer-Lateral-Permit"  target="">Sewer Lateral Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Stormwater-Permit"  target="">Stormwater Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Signs-in-Public-Right-of-Way-Permitting"  target="">Signs in Public Right of Way Permitting</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Parking-Permits"  target="">Parking Permits</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Food-Truck-Permit"  target="">Food Truck Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Taxi-and-Vehicle-for-Hire-Permits"  target="">Taxi and Vehicle for Hire Permits</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Dog-License"  target="">Dog License</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Concealed-Carry-Permit"  target="">Concealed Carry Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Card-Room-Employee-Permit"  target="">Card Room Employee Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Commercial-Alarm-System-Permit"  target="">Commercial Alarm System Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Cabaret-Permit"  target="">Cabaret Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Cannabis-Marijuana-Operating-Permit"  target="">Cannabis (Marijuana) Operating Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Massage-Establishment-Permit"  target="">Massage Establishment Permit</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Free-Little-Library-Program"  target="">Free Little Library Program</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Permits/Color-Curb-Request"  target="">Request a Curb Color</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Services/Report-A-Concern" class=""  target="">Report A Concern</a></li><li class=" "><a  href="https://www.emeryville.org/Services/Residents" class="nav-has-children"  target="">Residents</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-2-nav-item-seq-8"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-2-nav-item-seq-8">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Services/Residents/New-Resident-Information"  target="">New Resident Information</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Residents/Know-Your-Rights-Immigration"  target="">Know Your Rights - Immigration</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Residents/Disaster-Preparedness"  target="">Disaster Preparedness</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Residents/Local-Hazard-Mitigation-Plan-LHMP"  target="">Local Hazard Mitigation Plan (LHMP)</a></li><li  class=" "><a href="https://www.emeryville.org/Services/Residents/Emeryville-SNAP-Relief-Food-Drive"  target="">Emeryville SNAP Relief Food Drive</a></li></ul></li></ul></li>
+          
+            <li class="nav-section-quarters-3   nav-item-seq-3">
+<a href="https://www.emeryville.org/Development" class="nav-level-1 nav-has-children"  target="">Development</a>
+<button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow" aria-controls="sc-menu-second-level-nav-item-seq-3">
+              <i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-second-level-nav-item-seq-3">
+
+          
+            <li class=" "><a  href="https://www.emeryville.org/Development/Planning-Division" class="nav-has-children"  target="">Planning Division</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-3-nav-item-seq-1"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-3-nav-item-seq-1">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Development/Planning-Division/General-Plan"  target="">General Plan</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Planning-Division/Planning-Regulations-Maps"  target="">Planning Regulations & Maps</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Planning-Division/Planning-Forms-Fees"  target="">Planning Forms & Fees</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Planning-Division/Plans-Guidelines"  target="">Plans & Guidelines</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Planning-Division/Projects-Permitting"  target="_self">Projects & Permitting</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Planning-Division/Development-Impact-Fees"  target="">Development Impact Fees (Nexus Studies, Annual Fee Updates & Reports)</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Development/Building-Division" class="nav-has-children"  target="">Building Division</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-3-nav-item-seq-2"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-3-nav-item-seq-2">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Development/Building-Division/Building-Permits-and-Programs"  target="">Building & Fire Permits & Programs</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Building-Division/Code-Enforcement"  target="">Code Enforcement</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Building-Division/Smoke-Free-Multi-Unit-Housing"  target="">Smoke-Free Multi-Unit Housing</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Development/Economic-Development-Housing" class="nav-has-children"  target="">Economic Development & Housing</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-3-nav-item-seq-3"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-3-nav-item-seq-3">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Development/Economic-Development-Housing/Economic-Development"  target="_self">Economic Development</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Economic-Development-Housing/Housing"  target="_self">Housing</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Economic-Development-Housing/Public-Art"  target="_self">Public Art</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Economic-Development-Housing/Labor-Standards"  target="_self">Labor Standards</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Economic-Development-Housing/EDH-Special-Initiatives"  target="">Special Initiatives</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Economic-Development-Housing/Dissolution-of-Redevelopment"  target="_self">Dissolution of Redevelopment</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Development/Projects-Permitting" class="nav-has-children"  target="">Projects & Permitting</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-3-nav-item-seq-4"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-3-nav-item-seq-4">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Development/Projects-Permitting/Major-Development-Projects"  target="">Major Development Projects</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Projects-Permitting/Policy-Projects"  target="">Policy Projects</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Projects-Permitting/Permits"  target="_self">Permits</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Projects-Permitting/Public-Works-Projects"  target="_self">Public Works Projects</a></li><li  class=" "><a href="https://www.emeryville.org/Development/Projects-Permitting/Active-Construction-Projects"  target="">Active Construction Projects</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Development/RFPs-and-Bids" class="nav-has-children"  target="">RFPs and Bids</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-3-nav-item-seq-5"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-3-nav-item-seq-5">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Development/RFPs-and-Bids/PW-RFP"  target="_self">Public Works RFPs</a></li><li  class=" "><a href="https://www.emeryville.org/Development/RFPs-and-Bids/Housing-RFQP"  target="">Housing RFQ/P</a></li><li  class=" "><a href="https://www.emeryville.org/Development/RFPs-and-Bids/Artist-Funding"  target="">Artist Funding</a></li><li  class=" "><a href="https://www.emeryville.org/Development/RFPs-and-Bids/Finance-RFP"  target="">Finance RFP</a></li><li  class=" "><a href="https://www.emeryville.org/Development/RFPs-and-Bids/Human-Resources-RFPs"  target="">Human Resources RFPs</a></li><li  class=" "><a href="https://www.emeryville.org/Development/RFPs-and-Bids/RFP-To-Provide-Towing-Services"  target="">Police RFP To Provide Towing Services</a></li><li  class=" "><a href="https://www.emeryville.org/Development/RFPs-and-Bids/Community-Services-Department-Paratransit-Services"  target="">Community Services Department - Paratransit Services</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Development/Municipal-Code" class=""  target="_self">Municipal Code</a></li></ul></li>
+          
+            <li class="nav-section-quarters-4 nav-active-path  nav-item-seq-4">
+<a href="https://www.emeryville.org/Recreation" class="nav-level-1 nav-has-children"  target="">Recreation</a>
+<button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow" aria-controls="sc-menu-second-level-nav-item-seq-4">
+              <i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-second-level-nav-item-seq-4">
+
+          
+            <li class=" "><a  href="https://www.emeryville.org/Recreation/City-News-and-Activity-Guide" class=""  target="">City News and Activity Guide</a></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Community-Services-Department-Information" class=""  target="_self">Community Services Department Information</a></li><li class="nav-active-path "><a  href="https://www.emeryville.org/Recreation/Fitness" class="nav-has-children"  target="">Fitness</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-3"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-3">
+          
+            <li  class="nav-active-path "><a href="https://www.emeryville.org/Recreation/Fitness/Aquatics"  target="">Aquatics</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Fitness/Fitness-Center-Open-Gym-Sports"  target="">Fitness Center & Open Gym Sports</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Fitness/50-Adults-Classes"  target="_self">50+ Adults Classes</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Contract-Classes" class="nav-has-children"  target="">Contract Classes</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-4"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-4">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Recreation/Contract-Classes/Aikido-Kokikai"  target="">Aikido Kokikai</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Contract-Classes/Iaido"  target="">Iaido</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Contract-Classes/Taiko"  target="">Taiko</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Contract-Classes/Zumba-All-Ages"  target="">Zumba (All Ages)</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Senior-Center" class="nav-has-children"  target="">Senior Center</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-5"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-5">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Recreation/Senior-Center/Social-Services"  target="">Social Services</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Senior-Center/Senior-Center-Classes"  target="">Senior Center Classes</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Emeryville-Child-Development-Center" class="nav-has-children"  target="">Emeryville Child Development Center</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-6"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-6">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Recreation/Emeryville-Child-Development-Center/Fees-Assistance"  target="">Fees & Assistance</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Emeryville-Child-Development-Center/Enrollment"  target="">Enrollment</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Emeryville-Child-Development-Center/Education-Program"  target="">Education Program</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Emeryville-Child-Development-Center/Additional-Information"  target="">Additional Information</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Youth-Services" class="nav-has-children"  target="">Youth Services</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-7"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-7">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Recreation/Youth-Services/Day-Camps"  target="">Day Camps</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Youth-Services/2026-27-Expanded-Learning-Program"  target="">2026-27 Expanded Learning Program</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Youth-Services/High-School-Programs"  target="">High School Programs</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Youth-Services/Middle-School-Programs-6th-8th-Grade"  target="">Middle School Programs (6th-8th Grade)</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Youth-Services/School-Age-Programing-TK-5th-Grade"  target="">School-Age Programing (TK-5th Grade)</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Youth-Services/Instructors"  target="">Instructors</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Youth-Services/Emeryville-Teen-Center-and-Programs"  target="">Emeryville Teen Center</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Rentals" class="nav-has-children"  target="">Rentals</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-8"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-8">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Recreation/Rentals/Park-Rentals"  target="">Park Rentals</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Rentals/Indoor-Facility-Rentals"  target="">Indoor Facility Rentals</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Rentals/Community-Event-Permits"  target="">Community Event Permits</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Public-Art" class="nav-has-children"  target="">Public Art</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-9"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-9">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Recreation/Public-Art/Whats-Coming"  target="">What's Coming?</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Public-Art/Art-Maps-and-Walking-Guides"  target="">Art Maps and Walking Guides</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Public-Art/Developers-Public-Art-Requirements"  target="">Developer's Public Art Requirements</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Public-Art/Art-Center-For-Emeryville"  target="">Art Center For Emeryville</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Public-Art/Rotten-City-Cultural-District"  target="">Rotten City Cultural District</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Recreation/City-Parks" class="nav-has-children"  target="">City Parks</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-10"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-10">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Community-Organic-Gardens-and-Compost"  target="">Community Organic Gardens and Compost</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/61st-Street-Mini-Park"  target="">61st Street Mini-Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Christie-Avenue-Park"  target="">Christie Avenue Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Davenport-Park"  target="">Davenport Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Doyle-Hollis-Park"  target="">Doyle Hollis Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Point-Emery"  target="">Point Emery</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Shorebird-Park"  target="">Shorebird Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Marina-Park"  target="">Marina Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Stanford-Avenue-Park"  target="">Stanford Avenue Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Temescal-Creek"  target="">Temescal Creek</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Emeryville-Greenway"  target="">Emeryville Greenway</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Peladeau-Park"  target="">Peladeau Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Joseph-Emery-Skate-Park"  target="">Joseph Emery Skate Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Horton-Landing-Park"  target="">Horton Landing Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Huchiun-Park"  target="">Huchiun Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Memorial-Plaque-Bench-Program"  target="">Memorial Plaque Bench Program</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/City-Parks/Childrens-Outdoor-Bill-of-Rights"  target="">Emeryville Children's Outdoor Bill of Rights</a></li></ul></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Community-Promotions-Grant" class=""  target="">Community Promotions Grant</a></li><li class=" "><a  href="https://www.emeryville.org/Recreation/Community-Annual-Events" class="nav-has-children"  target="">Community Annual Events</a><button aria-label="Expand" aria-haspopup="true" class="mobnav-subarrow-child" aria-controls="sc-menu-third-level-nav-item-seq-4-nav-item-seq-12"><i aria-hidden="true"></i>
+              </button>
+<ul id="sc-menu-third-level-nav-item-seq-4-nav-item-seq-12">
+          
+            <li  class=" "><a href="https://www.emeryville.org/Recreation/Community-Annual-Events/Earth-Day-Shoreline-Cleanup"  target="">Earth Day Shoreline Cleanup</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Community-Annual-Events/Water-Safety-Day"  target="">Water Safety Day</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Community-Annual-Events/Bike-to-Wherever-Day"  target="">Bike to Wherever Day</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Community-Annual-Events/Tree-Lighting-and-Holiday-Parade"  target="">Tree Lighting and Holiday Parade</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Community-Annual-Events/Coastal-Cleanup"  target="">Coastal Cleanup 2026</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Community-Annual-Events/Harvest-Festival"  target="">Harvest Festival</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Community-Annual-Events/Movies-in-the-Park"  target="">Movies in the Park</a></li><li  class=" "><a href="https://www.emeryville.org/Recreation/Community-Annual-Events/Rotten-City-Cultural-District"  target="_blank">Rotten City Cultural District</a></li></ul></li></ul></li>
+          
+            </ul>
+            </div>
+        </div>
+    </div>
+</div>
+			
+			<div class="header-search-control-container" id="header-search">
+				<div class="search-inner-container">
+					<div class="sc-search-panel" onkeypress="javascript:return WebForm_FireDefaultButton(event, &#39;ctl08_btnSearch&#39;)">
+	<label for="ctl08_txtSearch" id="ctl08_lblSearch" class="sc-search-label">Search</label><input name="ctl08$txtSearch" type="text" id="ctl08_txtSearch" class="sc-search-text" placeholder="What are you looking for?" /><input type="submit" name="ctl08$btnSearch" value="Search" id="ctl08_btnSearch" class="sc-search-button" />
+</div>
+					<div role="status" id="predictiveResults"></div>
+				</div>
+			</div>
+    </div>
+</div>
+
+            </header>
+            <div class="content-outer-container">
+                <div id="main" role="main" class="main-outer-container clearfix">
+                        
+                        <div class="content-main-container">
+                            <div class="grid">
+					            <div class="col-xs-12">
+						            <nav id="breadcrumbs-container" aria-label="You Are Here :">
+							            <span role="list">
+<span role="listitem">
+	<a href="https://www.emeryville.org/Home"  lang="en-US">Home</a>
+	<span class="nav-separator" aria-hidden="true" role="presentation">/</span>
+</span>
+          <span role="listitem"><a href="https://www.emeryville.org/Recreation" >Recreation</a><span class='nav-separator' aria-hidden="true" role="presentation">/</span></span><span role="listitem">
+	<a href="https://www.emeryville.org/Recreation/Fitness" >
+		Fitness
+	</a>
+	<span class='nav-separator' aria-hidden="true" role="presentation">/</span>
+</span>
+<span role="listitem">
+	<a href="https://www.emeryville.org/Recreation/Fitness/Aquatics" >
+		Aquatics
+	</a>
+	<span class='nav-separator' aria-hidden="true" role="presentation">/</span>
+</span>
+<span class="current-page" role="listitem" aria-current="page" >Swim For Fitness</span>
+          
+          </span>
+						            </nav>
+					            </div>
+                      
+					            <div class="col-xs-12">
+						            <div class="main-inner-container">
+                                        <div class="grid">							
+								            <div class="col-lg-4">								
+									            <div id="sub-navigation-outter-container" role="navigation" aria-label="Section Navigation">
+									            &nbsp;
+									            <div id="sub-navigation-container">
+                                <p class="sub-nav-header" role="heading" aria-level="2" id="in-this-section" >
+	In This Section
+</p>
+<ul><li class='nav-level-1   '>
+	<a href="https://www.emeryville.org/Recreation/City-News-and-Activity-Guide"  target="">City News and Activity Guide</a>
+	
+</li><li class='nav-level-1   '>
+	<a href="https://www.emeryville.org/Recreation/Community-Services-Department-Information"  target="_self">Community Services Department Information</a>
+	
+</li><li class='nav-level-1 nav-active-path  nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Fitness"  target="">Fitness</a>
+	<ul><li class='nav-level-2 nav-active-path  nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Fitness/Aquatics"  target="">Aquatics</a>
+	<ul><li class='nav-level-3 nav-active-path nav-active-page '>
+	<a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-For-Fitness"  target="">Swim For Fitness</a>
+	
+</li><li class='nav-level-3   '>
+	<a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Recreation-Swim"  target="">Recreation Swim</a>
+	
+</li><li class='nav-level-3   '>
+	<a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-Clubs"  target="">Swim Clubs</a>
+	
+</li><li class='nav-level-3   '>
+	<a href="https://www.emeryville.org/Recreation/Fitness/Aquatics/Swim-Lessons"  target="">Swim Lessons</a>
+	
+</li></ul>
+</li><li class='nav-level-2   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Fitness/Fitness-Center-Open-Gym-Sports"  target="">Fitness Center & Open Gym Sports</a>
+	
+</li><li class='nav-level-2   '>
+	<a href="https://www.emeryville.org/Recreation/Fitness/50-Adults-Classes"  target="_self">50+ Adults Classes</a>
+	
+</li></ul>
+</li><li class='nav-level-1   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Contract-Classes"  target="">Contract Classes</a>
+	
+</li><li class='nav-level-1   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Senior-Center"  target="">Senior Center</a>
+	
+</li><li class='nav-level-1   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Youth-Services"  target="">Youth Services</a>
+	
+</li><li class='nav-level-1   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Emeryville-Child-Development-Center"  target="">Emeryville Child Development Center</a>
+	
+</li><li class='nav-level-1   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Rentals"  target="">Rentals</a>
+	
+</li><li class='nav-level-1   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Public-Art"  target="">Public Art</a>
+	
+</li><li class='nav-level-1   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/City-Parks"  target="">City Parks</a>
+	
+</li><li class='nav-level-1   '>
+	<a href="https://www.emeryville.org/Recreation/Community-Promotions-Grant"  target="">Community Promotions Grant</a>
+	
+</li><li class='nav-level-1   nav-has-children'>
+	<a href="https://www.emeryville.org/Recreation/Community-Annual-Events"  target="">Community Annual Events</a>
+	
+</li></ul>
+									            </div>
+									            </div>
+								            </div>
+								            <div class="col-xs-12 col-lg-8">
+							                <div id="main-content" class="main-container clearfix">
+							                  
+                                <!-- OC Layout Element Conent Template -->
+							                  <!--normalTemplateStart--><h1 class='oc-page-title '>Swim For Fitness</h1>
+
+
+<ul>
+<li>
+<p><span style="font-weight: normal;">Lanes are available with emphasis on sharing with swimmers of equal ability and circle swimming.</span></p>
+</li>
+<li>
+<p><span style="font-weight: normal;">Use of the pool is not exclusive and will be shared with other CSD or EUSD programs.</span></p>
+</li>
+<li>
+<p><span style="font-weight: normal;">Days and times listed below are for lap swimming.</span></p>
+</li>
+<li>
+<p><span style="font-weight: normal;">Swim equipment is available (i.e., kickboards, pull buoys, deck chairs, loungers, etc.) on a first come first serve basis. You may bring your own swim equipment.</span></p>
+</li>
+<li>
+<p><span style="font-weight: normal;">Swim For Fitness is designed for Adults and youth 14+.</span></p>
+</li>
+<li>
+<p><span style="font-weight: normal;">Swimmers ages 10 - 13 may only participate in the water accompanied by an adult at all times.</span></p>
+</li>
+<li>
+<p><span style="font-weight: normal;">Swimmers ages 14-17 must have an adult sign the waiver for them in person before participating in the water.</span></p>
+</li>
+<li>
+<p><span style="font-weight: normal;">Learn more about</span> <a title="Swim For Fitness Etiquette.pdf" href="/files/assets/city/v/1/community-services/documents/aquatics/swim-for-fitness-etiquette.pdf" target="_blank" style="font-size: 100%; font-weight: normal;" class="document ext-pdf"><i aria-hidden="true"></i>Lap Swim Etiquette<span class="file-info">(PDF,&nbsp;108KB)</span></a><span style="font-weight: normal;">,&nbsp;detailing program policies and expectations.</span></p>
+</li>
+</ul>
+<div>
+<h1>ECCL Pool Schedule</h1>
+<p><strong>September 28 - November 28, 2026</strong></p>
+<ul>
+<li>Monday - Thursday&nbsp;&nbsp;
+<ul>
+<li>10:00am - 1:30pm</li>
+<li>7:30pm - 9:00pm</li>
+</ul>
+</li>
+<li>Friday
+<ul>
+<li>10:00am - 1:30pm</li>
+<li>6:30pm - 9:00pm <em>(please see modified hours below)</em></li>
+</ul>
+</li>
+<li>Saturday and Sunday:
+<ul>
+<li>2:00pm - 8:00pm</li>
+</ul>
+</li>
+</ul>
+<p><strong style="font-family: inherit;">Closure Dates:</strong></p>
+</div>
+<ul>
+<li>10/3, 10/12, 11/11, 11/26, and 11/27</li>
+</ul>
+<p><strong>Modified Hours:</strong></p>
+<ul>
+<li>The following dates (Fridays) have modified hours to evening swim for fitness (lap swim), 7:30pm - 9:00pm, late start due to swim meets.&nbsp;
+<ul>
+<li>9/25</li>
+<li>10/30</li>
+<li>11/20</li>
+<li>12/18</li>
+<li>1/29</li>
+<li>2/26</li>
+<li>3/26</li>
+<li>4/30</li>
+<li>5/28</li>
+</ul>
+</li>
+</ul>
+<p id="isPasted"><em style="">Dates and times are subject to change based on high school sports, holidays, events, programs, and rentals.</em></p>
+<h1><span style="font-weight: bold; font-family: inherit;">Fees</span></h1>
+<p><strong>Includes open gym, fitness center, and swim for fitness.</strong></p>
+<table id="fees" class="sc-responsive-table" style="width: 100%;"></table>
+<table style="height: 0px;">
+<tbody>
+<tr>
+<td style="height: 0px; background-color: rgb(0,32,96);">
+<p><strong><span style="color: rgb(255,255,255);">Fees:</span></strong></p>
+</td>
+<td style="background-color: rgb(0,32,96);">
+<p><strong><span style="color: rgb(255,255,255);">Adult (18-49)</span></strong></p>
+</td>
+<td style="background-color: rgb(0,32,96);">
+<p><strong><span style="color: rgb(255,255,255);">Youth (5-17)/Seniors (50+)</span></strong></p>
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<p>Drop In:</p>
+</td>
+<td style="text-align: left;">
+<p style="text-align: center;">$6<strong>R</strong>/$7<strong>NR</strong></p>
+</td>
+<td style="text-align: left;">
+<p style="text-align: center;">$3R/$4<strong>NR</strong></p>
+</td>
+</tr>
+<tr>
+<td style="text-align: left;">
+<p>10-Visit Pass:</p>
+</td>
+<td style="text-align: left;">
+<p style="text-align: center;">$49<strong>R</strong>/$55<strong>NR</strong></p>
+</td>
+<td>
+<p style="text-align: center;"><span style="font-family: inherit;">$24</span><strong>R</strong><span style="font-family: inherit;">/$29</span><strong>NR</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>R</strong>: Resident <strong>NR</strong>: Non-Resident</p>
+<h1>Swim Attire Policy</h1>
+<p>Our swim attire policy has been established to provide all swimmers with a safe, comfortable, and inclusive experience in our programs. We respectfully ask all swimmers to cooperate with the following swim attire guidelines.</p>
+<p>Encouraged swimming attire consists of, but not limited to - swim trunks, swimsuits, athletic apparel, jammers, swim shirt/rash guards, wetsuits, and swim diapers.</p>
+<p>Prohibited attire for swimming - denim, undergarments, excessively baggy, or soiled clothing. Clothing with metal features such as zippers, rivets, and chains is prohibited. If you require special accommodation, please contact aquatics staff.</p>
+<p><span><a title="ECCL-Facility-and-Pool-Rules-as-of-6-1-2026.pdf" href="/files/assets/city/v/1/community-services/aquatics/eccl-facility-and-pool-rules-as-of-6-1-2026.pdf" target="_self" class="document ext-pdf"><i aria-hidden="true"></i><strong><span style="font-size: 100%;">ECCL-Facility-and-Pool-Rules.pdf</span></strong><span class="file-info">(PDF,&nbsp;549KB)</span></a></span></p>
+<p><a title="Swim-for-Fitness-Etiquette-as-of-6-1-2026.pdf" href="/files/assets/city/v/1/community-services/aquatics/swim-for-fitness-etiquette-as-of-6-1-2026.pdf" target="_self" class="document ext-pdf"><i aria-hidden="true"></i><strong>Swim-for-Fitness-Etiquette.pdf</strong><span class="file-info">(PDF,&nbsp;582KB)</span></a></p>
+
+
+      
+
+
+<!--normalTemplateEnd-->
+                                
+                                
+                                
+							                </div>
+							                </div>
+							             </div>
+						            </div>
+						            </div>
+                        
+					                  </div>
+                        </div>
+                        <div class="back-to-top-container text-center">
+                            <a href="#body-top" id="back-to-top"><i aria-hidden="true"></i><span class="js-visuallyhidden">Back to top</span></a>
+                        </div>
+                </div>
+            </div><!--groupTemplateEnd-->
+            <footer>
+                
+                    <div class="footer-outer-container footer-first-row">
+                        <div class="footer-container clearfix">
+                            <div class="grid grid-pad">
+                                <div class="col-xs-12 col-s-12 col-m-6 col-lg-3" >
+	
+			<h2 class="visuallyhidden">Site Footer</h2>
+			<h3 class="footer-title">Contact Us</h3>
+			
+	
+	<ul class="footer-links with-icons ">   </ul>
+	<p><strong>City of Emeryville</strong><br />
+1333 Park Ave<br />
+Emeryville, CA 94608<br />
+<a href="https://www.bing.com/maps?q=1333+park+ave+emeryville&amp;FORM=HDRSC6&amp;cp=37.831069%7E-122.285026&amp;lvl=18.0">View on Map</a></p>
+<p>Phone: <a href="tel:510-596-4300">510-596-4300</a></p>
+<p>Monday - Thursday<br />
+9:00 AM to 12:00 PM<br />
+1:00 PM to 5:00 PM</p>
+<p>Friday: Appointment Only<br />
+<em><a href="https://www.emeryville.org/Government/About-Emeryville/Contact-Us" target="_blank">More information</a></em></p>
+
+
+</div><div class="col-xs-12 col-s-12 col-m-6 col-lg-3" >
+	
+			<h2 class="visuallyhidden">Site Footer</h2>
+			<h3 class="footer-title">Share &amp; Connect</h3>
+			
+	
+	<ul class="footer-links with-icons social-media-links">  <li class="footer-link-facebook">
+	<a href="https://www.facebook.com/profile.php?id=100087325997219" target="_blank"  >
+<i aria-hidden="true"></i>Like us on Facebook
+</a>
+</li>
+          <li class="footer-link-instagram">
+	<a href="https://www.instagram.com/cityofemeryville" target="_blank"  >
+<i aria-hidden="true"></i>Follow us on Instagram
+</a>
+</li>
+          <li class="footer-link-">
+	<a href="https://public.govdelivery.com/accounts/CAEMERYVILLE/subscriber/new?preferences=true" target="_blank"  >
+<i aria-hidden="true"></i>Subscribe to City News
+</a>
+</li>
+          <li class="footer-link-">
+	<a href="https://emeryvilleca.prelive.opencities.com/Government/About-Emeryville/Contact-Us" target="_blank"  >
+<i aria-hidden="true"></i>Other platforms
+</a>
+</li>
+           </ul>
+	
+</div><div class="col-xs-12 col-s-12 col-m-6 col-lg-3" >
+	
+			<h2 class="visuallyhidden">Site Footer</h2>
+			<h3 class="footer-title">Get Involved</h3>
+			
+	
+	<ul class="footer-links with-icons ">  <li class="footer-link-">
+	<a href="https://www.governmentjobs.com/careers/emeryville" target="_blank"  >
+<i aria-hidden="true"></i>Careers
+</a>
+</li>
+          <li class="footer-link-">
+	<a href="https://emeryvilleca.prelive.opencities.com/Services/Permits" target="_self"  >
+<i aria-hidden="true"></i>Permits
+</a>
+</li>
+          <li class="footer-link-">
+	<a href="https://emeryvilleca.prelive.opencities.com/Government/Volunteer-Opportunities?transfer=df85e799-2121-4f3d-a37a-dc12352b21fe" target="_self"  >
+<i aria-hidden="true"></i>Volunteering
+</a>
+</li>
+          <li class="footer-link-">
+	<a href="https://emeryvilleca.prelive.opencities.com/Services/Report-A-Concern" target="_self"  >
+<i aria-hidden="true"></i>Report a Concern
+</a>
+</li>
+           </ul>
+	
+</div><div class="col-xs-12 col-s-12 col-m-6 col-lg-3" >
+	
+			<h2 class="visuallyhidden">Site Footer</h2>
+			<h3 class="footer-title">Quick Links</h3>
+			
+	
+	<ul class="footer-links with-icons ">  <li class="footer-link-">
+	<a href="https://emeryvilleca.prelive.opencities.com/Recreation" target="_self"  >
+<i aria-hidden="true"></i>Recreation
+</a>
+</li>
+          <li class="footer-link-">
+	<a href="https://emeryvilleca.prelive.opencities.com/Services/New-Resident-Information" target="_self"  >
+<i aria-hidden="true"></i>New Residents
+</a>
+</li>
+          <li class="footer-link-">
+	<a href="https://ecode360.com/EM4426" target="_blank"  >
+<i aria-hidden="true"></i>Municipal Code
+</a>
+</li>
+          <li class="footer-link-">
+	<a href="https://emeryvilleca.prelive.opencities.com/Government/About-Emeryville/Contact-Us?transfer=fe03bb68-71df-41b2-bc8b-ea2bf15b563c" target="_self"  >
+<i aria-hidden="true"></i>Contact the City
+</a>
+</li>
+           </ul>
+	
+</div>
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="footer-outer-container footer-second-row">
+                    <div class="footer-container clearfix">
+                        <div class="grid grid-pad footer-secondary-links">
+                            <div class="col-xs-12 col-m-7">
+                                
+                                    <div><a href="https://emeryvilleca.prelive.opencities.com/Home" target="_self"  >Disclaimer & Copyright</a>&nbsp;| <a href="https://emeryvilleca.prelive.opencities.com/Home" target="_self"  >Privacy Statement</a>&nbsp;| <a href="https://www.emeryville.org/Site-Footer/Sitemap" target="_self"  >Sitemap</a></div>
+                                
+                            </div>
+                            <div class="col-xs-12 col-m-5 powered-by">
+                                <div class="right">
+                                    &copy; 2026 City of Emeryville, CA&nbsp;|&nbsp;<span class="powered-by">Powered by <a href="https://granicus.com/solution/govaccess/opencities/" target="_blank">Granicus</a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/files/oc-resources/f035e7a0-67b8-4ee3-b8da-89a17320c71c/JsTextSnippets.js?ocsvclang=en-US" type="text/javascript"></script><script></script>
+    
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZYQTHK3STZ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-ZYQTHK3STZ');
+</script>
+    
+    
+
+<script type="text/javascript">
+//<![CDATA[
+window.__TsmHiddenField = $get('ctl04_seamless_script_manager_TSM');//]]>
+</script>
+</form>
+</body>
+</html>
