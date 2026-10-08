@@ -178,7 +178,29 @@ async function fetchPage() {
     } catch {}
   }
 
-  // Read raw HTML committed to git by local Mac cron job (no API key required locally)
+  // Try Playwright — sends a full browser fingerprint which may bypass Akamai's bot detection
+  try {
+    console.log('  Emeryville: trying Playwright fetch...');
+    const { chromium } = await import('playwright');
+    const browser = await chromium.launch({ headless: true });
+    try {
+      const page = await browser.newPage();
+      await page.setExtraHTTPHeaders({ 'Accept-Language': 'en-US,en;q=0.5' });
+      const response = await page.goto(URL, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      if (response && response.ok()) {
+        const html = await page.content();
+        console.log('  Emeryville: Playwright fetch succeeded.');
+        return html;
+      }
+      console.warn(`  Emeryville: Playwright got HTTP ${response?.status()}.`);
+    } finally {
+      await browser.close();
+    }
+  } catch (err) {
+    console.warn(`  Emeryville: Playwright failed (${err.message}).`);
+  }
+
+  // Read raw HTML committed to git by local Mac cron job (fallback if all else fails)
   if (existsSync(RAW_HTML_FILE)) {
     try {
       console.log('  Emeryville: using locally-committed raw HTML file.');
