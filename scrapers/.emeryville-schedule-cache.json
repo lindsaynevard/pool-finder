@@ -3,21 +3,28 @@
   "schedule": {
     "periods": [
       {
-        "validFrom": "2026-08-17",
-        "validUntil": "2026-09-27",
+        "validFrom": "2026-09-28",
+        "validUntil": "2026-11-28",
         "weekly": {
           "monday":    [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
           "tuesday":   [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
           "wednesday": [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
           "thursday":  [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
           "friday":    [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "6:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
-          "saturday":  [{ "start": "4:30 PM", "end": "8:00 PM", "type": "lap", "notes": null }],
-          "sunday":    [{ "start": "4:30 PM", "end": "8:00 PM", "type": "lap", "notes": null }]
+          "saturday":  [{ "start": "2:00 PM", "end": "8:00 PM", "type": "lap", "notes": null }],
+          "sunday":    [{ "start": "2:00 PM", "end": "8:00 PM", "type": "lap", "notes": null }]
         },
-        "closedDates": ["2026-09-07"],
+        "closedDates": ["2026-10-03", "2026-10-12", "2026-11-11", "2026-11-26", "2026-11-27"],
         "modifiedDates": [
           {
-            "date": "2026-09-25",
+            "date": "2026-10-30",
+            "sessions": [
+              { "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null },
+              { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": "Swim meet — evening start delayed" }
+            ]
+          },
+          {
+            "date": "2026-11-20",
             "sessions": [
               { "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null },
               { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": "Swim meet — evening start delayed" }
