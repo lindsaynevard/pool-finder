@@ -148,7 +148,7 @@ const PROXY_URL = 'https://pool-finder-pearl.vercel.app/api/emeryville-proxy';
 
 // Raw HTML file committed to git by a local Mac cron job (fetch-emeryville-html.mjs).
 // Mac has a residential IP that Akamai doesn't block; CI reads this file and parses it.
-const RAW_HTML_FILE = new URL('.emeryville-raw-page.html', import.meta.url).pathname;
+const RAW_HTML_FILE = path.join(path.dirname(fileURLToPath(import.meta.url)), '.emeryville-raw-page.html');
 
 async function fetchPage() {
   // Try direct fetch (works locally on a residential IP)
