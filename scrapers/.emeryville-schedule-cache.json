@@ -1,33 +1,137 @@
 {
-  "pageHash": null,
+  "pageHash": "ba7d9d29c21f1de8a797aa9c9af116c56d7e9c842a99d66f2f5b4ade5d12e247",
   "schedule": {
     "periods": [
       {
         "validFrom": "2026-09-28",
         "validUntil": "2026-11-28",
         "weekly": {
-          "monday":    [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
-          "tuesday":   [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
-          "wednesday": [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
-          "thursday":  [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
-          "friday":    [{ "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null }, { "start": "6:30 PM", "end": "9:00 PM", "type": "lap", "notes": null }],
-          "saturday":  [{ "start": "2:00 PM", "end": "8:00 PM", "type": "lap", "notes": null }],
-          "sunday":    [{ "start": "2:00 PM", "end": "8:00 PM", "type": "lap", "notes": null }]
+          "monday": [
+            {
+              "start": "10:00 AM",
+              "end": "1:30 PM",
+              "type": "lap",
+              "notes": null
+            },
+            {
+              "start": "7:30 PM",
+              "end": "9:00 PM",
+              "type": "lap",
+              "notes": null
+            }
+          ],
+          "tuesday": [
+            {
+              "start": "10:00 AM",
+              "end": "1:30 PM",
+              "type": "lap",
+              "notes": null
+            },
+            {
+              "start": "7:30 PM",
+              "end": "9:00 PM",
+              "type": "lap",
+              "notes": null
+            }
+          ],
+          "wednesday": [
+            {
+              "start": "10:00 AM",
+              "end": "1:30 PM",
+              "type": "lap",
+              "notes": null
+            },
+            {
+              "start": "7:30 PM",
+              "end": "9:00 PM",
+              "type": "lap",
+              "notes": null
+            }
+          ],
+          "thursday": [
+            {
+              "start": "10:00 AM",
+              "end": "1:30 PM",
+              "type": "lap",
+              "notes": null
+            },
+            {
+              "start": "7:30 PM",
+              "end": "9:00 PM",
+              "type": "lap",
+              "notes": null
+            }
+          ],
+          "friday": [
+            {
+              "start": "10:00 AM",
+              "end": "1:30 PM",
+              "type": "lap",
+              "notes": null
+            },
+            {
+              "start": "6:30 PM",
+              "end": "9:00 PM",
+              "type": "lap",
+              "notes": null
+            }
+          ],
+          "saturday": [
+            {
+              "start": "2:00 PM",
+              "end": "8:00 PM",
+              "type": "lap",
+              "notes": null
+            }
+          ],
+          "sunday": [
+            {
+              "start": "2:00 PM",
+              "end": "8:00 PM",
+              "type": "lap",
+              "notes": null
+            }
+          ]
         },
-        "closedDates": ["2026-10-03", "2026-10-12", "2026-11-11", "2026-11-26", "2026-11-27"],
+        "closedDates": [
+          "2026-10-03",
+          "2026-10-12",
+          "2026-11-11",
+          "2026-11-26",
+          "2026-11-27"
+        ],
         "modifiedDates": [
+          {
+            "date": "2026-09-25",
+            "sessions": [
+              {
+                "start": "7:30 PM",
+                "end": "9:00 PM",
+                "type": "lap",
+                "notes": "Modified hours due to swim meet; evening lap swim only, late start"
+              }
+            ]
+          },
           {
             "date": "2026-10-30",
             "sessions": [
-              { "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null },
-              { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": "Swim meet — evening start delayed" }
+              {
+                "start": "7:30 PM",
+                "end": "9:00 PM",
+                "type": "lap",
+                "notes": "Modified hours due to swim meet; evening lap swim only, late start"
+              }
             ]
           },
           {
             "date": "2026-11-20",
             "sessions": [
-              { "start": "10:00 AM", "end": "1:30 PM", "type": "lap", "notes": null },
-              { "start": "7:30 PM", "end": "9:00 PM", "type": "lap", "notes": "Swim meet — evening start delayed" }
+              {
+                "start": "7:30 PM",
+                "end": "9:00 PM",
+                "type": "lap",
+                "notes": "Modified hours due to swim meet; evening lap swim only, late start"
+              }
             ]
           }
         ]
