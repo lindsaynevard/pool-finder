@@ -538,8 +538,8 @@
       "pdfHash": "8267fcf59d5d6660f5d5dad649b138f614a363b29f2c19dbb175d609dc16ef21"
     },
     "comp-mowhbki2": {
-      "validFrom": "2026-10-12",
-      "validUntil": "2026-11-15",
+      "validFrom": "2026-10-13",
+      "validUntil": "2026-11-09",
       "closedDates": [
         "2026-10-31",
         "2026-11-01"
@@ -614,7 +614,7 @@
             "end": "8:00 PM",
             "type": "lap",
             "pool": "albany-indoor",
-            "notes": null
+            "notes": "shared with swim lessons at 6:15"
           },
           {
             "start": "6:00 AM",
@@ -628,7 +628,7 @@
             "end": "1:00 PM",
             "type": "tot",
             "pool": "albany-indoor",
-            "notes": "Water Walk/Tot Swim"
+            "notes": "Water Walk/Tot Swim lanes 1-3, 6"
           },
           {
             "start": "6:45 PM",
@@ -693,14 +693,14 @@
             "end": "8:00 PM",
             "type": "lap",
             "pool": "albany-indoor",
-            "notes": null
+            "notes": "shared with swim lessons at 6:15"
           },
           {
             "start": "7:00 AM",
             "end": "9:25 AM",
             "type": "tot",
             "pool": "albany-indoor",
-            "notes": "Water Walk"
+            "notes": "Water Walk/Tot Swim lanes 1-3, 6"
           },
           {
             "start": "6:45 PM",
@@ -786,21 +786,28 @@
             "end": "8:00 PM",
             "type": "lap",
             "pool": "albany-indoor",
-            "notes": null
+            "notes": "shared with swim lessons at 6:15"
           },
           {
             "start": "6:00 AM",
             "end": "8:00 AM",
             "type": "tot",
             "pool": "albany-indoor",
-            "notes": "Water Walk"
+            "notes": "Water Walk lanes 1-3, 6"
           },
           {
             "start": "9:00 AM",
             "end": "1:00 PM",
             "type": "tot",
             "pool": "albany-indoor",
-            "notes": "Water Walk"
+            "notes": "Water Walk lanes 1-3, 6"
+          },
+          {
+            "start": "12:30 PM",
+            "end": "1:30 PM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk/Tot Swim lanes 1-3, 6"
           },
           {
             "start": "6:45 PM",
@@ -851,14 +858,14 @@
             "end": "8:00 PM",
             "type": "lap",
             "pool": "albany-indoor",
-            "notes": null
+            "notes": "shared with swim lessons at 6:15"
           },
           {
             "start": "7:00 AM",
             "end": "9:25 AM",
             "type": "tot",
             "pool": "albany-indoor",
-            "notes": "Water Walk"
+            "notes": "Water Walk/Tot Swim lanes 1-3, 6"
           },
           {
             "start": "6:45 PM",
@@ -898,6 +905,13 @@
             "notes": "All lanes"
           },
           {
+            "start": "4:45 PM",
+            "end": "6:30 PM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "Lanes 1-2"
+          },
+          {
             "start": "6:00 AM",
             "end": "8:00 AM",
             "type": "lap",
@@ -930,14 +944,14 @@
             "end": "8:00 AM",
             "type": "tot",
             "pool": "albany-indoor",
-            "notes": "Water Walk"
+            "notes": "Water Walk lanes 1-3, 6"
           },
           {
             "start": "9:00 AM",
             "end": "12:30 PM",
             "type": "tot",
             "pool": "albany-indoor",
-            "notes": "Water Walk/Tot Swim"
+            "notes": "Water Walk/Tot Swim lanes 1-3, 6"
           },
           {
             "start": "6:10 PM",
@@ -967,14 +981,21 @@
             "end": "1:00 PM",
             "type": "lap",
             "pool": "albany-outdoor",
-            "notes": "Lanes 1-7; shared with LG Class"
+            "notes": "Lanes 1-7"
           },
           {
             "start": "1:30 PM",
             "end": "4:00 PM",
             "type": "lap",
             "pool": "albany-outdoor",
-            "notes": "Lanes 1-5; shared with LG Class"
+            "notes": "Lanes 1-5"
+          },
+          {
+            "start": "7:45 AM",
+            "end": "8:45 AM",
+            "type": "lap",
+            "pool": "albany-indoor",
+            "notes": null
           },
           {
             "start": "9:00 AM",
@@ -984,21 +1005,28 @@
             "notes": null
           },
           {
+            "start": "7:45 AM",
+            "end": "8:45 AM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Water Walk lanes 1-3, 6"
+          },
+          {
             "start": "1:30 PM",
             "end": "4:00 PM",
             "type": "rec",
             "pool": "albany-indoor",
             "notes": "All lanes"
-          },
-          {
-            "start": "10:45 AM",
-            "end": "11:55 AM",
-            "type": "tot",
-            "pool": "albany-indoor",
-            "notes": "Tot Swim/Water Walk"
           }
         ],
         "sunday": [
+          {
+            "start": "8:00 AM",
+            "end": "9:00 AM",
+            "type": "lap",
+            "pool": "albany-outdoor",
+            "notes": "All lanes"
+          },
           {
             "start": "9:00 AM",
             "end": "11:00 AM",
@@ -1021,6 +1049,13 @@
             "notes": "Lanes 2-9"
           },
           {
+            "start": "10:45 AM",
+            "end": "11:55 AM",
+            "type": "tot",
+            "pool": "albany-indoor",
+            "notes": "Tot Swim/Water Walk lanes 1-3, 6"
+          },
+          {
             "start": "1:30 PM",
             "end": "4:00 PM",
             "type": "rec",
@@ -1029,7 +1064,7 @@
           }
         ]
       },
-      "pdfHash": "b306eceb7308a690dba98cd3b8a47a86986143ae0056b3d272f3340267711e33"
+      "pdfHash": "e78d9c9e33d4a050dd868f1117943de4175c543c2c3da5af67a20406c005d435"
     },
     "comp-mpyr0wyl": {
       "validFrom": "2026-10-09",
