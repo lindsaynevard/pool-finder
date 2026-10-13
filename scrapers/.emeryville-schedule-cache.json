@@ -1,5 +1,5 @@
 {
-  "pageHash": "ba7d9d29c21f1de8a797aa9c9af116c56d7e9c842a99d66f2f5b4ade5d12e247",
+  "pageHash": "506bb336e776790ce6fbf3700dce56f9c3499d7fbf655c6b9c25d03ab9986d70",
   "schedule": {
     "periods": [
       {
@@ -105,10 +105,38 @@
             "date": "2026-09-25",
             "sessions": [
               {
+                "start": "10:00 AM",
+                "end": "1:30 PM",
+                "type": "lap",
+                "notes": "morning session unchanged"
+              },
+              {
                 "start": "7:30 PM",
                 "end": "9:00 PM",
                 "type": "lap",
-                "notes": "Modified hours due to swim meet; evening lap swim only, late start"
+                "notes": "modified evening hours due to swim meet"
+              }
+            ]
+          },
+          {
+            "date": "2026-10-17",
+            "sessions": [
+              {
+                "start": "4:00 PM",
+                "end": "8:00 PM",
+                "type": "lap",
+                "notes": "late start due to Pool of Pumpkins event"
+              }
+            ]
+          },
+          {
+            "date": "2026-10-24",
+            "sessions": [
+              {
+                "start": "4:30 PM",
+                "end": "8:00 PM",
+                "type": "lap",
+                "notes": "late start due to staff training"
               }
             ]
           },
@@ -116,10 +144,16 @@
             "date": "2026-10-30",
             "sessions": [
               {
+                "start": "10:00 AM",
+                "end": "1:30 PM",
+                "type": "lap",
+                "notes": "morning session unchanged"
+              },
+              {
                 "start": "7:30 PM",
                 "end": "9:00 PM",
                 "type": "lap",
-                "notes": "Modified hours due to swim meet; evening lap swim only, late start"
+                "notes": "modified evening hours due to swim meet"
               }
             ]
           },
@@ -127,10 +161,16 @@
             "date": "2026-11-20",
             "sessions": [
               {
+                "start": "10:00 AM",
+                "end": "1:30 PM",
+                "type": "lap",
+                "notes": "morning session unchanged"
+              },
+              {
                 "start": "7:30 PM",
                 "end": "9:00 PM",
                 "type": "lap",
-                "notes": "Modified hours due to swim meet; evening lap swim only, late start"
+                "notes": "modified evening hours due to swim meet"
               }
             ]
           }
