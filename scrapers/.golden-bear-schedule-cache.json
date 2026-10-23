@@ -1,31 +1,7 @@
 {
-  "pageHash": "db540e9824b66d51c935b1d84b7df64d318bae26ff866b69c4158f68e53048af",
+  "pageHash": "b35895c0dbbe876eb877aa482a765657175ae2e928ef7fe18348c3dd492553c4",
   "schedule": {
     "entries": [
-      {
-        "date": "2026-10-22",
-        "poolName": "Spieker Pool",
-        "start": "11:00 AM",
-        "end": "1:15 PM"
-      },
-      {
-        "date": "2026-10-22",
-        "poolName": "Golden Bear Pool",
-        "start": "12:00 PM",
-        "end": "3:00 PM"
-      },
-      {
-        "date": "2026-10-22",
-        "poolName": "Spieker Pool",
-        "start": "4:00 PM",
-        "end": "8:00 PM"
-      },
-      {
-        "date": "2026-10-23",
-        "poolName": "Golden Bear Pool",
-        "start": "7:00 AM",
-        "end": "9:00 AM"
-      },
       {
         "date": "2026-10-23",
         "poolName": "Golden Bear Pool",
@@ -163,6 +139,24 @@
         "poolName": "Golden Bear Pool",
         "start": "7:00 AM",
         "end": "9:00 AM"
+      },
+      {
+        "date": "2026-10-30",
+        "poolName": "Spieker Pool",
+        "start": "11:30 AM",
+        "end": "1:15 PM"
+      },
+      {
+        "date": "2026-10-30",
+        "poolName": "Golden Bear Pool",
+        "start": "12:00 PM",
+        "end": "3:00 PM"
+      },
+      {
+        "date": "2026-10-30",
+        "poolName": "Spieker Pool",
+        "start": "4:00 PM",
+        "end": "8:00 PM"
       }
     ]
   }
