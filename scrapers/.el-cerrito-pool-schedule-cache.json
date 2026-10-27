@@ -2833,6 +2833,190 @@
         ]
       },
       "pdfHash": "73f82f9b526a528e96513dc5b787cc8008c16af08530543971f867dbd6b122a5"
+    },
+    "https://www.elcerrito.gov/DocumentCenter/View/24145/Swim-Center-Schedule-November-2-through-November-8-2026": {
+      "validFrom": "2026-11-02",
+      "validUntil": "2026-11-08",
+      "closedDates": [],
+      "weekly": {
+        "monday": [
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "11:55 AM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "1:00 PM",
+            "end": "1:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "11:55 AM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          },
+          {
+            "start": "5:00 PM",
+            "end": "6:30 PM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "11:30 AM",
+            "end": "12:15 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "1:00 PM",
+            "end": "1:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "11:30 AM",
+            "end": "12:15 PM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "11:55 AM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "1:00 PM",
+            "end": "1:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "11:55 AM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          },
+          {
+            "start": "5:00 PM",
+            "end": "6:30 PM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          }
+        ],
+        "thursday": [
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "11:30 AM",
+            "end": "12:15 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "1:00 PM",
+            "end": "1:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "11:30 AM",
+            "end": "12:15 PM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          }
+        ],
+        "friday": [
+          {
+            "start": "6:00 AM",
+            "end": "8:00 AM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "9:30 AM",
+            "end": "10:25 AM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "1:00 PM",
+            "end": "3:00 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "9:30 AM",
+            "end": "10:25 AM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          }
+        ],
+        "saturday": [
+          {
+            "start": "8:30 AM",
+            "end": "12:00 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "9:30 AM",
+            "end": "10:25 AM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "7:00 AM",
+            "end": "8:25 AM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          },
+          {
+            "start": "10:00 AM",
+            "end": "12:00 PM",
+            "type": "family",
+            "notes": "Activity pool · rECswim"
+          }
+        ],
+        "sunday": [
+          {
+            "start": "7:00 AM",
+            "end": "9:00 AM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          }
+        ]
+      },
+      "pdfHash": "0d22ba393f66b2d8128153074a9cc0f5ef6e8b1f1aa49390ec1cc32e177a9ca2"
     }
   }
 }
