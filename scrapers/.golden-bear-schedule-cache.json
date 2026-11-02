@@ -1,31 +1,7 @@
 {
-  "pageHash": "f8005527e6003b2df585a1a87c76c848a0a990b153e12a0a75ab2668e8e0c211",
+  "pageHash": "0d641f62895349ba03c5bba8aa3332f97206c7a07883dc19e970c64a40cc9d72",
   "schedule": {
     "entries": [
-      {
-        "date": "2026-11-01",
-        "poolName": "Legends Aquatics Center",
-        "start": "10:00 AM",
-        "end": "2:00 PM"
-      },
-      {
-        "date": "2026-11-01",
-        "poolName": "Golden Bear Pool",
-        "start": "2:00 PM",
-        "end": "6:00 PM"
-      },
-      {
-        "date": "2026-11-02",
-        "poolName": "Golden Bear Pool",
-        "start": "7:00 AM",
-        "end": "9:00 AM"
-      },
-      {
-        "date": "2026-11-02",
-        "poolName": "Spieker Pool",
-        "start": "11:30 AM",
-        "end": "1:15 PM"
-      },
       {
         "date": "2026-11-02",
         "poolName": "Golden Bear Pool",
@@ -139,6 +115,42 @@
         "poolName": "Golden Bear Pool",
         "start": "7:00 AM",
         "end": "9:00 AM"
+      },
+      {
+        "date": "2026-11-09",
+        "poolName": "Spieker Pool",
+        "start": "11:30 AM",
+        "end": "1:15 PM"
+      },
+      {
+        "date": "2026-11-09",
+        "poolName": "Golden Bear Pool",
+        "start": "12:00 PM",
+        "end": "3:00 PM"
+      },
+      {
+        "date": "2026-11-09",
+        "poolName": "Spieker Pool",
+        "start": "4:00 PM",
+        "end": "8:00 PM"
+      },
+      {
+        "date": "2026-11-10",
+        "poolName": "Golden Bear Pool",
+        "start": "7:00 AM",
+        "end": "9:00 AM"
+      },
+      {
+        "date": "2026-11-10",
+        "poolName": "Spieker Pool",
+        "start": "11:00 AM",
+        "end": "1:15 PM"
+      },
+      {
+        "date": "2026-11-10",
+        "poolName": "Golden Bear Pool",
+        "start": "12:00 PM",
+        "end": "3:00 PM"
       }
     ]
   }
