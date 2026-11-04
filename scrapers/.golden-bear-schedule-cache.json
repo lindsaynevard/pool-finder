@@ -1,30 +1,18 @@
 {
-  "pageHash": "91bfee137b51e5118a7b2302026302817090ff722b82f65effdd3b4267f14345",
+  "pageHash": "6ec5d7739218d8831b9055af9ad775cfbaf26c7b5f002404c746577d91b7df5f",
   "schedule": {
     "entries": [
       {
-        "date": "2026-11-03",
+        "date": "2026-11-04",
         "poolName": "Spieker Pool",
-        "start": "11:00 AM",
+        "start": "11:30 AM",
         "end": "1:15 PM"
-      },
-      {
-        "date": "2026-11-03",
-        "poolName": "Golden Bear Pool",
-        "start": "12:00 PM",
-        "end": "3:00 PM"
-      },
-      {
-        "date": "2026-11-03",
-        "poolName": "Spieker Pool",
-        "start": "4:00 PM",
-        "end": "8:00 PM"
       },
       {
         "date": "2026-11-04",
         "poolName": "Golden Bear Pool",
-        "start": "7:00 AM",
-        "end": "9:00 AM"
+        "start": "12:00 PM",
+        "end": "3:00 PM"
       },
       {
         "date": "2026-11-04",
@@ -37,6 +25,12 @@
         "poolName": "Golden Bear Pool",
         "start": "7:00 AM",
         "end": "9:00 AM"
+      },
+      {
+        "date": "2026-11-05",
+        "poolName": "Spieker Pool",
+        "start": "11:00 AM",
+        "end": "1:15 PM"
       },
       {
         "date": "2026-11-05",
@@ -67,12 +61,6 @@
         "poolName": "Golden Bear Pool",
         "start": "12:00 PM",
         "end": "3:00 PM"
-      },
-      {
-        "date": "2026-11-06",
-        "poolName": "Spieker Pool",
-        "start": "4:00 PM",
-        "end": "8:00 PM"
       },
       {
         "date": "2026-11-07",
@@ -157,6 +145,24 @@
         "poolName": "Golden Bear Pool",
         "start": "12:00 PM",
         "end": "3:00 PM"
+      },
+      {
+        "date": "2026-11-11",
+        "poolName": "Spieker Pool",
+        "start": "4:00 PM",
+        "end": "8:00 PM"
+      },
+      {
+        "date": "2026-11-12",
+        "poolName": "Golden Bear Pool",
+        "start": "7:00 AM",
+        "end": "9:00 AM"
+      },
+      {
+        "date": "2026-11-12",
+        "poolName": "Spieker Pool",
+        "start": "11:00 AM",
+        "end": "1:15 PM"
       }
     ]
   }
