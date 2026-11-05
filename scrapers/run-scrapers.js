@@ -18,6 +18,7 @@ import { scrapeDonCastro } from './scrape-don-castro.js';
 import { scrapeCullCanyon } from './scrape-cull-canyon.js';
 import { scrapeTemescal } from './scrape-temescal.js';
 import { scrapeGmail } from './scrape-gmail.js';
+import { scrapeRainBerkeley } from './scrape-rain-berkeley.js';
 
 // Fetch doc IDs that have been manually edited and should not be overwritten by scrapers.
 async function getManualOverrides() {
@@ -52,10 +53,24 @@ async function writeToFirestore(data, overrides = new Set()) {
 // merge:true also handles dates that don't yet have a schedule document.
 // After each scraper runs, write a metadata doc so the app can detect
 // schedule gaps (scheduledThrough < viewed date) and staleness (lastRun > 25h ago).
-async function writePoolMeta(scraperResults, scraperFile) {
-  if (Object.keys(scraperResults).length === 0) return;
-
+// fallbackPoolIds: for seasonal pools that return 0 results when closed.
+// Passing them here lets us record "scraper ran, nothing found" so the
+// health system doesn't flag them as stale or missing.
+async function writePoolMeta(scraperResults, scraperFile, fallbackPoolIds = []) {
   const now = new Date().toISOString();
+
+  if (Object.keys(scraperResults).length === 0) {
+    if (fallbackPoolIds.length === 0) return;
+    const batch = db.batch();
+    for (const poolId of fallbackPoolIds) {
+      batch.set(db.collection('pool_meta').doc(poolId), {
+        poolId, scheduledThrough: null, sessionCount: 0, scraperFile, lastRun: now,
+      }, { merge: true });
+    }
+    await batch.commit();
+    return;
+  }
+
   const poolMap = {};
 
   for (const [key, value] of Object.entries(scraperResults)) {
@@ -160,21 +175,30 @@ async function main() {
   await writePoolMeta(goldenBear,        'scrape-golden-bear.js');
   await writePoolMeta(emeryville,        'scrape-emeryville.js');
   await writePoolMeta(albany,            'albany-auto.js');
-  await writePoolMeta(roberts,           'scrape-roberts.js');
-  await writePoolMeta(eastOakland,       'scrape-east-oakland.js');
+  await writePoolMeta(roberts,           'scrape-roberts.js',          ['roberts']);
+  await writePoolMeta(eastOakland,       'scrape-east-oakland.js',     ['east-oakland']);
   await writePoolMeta(elCerritoSplash,   'scrape-el-cerrito-splash.js');
   await writePoolMeta(elCerritoPool,     'scrape-el-cerrito-pool.js');
-  await writePoolMeta(defremery,         'scrape-defremery.js');
+  await writePoolMeta(defremery,         'scrape-defremery.js',        ['defremery']);
   await writePoolMeta(piedmont,          'scrape-piedmont.js');
-  await writePoolMeta(lions,             'scrape-lions.js');
+  await writePoolMeta(lions,             'scrape-lions.js',            ['lions']);
   await writePoolMeta(richmond,          'scrape-richmond.js');
   await writePoolMeta(richmondSwimCenter,'scrape-richmond-swim-center.js');
   await writePoolMeta(mills,            'scrape-mills.js');
   await writePoolMeta(berkeleyMarina,   'scrape-berkeley-marina.js');
-  await writePoolMeta(donCastro,        'scrape-don-castro.js');
-  await writePoolMeta(cullCanyon,       'scrape-cull-canyon.js');
+  await writePoolMeta(donCastro,        'scrape-don-castro.js',       ['don-castro']);
+  await writePoolMeta(cullCanyon,       'scrape-cull-canyon.js',      ['cull-canyon']);
   await writePoolMeta(temescal,         'scrape-temescal.js');
   console.log('  ✓ Pool metadata written.');
+
+  console.log('\n→ Berkeley Marina rain advisory...');
+  try {
+    const rain = await scrapeRainBerkeley();
+    await db.collection('rain_advisory').doc('berkeley-marina').set(rain);
+    console.log(`  ✓ Advisory written (level: ${rain.level})`);
+  } catch (err) {
+    console.error(`  ✗ Rain advisory scraper failed: ${err.message}`);
+  }
 
   console.log('\n→ Gmail (closure notices)...');
   const hasGmailToken = !!process.env.GMAIL_REFRESH_TOKEN;

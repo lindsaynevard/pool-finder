@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "scrape": "node scrapers/run-scrapers.js"
+    "scrape": "node scrapers/run-scrapers.js",
+    "rain-check": "node scrapers/run-rain-check.js"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

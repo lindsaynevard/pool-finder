@@ -61,6 +61,22 @@ function formatDateStr(ds) {
   return `${MONTHS[m - 1]} ${d}`;
 }
 
+function formatDateLong(isoDate) {
+  if (!isoDate) return '';
+  const [y, m, d] = isoDate.split('-').map(Number);
+  return `${MONTHS[m - 1]} ${d}, ${y}`;
+}
+
+function daysAgoText(isoDate) {
+  if (!isoDate) return '';
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const rain = new Date(isoDate + 'T12:00:00');
+  const days = Math.round((today - rain) / 86400000);
+  if (days === 0) return 'today';
+  if (days === 1) return '1 day ago';
+  return `${days} days ago`;
+}
+
 const TOOLTIP_TEXT = {
   lap: 'Designated lane swimming. Lanes may be shared with other swimmers.',
   family: 'Open recreational swimming for all ages. Pool is not divided into lanes.',
@@ -86,6 +102,8 @@ export default function Schedule({ user }) {
   const [poolMeta, setPoolMeta] = useState({});
   const [gmailMeta, setGmailMeta] = useState(null);
   const [undoToast, setUndoToast] = useState(null);
+  const [rainAdvisory, setRainAdvisory] = useState(null);
+  const [rainSheetOpen, setRainSheetOpen] = useState(false);
   const undoTimerRef = useRef(null);
   const PREFS_EMPTY = { lap_favorites: [], family_favorites: [], lap_hidden: [], family_hidden: [] };
 
@@ -187,6 +205,19 @@ export default function Schedule({ user }) {
   }, []);
 
   useEffect(() => {
+    async function fetchRainAdvisory() {
+      try {
+        const snap = await getDoc(doc(db, 'rain_advisory', 'berkeley-marina'));
+        console.log('[rain] doc exists:', snap.exists(), snap.data());
+        if (snap.exists()) setRainAdvisory(snap.data());
+      } catch (err) {
+        console.error('[rain] fetch error:', err);
+      }
+    }
+    fetchRainAdvisory();
+  }, []);
+
+  useEffect(() => {
     if (prevUserRef.current === null && user) {
       track('sign_in_completed');
     }
@@ -271,13 +302,34 @@ export default function Schedule({ user }) {
   const hiddenSet = new Set(mode === 'lap' ? preferences.lap_hidden : preferences.family_hidden);
 
   const viewDateStr = (() => { const d = new Date(); d.setDate(d.getDate() + dayOffset); return dateStr(d); })();
+  const todayDateStr = dateStr(new Date());
   const nowMs = Date.now();
-  const healthWarnings = Object.entries(poolMeta).flatMap(([poolId, meta]) => {
+
+  // Compute advisory level for the viewed date, not today.
+  // The scraper stores lastRainDate + severity; we derive the tier here.
+  const rainLevel = (() => {
+    if (!rainAdvisory?.lastRainDate) return 'none';
+    const rainDate = new Date(rainAdvisory.lastRainDate + 'T12:00:00');
+    const viewDate = new Date(viewDateStr + 'T12:00:00');
+    const daysAfter = Math.round((viewDate - rainDate) / 86400000);
+    if (rainAdvisory.severity === 'heavy') {
+      if (daysAfter >= 1 && daysAfter <= 3) return 'closed';
+      if (daysAfter >= 4 && daysAfter <= 5) return 'caution';
+    } else if (rainAdvisory.severity === 'light') {
+      if (daysAfter >= 1 && daysAfter <= 2) return 'caution';
+    }
+    return 'none';
+  })();
+
+  // Raw per-pool health warnings. Gap warning requires scheduledThrough < today
+  // so weekly-schedule pools (e.g. Albany) don't falsely warn about future dates
+  // before the next PDF has been published.
+  const rawHealthWarnings = Object.entries(poolMeta).flatMap(([poolId, meta]) => {
     const pool = POOLS.find(p => p.id === poolId);
     if (!pool?.swimTypes?.includes(mode)) return [];
     if (hiddenSet.has(poolId)) return [];
 
-    if (meta.scheduledThrough && meta.scheduledThrough < viewDateStr) {
+    if (meta.scheduledThrough && meta.scheduledThrough < viewDateStr && meta.scheduledThrough < todayDateStr) {
       return [{ poolId, type: 'gap', message: `No schedule available past ${formatDateStr(meta.scheduledThrough)}` }];
     }
     if (meta.lastRun) {
@@ -292,6 +344,34 @@ export default function Schedule({ user }) {
     }
     return [];
   });
+
+  // Group warnings with identical (type, message) so pools like Albany's indoor+outdoor
+  // appear as one entry. When pool names share a common venue prefix (before "·"),
+  // display them as "{Venue} pools" instead of listing each individually.
+  const healthWarnings = (() => {
+    const seen = new Map();
+    const ordered = [];
+    for (const w of rawHealthWarnings) {
+      const key = `${w.type}|${w.message}`;
+      if (seen.has(key)) {
+        seen.get(key).poolIds.push(w.poolId);
+      } else {
+        const entry = { ...w, poolIds: [w.poolId] };
+        seen.set(key, entry);
+        ordered.push(entry);
+      }
+    }
+    return ordered;
+  })();
+
+  function getWarningGroupName(poolIds) {
+    if (poolIds.length === 1) return getPoolName(poolIds[0]);
+    const prefixes = poolIds.map(id => getPoolName(id).split('·')[0].trim());
+    if (prefixes.every(p => p === prefixes[0])) return `${prefixes[0]} pools`;
+    const names = poolIds.map(getPoolName);
+    if (names.length === 2) return `${names[0]} & ${names[1]}`;
+    return `${names.slice(0, -1).join(', ')} & ${names.at(-1)}`;
+  }
 
   const gmailWarning = (() => {
     if (!gmailMeta) return null;
@@ -320,6 +400,7 @@ export default function Schedule({ user }) {
 
   const filtered = sessions.filter(s =>
     !hiddenSet.has(s.poolId) &&
+    !(rainLevel === 'closed' && s.poolId === 'berkeley-marina') &&
     (mode === 'lap'
       ? s.type === 'lap' || s.type === 'open-water'
       : ['family','rec','community','tot','open'].includes(s.type))
@@ -438,16 +519,28 @@ export default function Schedule({ user }) {
             );
           })()}
 
-          {/* Health warnings — schedule gaps and stale data, per pool */}
+          {/* Rain advisory banner — Berkeley Marina closed state */}
+          {!loading && rainLevel === 'closed' && mode === 'lap' && (
+            <button className="rain-advisory-banner" onClick={() => { setRainSheetOpen(true); track('rain_advisory_opened', { level: 'closed' }); }}>
+              <span className="rain-advisory-icon">🌧</span>
+              <span className="rain-advisory-body">
+                <span className="rain-advisory-title">Berkeley Marina — Swimming not advised</span>
+                <span className="rain-advisory-sub">Water quality advisory in effect through {formatDateLong(rainAdvisory.advisoryEnds)}</span>
+              </span>
+              <span className="rain-advisory-chevron">›</span>
+            </button>
+          )}
+
+          {/* Health warnings — schedule gaps and stale data, grouped by venue */}
           {!loading && healthWarnings.length > 0 && (
             <div className="health-warnings">
-              {healthWarnings.map(({ poolId, type, message }) => (
-                <div key={poolId} className={`health-warning health-warning-${type}`}>
+              {healthWarnings.map(({ poolIds, type, message }) => (
+                <div key={poolIds.join(',')} className={`health-warning health-warning-${type}`}>
                   <span className="health-warning-icon">{type === 'stale' ? '🔴' : '⚠️'}</span>
                   <span>
-                    <strong>{getPoolName(poolId)}</strong> — {message}
+                    <strong>{getWarningGroupName(poolIds)}</strong> — {message}
                     {(type === 'stale' || type === 'unverified') && (() => {
-                      const url = POOLS.find(p => p.id === poolId)?.websiteUrl;
+                      const url = POOLS.find(p => p.id === poolIds[0])?.websiteUrl;
                       return url ? <> · <a href={url} target="_blank" rel="noopener noreferrer" className="health-warning-link">Check website ↗</a></> : null;
                     })()}
                   </span>
@@ -563,6 +656,20 @@ export default function Schedule({ user }) {
                       const note = [s.notes, mastersNote].filter(Boolean).join(' · ');
                       return note ? <div className="session-note">{note}</div> : null;
                     })()}
+                    {s.poolId === 'berkeley-marina' && rainLevel === 'caution' && (
+                      <button className="rain-caution-strip" onClick={() => { setRainSheetOpen(true); track('rain_advisory_opened', { level: 'caution' }); }}>
+                        <span>🌧</span>
+                        <span>Swim with caution in the sailing basin</span>
+                        <span className="rain-caution-chevron">›</span>
+                      </button>
+                    )}
+                    {s.poolId === 'berkeley-marina' && rainLevel === 'none' &&
+                     rainAdvisory?.forecastHeavyRainDates?.includes(viewDateStr) && (
+                      <div className="rain-forecast-strip">
+                        <span>🌧</span>
+                        <span>Rain predicted today — check rainfall before swimming in the bay</span>
+                      </div>
+                    )}
                   </div>
                   );
                 })}
@@ -579,6 +686,63 @@ export default function Schedule({ user }) {
 
       {/* Settings tab */}
       {activeTab === 'settings' && <SettingsTab user={user} />}
+
+      {/* Rain advisory detail sheet */}
+      {rainSheetOpen && rainAdvisory && (
+        <div className="rain-sheet-overlay" onClick={() => setRainSheetOpen(false)}>
+          <div className="rain-sheet" onClick={e => e.stopPropagation()}>
+            <div className="rain-sheet-header">
+              <h2 className="rain-sheet-title">Berkeley Marina — Water Advisory</h2>
+              <button className="rain-sheet-close" onClick={() => setRainSheetOpen(false)}>✕</button>
+            </div>
+            <div className="rain-sheet-scroll">
+              <div className="rain-sheet-label">RECENT RAINFALL</div>
+              <div className="rain-sheet-rainfall-card">
+                <span className="rain-sheet-rain-emoji">🌧</span>
+                <div className="rain-sheet-rainfall-info">
+                  <div className="rain-sheet-rainfall-date">{formatDateLong(rainAdvisory.lastRainDate)}</div>
+                  <div className="rain-sheet-rainfall-sub">{rainAdvisory.rainfallInches} in · {daysAgoText(rainAdvisory.lastRainDate)}</div>
+                </div>
+                <span className={`rain-sheet-badge rain-sheet-badge-${rainAdvisory.severity}`}>
+                  {rainAdvisory.severity === 'heavy' ? 'Heavy rain' : 'Light rain'}
+                </span>
+              </div>
+
+              <div className="rain-sheet-label">WHAT THIS MEANS</div>
+              <p className="rain-sheet-explanation">Storm drain runoff can affect water quality in this enclosed bay. We follow these guidelines:</p>
+
+              <div className={`rain-sheet-tier rain-sheet-tier-red${rainLevel === 'closed' ? ' rain-sheet-tier-active' : ''}`}>
+                <span className="rain-sheet-dot rain-sheet-dot-red" />
+                <div>
+                  <div className="rain-sheet-tier-heading">Days 1–3{rainLevel === 'closed' ? ' — today' : ''}</div>
+                  <div className="rain-sheet-tier-text">Swimming not advised</div>
+                </div>
+              </div>
+              <div className={`rain-sheet-tier rain-sheet-tier-amber${rainLevel === 'caution' ? ' rain-sheet-tier-active' : ''}`}>
+                <span className="rain-sheet-dot rain-sheet-dot-amber" />
+                <div>
+                  <div className="rain-sheet-tier-heading">Days 4–5{rainLevel === 'caution' ? ' — today' : ''}</div>
+                  <div className="rain-sheet-tier-text">Swim with caution in the sailing basin</div>
+                </div>
+              </div>
+
+              <div className="rain-sheet-label">Advisory clears</div>
+              <div className="rain-sheet-clears">{formatDateLong(rainAdvisory.advisoryEnds)}</div>
+
+              <div className="rain-sheet-label">SOURCES</div>
+              <div className="rain-sheet-sources">
+                <a href="https://www.ebparks.org/water-quality-stop-light-designations" target="_blank" rel="noopener noreferrer">ebparks.org — Post-rain swim safety (3-day rule) ↗</a>
+                <a href="https://www.ebparks.org/natural-resources/water-quality" target="_blank" rel="noopener noreferrer">ebparks.org — Water quality monitoring ↗</a>
+                <a href="https://mywaterquality.ca.gov/safe-to-swim/safe-to-swim-maps.html" target="_blank" rel="noopener noreferrer">mywaterquality.ca.gov — CA Safe to Swim map ↗</a>
+                <a href="https://baykeeper.org/update/is-there-sewage-pollution-in-the-bay/" target="_blank" rel="noopener noreferrer">baykeeper.org — How rain affects Bay water ↗</a>
+                <a href="https://berkeleyca.gov/sites/default/files/documents/AP_Water-Quality-Results_18.pdf" target="_blank" rel="noopener noreferrer">berkeleyca.gov — Aquatic Park water quality results ↗</a>
+                <a href="https://healthebay.org/annual-beach-and-river-report-cards-2025-2026/" target="_blank" rel="noopener noreferrer">healthebay.org — Annual Bay beach report card ↗</a>
+                <a href="https://www.waterboards.ca.gov/plans_policies/docs/bacteria.pdf" target="_blank" rel="noopener noreferrer">waterboards.ca.gov — Bacteria water quality criteria ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Undo toast */}
       {undoToast && (

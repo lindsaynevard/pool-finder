@@ -1,0 +1,26 @@
+name: Rain Advisory Check
+
+on:
+  schedule:
+    - cron: '0 2,8,17,23 * * *'  # ~6 PM, midnight, 9 AM, 3 PM Pacific
+  workflow_dispatch:             # allow manual trigger
+
+jobs:
+  rain-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install scraper dependencies
+        run: npm install --ignore-scripts
+        working-directory: scrapers
+
+      - name: Write Firebase service account
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}' > scrapers/serviceAccount.json
+
+      - name: Run rain check
+        run: npm run rain-check

@@ -7,6 +7,24 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Pool metadata (scraper health) — public read
+    match /pool_meta/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Rain advisory — public read
+    match /rain_advisory/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Scraper metadata (Gmail health banner) — public read
+    match /scraper_meta/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // User preferences — each user can only read/write their own doc
     match /user_preferences/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
