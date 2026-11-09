@@ -3153,6 +3153,148 @@
         ]
       },
       "pdfHash": "e0d7e17ca6305ef72e4808ee5d2be74c8d15b4e7b2d629d189a0e6a6e2ed10b1"
+    },
+    "https://www.elcerrito.gov/DocumentCenter/View/24200/Swim-Center-Schedule-November-16th-through-November-22-2026": {
+      "validFrom": "2026-11-16",
+      "validUntil": "2026-11-22",
+      "closedDates": [],
+      "weekly": {
+        "monday": [
+          {
+            "start": "6:00 AM",
+            "end": "4:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "7:00 PM",
+            "end": "8:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "11:55 AM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "1:00 PM",
+            "end": "1:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          }
+        ],
+        "tuesday": [
+          {
+            "start": "6:00 AM",
+            "end": "4:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "7:00 PM",
+            "end": "8:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "11:30 AM",
+            "end": "12:15 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          }
+        ],
+        "wednesday": [
+          {
+            "start": "6:00 AM",
+            "end": "4:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "7:00 PM",
+            "end": "8:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "11:00 AM",
+            "end": "11:55 AM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          },
+          {
+            "start": "1:00 PM",
+            "end": "1:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          }
+        ],
+        "thursday": [
+          {
+            "start": "6:00 AM",
+            "end": "4:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "7:00 PM",
+            "end": "8:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "11:30 AM",
+            "end": "12:15 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          }
+        ],
+        "friday": [
+          {
+            "start": "6:00 AM",
+            "end": "4:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "7:00 PM",
+            "end": "8:30 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "9:30 AM",
+            "end": "10:25 AM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          }
+        ],
+        "saturday": [
+          {
+            "start": "8:30 AM",
+            "end": "7:00 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          },
+          {
+            "start": "8:30 AM",
+            "end": "12:00 PM",
+            "type": "lap",
+            "notes": "Ages 14+ · Min. 2 lanes, shared pool"
+          }
+        ],
+        "sunday": [
+          {
+            "start": "7:00 AM",
+            "end": "6:00 PM",
+            "type": "lap",
+            "notes": "Ages 14+"
+          }
+        ]
+      },
+      "pdfHash": "a41d792030e6f229186f27b2628c5398916e67e83c4d4e6af930ff476139b5a0"
     }
   }
 }
