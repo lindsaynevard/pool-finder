@@ -204,8 +204,8 @@ export async function albanySchedule(daysAhead = 14) {
     let pdfText, pdfHash;
     try {
       const pdfBytes = await downloadPdf(url);
+      pdfHash = createHash('sha256').update(pdfBytes).digest('hex');
       pdfText = await extractText(pdfBytes);
-      pdfHash = createHash('sha256').update(pdfText).digest('hex');
     } catch (err) {
       console.warn(`  Warning: could not download ${compId} (${err.message}). Using cached.`);
       continue;
