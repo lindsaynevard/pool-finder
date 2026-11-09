@@ -334,7 +334,7 @@ export default function Schedule({ user }) {
     }
     if (meta.lastRun) {
       const hoursAgo = (nowMs - new Date(meta.lastRun).getTime()) / 3600000;
-      if (hoursAgo > 25) {
+      if (hoursAgo > 30) {
         const daysAgo = Math.floor(hoursAgo / 24);
         return [{ poolId, type: 'stale', message: `Schedule may be outdated — last updated ${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago` }];
       }
@@ -421,8 +421,8 @@ export default function Schedule({ user }) {
   });
 
   const freshnessText = lastUpdated
-    ? `✓ Last updated ${new Date(lastUpdated).toLocaleDateString('en-US', {month:'short', day:'numeric'})} at ${new Date(lastUpdated).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'})}`
-    : '✓ Schedule loaded';
+    ? `Updated ${new Date(lastUpdated).toLocaleDateString('en-US', {month:'short', day:'numeric'})} · ${new Date(lastUpdated).toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit'})}`
+    : null;
 
   const TAB_TITLES = { schedule: 'PoolFinder', 'my-pools': 'My Pools', settings: 'Settings' };
 
@@ -433,6 +433,9 @@ export default function Schedule({ user }) {
         <div className="app-title-wrap">
           <img src="/apple-touch-icon.png" className="app-header-icon" alt="" />
           <h1 className="app-title">{TAB_TITLES[activeTab]}</h1>
+          {activeTab === 'schedule' && !loading && freshnessText && (
+            <span className="app-title-freshness">{freshnessText}</span>
+          )}
         </div>
         {activeTab !== 'settings' && (
           user ? (
@@ -460,9 +463,6 @@ export default function Schedule({ user }) {
               <button className={`mode-btn ${mode==='family'?'active':''}`} onClick={() => { setMode('family'); track('mode_toggled', { mode: 'family' }); }}>Family</button>
             </div>
           </div>
-
-          {/* Freshness banner */}
-          {!loading && <div className="freshness-banner green">{freshnessText}</div>}
 
           {/* Closure / modification notices — grouped by normalized message so multiple
               pools with the same closure (e.g. "Closed" on a holiday) collapse into one banner */}
@@ -667,7 +667,7 @@ export default function Schedule({ user }) {
                      rainAdvisory?.forecastHeavyRainDates?.includes(viewDateStr) && (
                       <div className="rain-forecast-strip">
                         <span>🌧</span>
-                        <span>Rain predicted today — check rainfall before swimming in the bay</span>
+                        <span>Rain predicted {dayOffset === 0 ? 'today' : dayOffset === 1 ? 'tomorrow' : 'this day'} — check rainfall before swimming in the bay</span>
                       </div>
                     )}
                   </div>
