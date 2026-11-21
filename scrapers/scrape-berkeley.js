@@ -155,12 +155,6 @@ export async function scrapeBerkeley(daysAhead = 14) {
       });
     }
 
-    // If no sessions found for any day, the pool is likely closed for the season.
-    const hasAnySession = Object.values(weekly).some(day => day.length > 0);
-    if (!hasAnySession) {
-      console.log(`  ${pool.id}: no sessions found — marking as closed for the season.`);
-    }
-
     // Expand into specific dates for the next N days
     const base = new Date();
     for (let i = 0; i < daysAhead; i++) {
@@ -174,9 +168,7 @@ export async function scrapeBerkeley(daysAhead = 14) {
         date: ds,
         sessions: isClosed ? [] : (weekly[dayName(d)] || []),
         lastUpdated: new Date().toISOString(),
-        closureNotice: isClosed
-          ? 'Closed — see berkeleyca.gov for details'
-          : (!hasAnySession ? 'Closed for the season — check berkeleyca.gov for reopening dates' : null),
+        closureNotice: isClosed ? 'Closed — see berkeleyca.gov for details' : null,
       };
     }
   }
