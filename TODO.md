@@ -4,6 +4,7 @@
 
 ### 🔴 Needs your attention
 - [ ] **Create Google Form for in-app feedback** — go to forms.google.com, create a form titled "Pool Finder — Report a Problem" with fields: Which pool? / What's the problem? / Your email (optional). Share the link and Claude will update the app to use it. (Current "Report a problem" link goes to GitHub Issues — too high a barrier for most users, zero feedback received so far.)
+- [ ] **Set up Vercel API token so Claude can read analytics** — go to vercel.com/account/tokens, create a token, share it with Claude. Claude will save it and be able to pull analytics data (visitors, custom events) independently in future sessions.
 
 ### Core features
 - [ ] Build My Pools screen (Lap Order / Family Order tabs) — no hard deadline, tackle when you have a few hours
